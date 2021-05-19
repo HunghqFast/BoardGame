@@ -1,10 +1,14 @@
 1. Choose all the answers for "What is the right description of what the cookies tracking do" ?
+Hưng nghĩ 2 câu đsung Hoa xem lại thử.
 
 2. Which of following is an example of a MIME type ?
 https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types/Common_types
 
 3. Which function is used to devide one numberic expression by another and get the remainder in PostgreSQL?
+https://www.w3resource.com/PostgreSQL/mod-function.php
 
-4. Which one of these below CANOT be overridden in the python ?
+4. Which one of these below CANNOT be overridden in the python ?
+https://overiq.com/python-101/operator-overloading-in-python
 
-5.What is the AWS term for the physical distinc group of data centers in a region ?
+5.What is the AWS term for the physical distinct group of data centers in a region ?
+https://quizlet.com/454662087/aws-technical-essentials-flash-cards/
