@@ -1,0 +1,3 @@
+1.What Python function lets the user enter an answer the question?
+https://www.geeksforgeeks.org/python-3-input-function/#:~:text=In%20Python%2C%20we%20use%20input,convert%20it%20into%20a%20string.
+
