@@ -1,3 +1,20 @@
 1.What Python function lets the user enter an answer the question?
 https://www.geeksforgeeks.org/python-3-input-function/#:~:text=In%20Python%2C%20we%20use%20input,convert%20it%20into%20a%20string.
 
+2.Which atthack technique taked user inputted data and sends it to a web browser without proper validation and escaping?
+https://owasp.org/www-project-top-ten/2017/A6_2017-Security_Misconfiguration
+https://owasp.org/www-project-top-ten/2017/A7_2017-Cross-Site_Scripting_(XSS)
+https://owasp.org/www-project-web-security-testing-guide/latest/4-Web_Application_Security_Testing/05-Authorization_Testing/04-Testing_for_Insecure_Direct_Object_References
+https://owasp.org/www-project-top-ten/2017/A2_2017-Broken_Authentication
+https://owasp.org/www-project-web-security-testing-guide/latest/4-Web_Application_Security_Testing/06-Session_Management_Testing/01-Testing_for_Session_Management_Schema
+
+3. Why should you use CAPTCHA?
+
+4. Product Owner focuses on which ones?
+
+5. Choose all that apply. My job as the Product owner, I must use :
+
+6. Which of the following is an incorect statement about image scaling?
+
+7. Which statement below is the most correct one about python decorator?
+
