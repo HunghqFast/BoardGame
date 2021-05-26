@@ -2,19 +2,22 @@
 https://www.geeksforgeeks.org/python-3-input-function/#:~:text=In%20Python%2C%20we%20use%20input,convert%20it%20into%20a%20string.
 
 2.Which atthack technique taked user inputted data and sends it to a web browser without proper validation and escaping?
-https://owasp.org/www-project-top-ten/2017/A6_2017-Security_Misconfiguration
-https://owasp.org/www-project-top-ten/2017/A7_2017-Cross-Site_Scripting_(XSS)
-https://owasp.org/www-project-web-security-testing-guide/latest/4-Web_Application_Security_Testing/05-Authorization_Testing/04-Testing_for_Insecure_Direct_Object_References
-https://owasp.org/www-project-top-ten/2017/A2_2017-Broken_Authentication
-https://owasp.org/www-project-web-security-testing-guide/latest/4-Web_Application_Security_Testing/06-Session_Management_Testing/01-Testing_for_Session_Management_Schema
+a. https://owasp.org/www-project-top-ten/2017/A6_2017-Security_Misconfiguration
+b. https://owasp.org/www-community/attacks/xss/
+c. https://owasp.org/www-project-web-security-testing-guide/latest/4-Web_Application_Security_Testing/05-Authorization_Testing/04-Testing_for_Insecure_Direct_Object_References
+d. https://owasp.org/www-project-top-ten/2017/A2_2017-Broken_Authentication
+   https://owasp.org/www-project-web-security-testing-guide/latest/4-Web_Application_Security_Testing/06-Session_Management_Testing/01-Testing_for_Session_Management_Schema
 
 3. Why should you use CAPTCHA?
+Hưng nghĩ nó chống auto, search trên mạng thấy này đúng nhất.
 
 4. Product Owner focuses on which ones?
+Hưng đoán đại nha :))
 
 5. Choose all that apply. My job as the Product owner, I must use :
 
 6. Which of the following is an incorect statement about image scaling?
+https://guides.lib.umich.edu/c.php?g=282942&p=1885352#:~:text=One%20of%20the%20greatest%20things,or%20decrease)%20in%20file%20size.
 
 7. Which statement below is the most correct one about python decorator?
 
