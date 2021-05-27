@@ -18,6 +18,8 @@ Hưng đoán đại nha :))
 
 6. Which of the following is an incorect statement about image scaling?
 https://guides.lib.umich.edu/c.php?g=282942&p=1885352#:~:text=One%20of%20the%20greatest%20things,or%20decrease)%20in%20file%20size.
+Câu này chỉ 60 - 70 %
 
 7. Which statement below is the most correct one about python decorator?
+https://stackoverflow.com/questions/739654/how-to-make-function-decorators-and-chain-them-together
 
