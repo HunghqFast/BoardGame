@@ -15,11 +15,14 @@ Hưng nghĩ nó chống auto, search trên mạng thấy này đúng nhất.
 Hưng đoán đại nha :))
 
 5. Choose all that apply. My job as the Product owner, I must use :
+Hưng ko biết.
 
 6. Which of the following is an incorect statement about image scaling?
 https://guides.lib.umich.edu/c.php?g=282942&p=1885352#:~:text=One%20of%20the%20greatest%20things,or%20decrease)%20in%20file%20size.
 Câu này chỉ 60 - 70 %
 
 7. Which statement below is the most correct one about python decorator?
+Hưng phân vân b, c
+https://www.geeksforgeeks.org/function-wrappers-in-python/#:~:text=Decorators%20allow%20us%20to%20wrap,called%20inside%20the%20wrapper%20function.
 https://stackoverflow.com/questions/739654/how-to-make-function-decorators-and-chain-them-together
 
