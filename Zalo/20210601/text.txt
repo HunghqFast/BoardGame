@@ -1,0 +1,23 @@
+1.
+
+2.
+Câu này hưng chắc chắn.
+
+3.
+document-oriented database: https://en.wikipedia.org/wiki/Document-oriented_database
+column-oriented database:https://en.wikipedia.org/wiki/List_of_column-oriented_DBMSes
+key-value database: https://en.wikipedia.org/wiki/Key%E2%80%93value_database
+Graph Databases: https://en.wikipedia.org/wiki/Graph_database
+
+4.
+
+5.
+
+6.
+
+7.
+
+8.
+
+9.
+
