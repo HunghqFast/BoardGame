@@ -1,8 +1,13 @@
 1. Which of following operators requires relations to be union compatible in postgreSQL ?
 
 2. Which character is most likely to be used for an sql injection attack?
+Câu này hưng chắc chắn.
 
-3. Which of following are the column-oriented databases ? 
+3. Which of following are the column-oriented databases ?
+document-oriented database: https://en.wikipedia.org/wiki/Document-oriented_database
+column-oriented database:https://en.wikipedia.org/wiki/List_of_column-oriented_DBMSes
+key-value database: https://en.wikipedia.org/wiki/Key%E2%80%93value_database
+graph Databases: https://en.wikipedia.org/wiki/Graph_database
 
 4. How do the product owner oder the Product Backlog ? By :
 
