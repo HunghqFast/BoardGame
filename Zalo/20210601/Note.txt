@@ -1,0 +1,13 @@
+1. Which of following operators requires relations to be union compatible in postgreSQL ?
+
+2. Which character is most likely to be used for an sql injection attack?
+
+3. Which of following are the column-oriented databases ? 
+
+4. How do the product owner oder the Product Backlog ? By :
+
+5. Which of the following is not the typical problem of a developer ?
+
+6. Which of the following functionalities should you include in an authentication and session management system ?
+
+7. Which statement below is correct about python classes ?
