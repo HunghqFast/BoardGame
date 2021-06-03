@@ -4,15 +4,18 @@
 Câu này hưng chắc chắn.
 
 3. Which of following are the column-oriented databases ?
-document-oriented database: https://en.wikipedia.org/wiki/Document-oriented_database
 column-oriented database:https://en.wikipedia.org/wiki/List_of_column-oriented_DBMSes
-key-value database: https://en.wikipedia.org/wiki/Key%E2%80%93value_database
-graph Databases: https://en.wikipedia.org/wiki/Graph_database
+Riêng thằng Cassandra thì nó là column-family : https://community.datastax.com/questions/6138/is-cassandra-column-oriented.html
 
-4. How do the product owner oder the Product Backlog ? By :
+4. How do the product owner oder the Product Backlog ? By:
 
 5. Which of the following is not the typical problem of a developer ?
 
 6. Which of the following functionalities should you include in an authentication and session management system ?
+https://www.linuxsecrets.com/owasp-wiki/index.php/OWASP_Top_10_Threats_and_Mitigations_Exam_-_Multiple_Select.html
 
 7. Which statement below is correct about python classes ?
+a.
+b. https://www.geeksforgeeks.org/inner-class-in-python/#:~:text=A%20class%20defined%20in%20another,generally%20inner%20classes%20are%20avoided.
+c. https://www.geeksforgeeks.org/create-classes-dynamically-in-python/
+d.
