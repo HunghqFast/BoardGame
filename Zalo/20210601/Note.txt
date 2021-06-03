@@ -11,6 +11,7 @@ Riêng thằng Cassandra thì nó là column-family : https://community.datastax
 4. How do the product owner oder the Product Backlog ? By:
 
 5. Which of the following is not the typical problem of a developer ?
+Đoán đại :))
 
 6. Which of the following functionalities should you include in an authentication and session management system ?
 https://www.linuxsecrets.com/owasp-wiki/index.php/OWASP_Top_10_Threats_and_Mitigations_Exam_-_Multiple_Select.html
