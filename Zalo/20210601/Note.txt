@@ -19,4 +19,5 @@ https://www.linuxsecrets.com/owasp-wiki/index.php/OWASP_Top_10_Threats_and_Mitig
 a.
 b. https://www.geeksforgeeks.org/inner-class-in-python/#:~:text=A%20class%20defined%20in%20another,generally%20inner%20classes%20are%20avoided.
 c. https://www.geeksforgeeks.org/create-classes-dynamically-in-python/
-d.
+d. https://realpython.com/python-metaclasses/#:~:text=type%20is%20a%20metaclass%2C%20of,an%20instance%20of%20class%20Foo%20.
+  - Có đoạn ghi: The type of x is class Foo, as you would expect. But the type of Foo, the class itself, is type. In general, the type of any new-style class is type.
