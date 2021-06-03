@@ -1,4 +1,5 @@
 1. Which of following operators requires relations to be union compatible in postgreSQL ?
+Hưng nghĩ là union.
 
 2. Which character is most likely to be used for an sql injection attack?
 Câu này hưng chắc chắn.
