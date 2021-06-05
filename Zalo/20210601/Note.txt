@@ -9,6 +9,7 @@ column-oriented database:https://en.wikipedia.org/wiki/List_of_column-oriented_D
 Riêng thằng Cassandra thì nó là column-family : https://community.datastax.com/questions/6138/is-cassandra-column-oriented.html
 
 4. How do the product owner oder the Product Backlog ? By:
+Câu này Hoa làm nha.
 
 5. Which of the following is not the typical problem of a developer ?
 Đoán đại :))
