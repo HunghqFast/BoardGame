@@ -2,9 +2,10 @@
 
 2.
 
-3.
+3. Which the following will affect the price paid for an EC2 instance?
+https://quizlet.com/522160498/aws-practice-test-2-flash-cards/
 
-4.
+4. Which of th following might be an element of the solution we recommend as Business Analysts?
 
 5.
 
