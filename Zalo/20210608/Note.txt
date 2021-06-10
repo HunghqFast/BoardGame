@@ -1,13 +1,15 @@
-1.
+1. What data structure is used by Elasticsearchto allow for efficient full-text search?
+https://www.elastic.co/guide/en/elasticsearch/reference/current/documents-indices.html
 
-2.
+2. You should set a secure flag in a cookie to ensure that?
+https://www.pivotpointsecurity.com/blog/securing-web-cookies-secure-flag/
 
 3. Which the following will affect the price paid for an EC2 instance?
 https://quizlet.com/522160498/aws-practice-test-2-flash-cards/
 
 4. Which of th following might be an element of the solution we recommend as Business Analysts?
 
-5.
+5. Dài quá !!
 
 6. Which statement in the below is not correct in regard to Base64 ?
 
