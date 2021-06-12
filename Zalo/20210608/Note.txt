@@ -12,6 +12,7 @@ https://quizlet.com/522160498/aws-practice-test-2-flash-cards/
 5. Dài quá !!
 
 6. Which statement in the below is not correct in regard to Base64 ?
+https://base64.guru/learn/what-is-base64
 
 7. Which version of the Python introduces Positional-only arguments ?
 https://www.python.org/dev/peps/pep-0570/
