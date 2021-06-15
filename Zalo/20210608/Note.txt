@@ -7,11 +7,12 @@ https://www.pivotpointsecurity.com/blog/securing-web-cookies-secure-flag/
 3. Which the following will affect the price paid for an EC2 instance?
 https://quizlet.com/522160498/aws-practice-test-2-flash-cards/
 
-4. Which of th following might be an element of the solution we recommend as Business Analysts?
+4. Which of the following might be an element of the solution we recommend as Business Analysts?
 
 5. Dài quá !!
 
 6. Which statement in the below is not correct in regard to Base64 ?
+https://base64.guru/learn/what-is-base64
 
 7. Which version of the Python introduces Positional-only arguments ?
 https://www.python.org/dev/peps/pep-0570/
