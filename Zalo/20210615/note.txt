@@ -1,0 +1,16 @@
+1. What are the properties of Key-Value Pair databases?
+
+2. An attack technique that forces a user's session credential session ID to an explicit value?
+https://owasp.org/www-community/attacks/Session_fixation
+
+3. Which of the following AWS services can be used as a compute resource?
+aws.png
+
+4. What are the best statement reflecting one of the values of the Agile Manifesto?
+
+5. Which of the following iss the best black box test design technique for the user story?
+- He he. Hoa làm nha.
+
+6. Which statemnt below is the most correct one about python inheritance?
+
+7. How does DNS work when you type a domain to the browser?
