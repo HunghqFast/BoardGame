@@ -12,5 +12,7 @@ aws.png
 - He he. Hoa làm nha.
 
 6. Which statemnt below is the most correct one about python inheritance?
+a. https://pythonprogramminglanguage.com/multiple-inheritance/
+d. https://stackoverflow.com/questions/10091957/get-parent-class-name
 
 7. How does DNS work when you type a domain to the browser?
