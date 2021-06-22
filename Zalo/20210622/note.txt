@@ -4,7 +4,7 @@ Câu này copy câu hỏi là ra.
 2. What is the primary storage service used by Amazon RDS DB instances ?
 https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_Storage.html
 
-3. Which step does #3 reprent ?
+3. Which step does #3 represent ?
 
 4. Which of the following is an advantage of having the whole team responsible for quality?
 https://chercher.tech/agile-certification/scrum-master-certification-prep-questions-set-11
@@ -13,6 +13,7 @@ https://chercher.tech/agile-certification/scrum-master-certification-prep-questi
 Hoa làm nha :=))
 
 6. Which statement below is correct about properties in classes in python?
+Hưng thấy câu d đúng nhất.
 
 7. Which of the following the best way to ensure that JS cannot be used to access a cookie on browser?
 https://developer.mozilla.org/en-US/docs/Web/HTTP/Cookies#security
