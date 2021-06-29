@@ -1,0 +1,15 @@
+1. What are the reasons for the considering NoSQL databases ?
+
+2. Which of the following service is most useful when a Disaster Recovery method trigger in AWS?
+https://chercher.tech/aws-certification/aws-clf-c01-certified-cloud-certification-4
+
+3. Which step does #5 represent ?
+
+4. What is considered as the MOST effective method of communication between team members who are distributed across several time zones?
+
+5. Câu dài...
+
+6. In python, which statement below is correct in regard to functions defined in functions?
+
+7. In Git, a new branch can be created from ?
+https://www.git-tower.com/learn/git/faq/create-branch/
