@@ -1,4 +1,5 @@
 1. What are the reasons for the considering NoSQL databases ?
+Đoán nha. :D
 
 2. Which of the following service is most useful when a Disaster Recovery method trigger in AWS?
 https://chercher.tech/aws-certification/aws-clf-c01-certified-cloud-certification-4
@@ -10,6 +11,7 @@ Xem ảnh: Cau3.png
 4. What is considered as the MOST effective method of communication between team members who are distributed across several time zones?
 
 5. Câu dài...
+https://www.bcs.org/media/1883/test-analyst-sample-paper.pdf
 
 6. In python, which statement below is correct in regard to functions defined in functions?
 
