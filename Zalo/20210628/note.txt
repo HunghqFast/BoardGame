@@ -14,6 +14,10 @@ Xem ảnh: Cau3.png
 https://www.bcs.org/media/1883/test-analyst-sample-paper.pdf
 
 6. In python, which statement below is correct in regard to functions defined in functions?
+a.
+b. https://stackoverflow.com/questions/46362040/call-a-nested-function-in-python
+c. https://www.programiz.com/python-programming/closure
+d. https://stackoverflow.com/questions/36263131/how-to-call-multi-level-nested-function-in-python/36263253
 
 7. In Git, a new branch can be created from ?
 https://www.git-tower.com/learn/git/faq/create-branch/
