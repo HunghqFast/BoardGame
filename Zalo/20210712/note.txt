@@ -1,6 +1,8 @@
 1. How many ports are there in a computer ?
+=> Câu này dễ.
 
 2. How long will your session with the AWS Manager Console remain active ?
+
 
 3. What are popular use cases of Redis ?
 
