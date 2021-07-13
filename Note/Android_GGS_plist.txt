@@ -1,0 +1,57 @@
+diff --git a/Version4/4.0/FBO/Device/FastMobile.Device/FastMobile.Device.Android/google-services.json b/Version4/4.0/FBO/Device/FastMobile.Device/FastMobile.Device.Android/google-services.json
+index e71d6510..3679bf43 100644
+--- a/Version4/4.0/FBO/Device/FastMobile.Device/FastMobile.Device.Android/google-services.json
++++ b/Version4/4.0/FBO/Device/FastMobile.Device/FastMobile.Device.Android/google-services.json
+@@ -1,41 +1,41 @@
+ {
+   "project_info": {
+-    "project_number": "48834279341",
+-    "firebase_url": "https://fast-business-online-v2.firebaseio.com",
+-    "project_id": "fast-business-online-v2",
+-    "storage_bucket": "fast-business-online-v2.appspot.com"
++    "project_number": "253674058253",
++    "firebase_url": "https://fast-business-online.firebaseio.com",
++    "project_id": "fast-business-online",
++    "storage_bucket": "fast-business-online.appspot.com"
+   },
+   "client": [
+     {
+       "client_info": {
+-        "mobilesdk_app_id": "1:48834279341:android:6cba157326180fe9205324",
++        "mobilesdk_app_id": "1:253674058253:android:18f3976f88e00e2f515b44",
+         "android_client_info": {
+-          "package_name": "com.fast.fbotest"
++          "package_name": "com.Fast.BusinessOnline"
+         }
+       },
+       "oauth_client": [
+         {
+-          "client_id": "48834279341-ieelo3li6qb1jdq542fg66kvt2ei0qf6.apps.googleusercontent.com",
++          "client_id": "253674058253-shfjqsvbsu5og4g9037aqub5trou61ue.apps.googleusercontent.com",
+           "client_type": 3
+         }
+       ],
+       "api_key": [
+         {
+-          "current_key": "AIzaSyCIQXhipcm4a6buNPzel3C8jK2bC7YZn8o"
++          "current_key": "AIzaSyA3-4pCK6g2gEmx-k18BuRQfuHULjF-fuI"
+         }
+       ],
+       "services": {
+         "appinvite_service": {
+           "other_platform_oauth_client": [
+             {
+-              "client_id": "48834279341-ieelo3li6qb1jdq542fg66kvt2ei0qf6.apps.googleusercontent.com",
++              "client_id": "253674058253-shfjqsvbsu5og4g9037aqub5trou61ue.apps.googleusercontent.com",
+               "client_type": 3
+             },
+             {
+-              "client_id": "48834279341-qhkgoneojc9253jd4s87ticb11fb9c0j.apps.googleusercontent.com",
++              "client_id": "253674058253-tdc1pfvag3urlahpoo2sbvpkuplvf0aq.apps.googleusercontent.com",
+               "client_type": 2,
+               "ios_info": {
+-                "bundle_id": "com.fast.fbotest"
++                "bundle_id": "com.Fast.BusinessOnline"
+               }
+             }
+           ]
