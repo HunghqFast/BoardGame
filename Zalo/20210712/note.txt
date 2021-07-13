@@ -2,7 +2,7 @@
 => Câu này dễ.
 
 2. How long will your session with the AWS Manager Console remain active ?
-
+=> https://aws.amazon.com/console/faq-console/#:~:text=Q%3A%20When%20does%20my%20session,continue%20and%20log%20in%20again.
 
 3. What are popular use cases of Redis ?
 
