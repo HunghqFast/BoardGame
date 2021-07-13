@@ -1,0 +1,13 @@
+1. How many ports are there in a computer ?
+
+2. How long will your session with the AWS Manager Console remain active ?
+
+3. What are popular use cases of Redis ?
+
+4. What statement best describes the Sprint Review ?
+
+5. Which two activities will a Product Owner engage in during a Sprint?
+
+6. Which is a part of contiouns intergration ?
+
+7. Which statement below is the most correct one about python function?
