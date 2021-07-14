@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<SqlProductions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://tempuri.org/SqlProductions.xsd">
+	<Production>
+		<Id>1157</Id>
+		<Name>SELECT select_list [ INTO new_table ] FROM table_source [ WHERE search_condition ] [ GROUP BY group_by_expression ] [ HAVING search_condition ] [ ORDER BY order_expression [ ASC | DESC ] ]</Name>
+		<Description>Retrieves rows from the database and allows the selection of one or many rows or columns from one or many tables</Description>
+	</Production>
+</SqlProductions>

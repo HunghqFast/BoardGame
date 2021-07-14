@@ -1,0 +1,64 @@
+<?xml version="1.0" ?>
+<xs:schema id="SqlCommonObjects" targetNamespace="http://tempuri.org/SqlCommonObjects.xsd" xmlns:mstns="http://tempuri.org/SqlCommonObjects.xsd" xmlns="http://tempuri.org/SqlCommonObjects.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" attributeFormDefault="qualified" elementFormDefault="qualified">
+	<xs:element name="SqlCommonObjects" msdata:IsDataSet="true" msdata:EnforceConstraints="False">
+		<xs:complexType>
+			<xs:choice maxOccurs="unbounded">
+				<xs:element name="Category">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="DisplayName" type="xs:string" minOccurs="1" />
+							<xs:element name="Description" type="xs:string" minOccurs="1" />
+							<xs:element name="Objects" minOccurs="0" maxOccurs="1">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="Function" minOccurs="0" maxOccurs="unbounded">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="Name" type="xs:string" minOccurs="1" maxOccurs="1" />
+													<xs:element name="Description" type="xs:string" minOccurs="1" maxOccurs="1" />
+													<xs:element name="ReturnValue" minOccurs="0" maxOccurs="1">
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element name="Type" type="xs:string" minOccurs="1" maxOccurs="1" />
+																<xs:element name="Description" type="xs:string" minOccurs="1" maxOccurs="1" />
+															</xs:sequence>
+														</xs:complexType>
+													</xs:element>
+													<xs:element name="Parameters" minOccurs="0" maxOccurs="1">
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element name="Parameter" minOccurs="0" maxOccurs="unbounded">
+																	<xs:complexType>
+																		<xs:sequence>
+																			<xs:element name="Name" type="xs:string" minOccurs="1" maxOccurs="1" />
+																			<xs:element name="Type" type="xs:string" minOccurs="0" maxOccurs="1" />
+																			<xs:element name="Default" type="xs:string" minOccurs="0" maxOccurs="1" />
+																			<xs:element name="Description" type="xs:string" minOccurs="1" maxOccurs="1" />
+																		</xs:sequence>
+																	</xs:complexType>
+																</xs:element>
+															</xs:sequence>
+														</xs:complexType>
+													</xs:element>
+													<xs:element name="NoBraces" type="xs:boolean"></xs:element>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="DataType" minOccurs="0" maxOccurs="unbounded">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="Name" type="xs:string" minOccurs="1" maxOccurs="1" />
+													<xs:element name="Description" type="xs:string" minOccurs="1" maxOccurs="1" />
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:choice>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<OleSqlCommands xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://tempuri.org/SqlProductions.xsd">
+	<Command>
+		<TokenId>go</TokenId>
+		<Name>go</Name>
+		<Description>Delineates the end of a batch</Description>
+	</Command>
+	<Command>
+		<TokenId>go</TokenId>
+		<Name>go</Name>
+		<Description>Delineates the end of a batch and execute n times</Description>
+		<MethodParameter>
+			<Name>Count</Name>
+		</MethodParameter>
+	</Command>
+	<Command>
+		<TokenId>OLESQL_EXCL</TokenId>
+		<Name>!!</Name>
+		<Description>Executes the following statement as an operating system command</Description>
+		<MethodParameter>
+			<Name>command</Name>
+		</MethodParameter>
+	</Command>
+	<Command>
+		<TokenId>OLESQL_EXIT</TokenId>
+		<Name>Exit</Name>
+		<Description>Halt batch execution and return</Description>
+	</Command>
+	<Command>
+		<TokenId>OLESQL_R</TokenId>
+		<Name>:r</Name>
+		<Description>Read and execute the contents of a file containing a single batch</Description>
+		<MethodParameter>
+			<Name>filename</Name>
+		</MethodParameter>
+	</Command>
+	<Command>
+		<TokenId>OLESQL_SETVAR</TokenId>
+		<Name>Setvar</Name>
+		<Description>Set the value of a scripting variable to NULL</Description>
+		<MethodParameter>
+			<Name>variable</Name>
+		</MethodParameter>
+	</Command>
+	<Command>
+		<TokenId>OLESQL_SETVAR</TokenId>
+		<Name>Setvar</Name>
+		<Description>Set the value of a scripting variable</Description>
+		<MethodParameter>
+			<Name>variable</Name>
+		</MethodParameter>
+		<MethodParameter>
+			<Name>value</Name>
+		</MethodParameter>
+	</Command>
+	<Command>
+		<TokenId>OLESQL_ERROR</TokenId>
+		<Name>Error</Name>
+		<Description>Redirect error messages to a file</Description>
+		<MethodParameter>
+			<Name>filename</Name>
+		</MethodParameter>
+	</Command>
+	<Command>
+		<TokenId>OLESQL_ERROR</TokenId>
+		<Name>Error</Name>
+		<Description>Redirect error messages to standard error output</Description>
+		<MethodParameter>
+			<Name>stderr</Name>
+		</MethodParameter>
+	</Command>
+	<Command>
+		<TokenId>OLESQL_ERROR</TokenId>
+		<Name>Error</Name>
+		<Description>Redirect error messages to standard output</Description>
+		<MethodParameter>
+			<Name>stdout</Name>
+		</MethodParameter>
+	</Command>
+	<Command>
+		<TokenId>OLESQL_OUT</TokenId>
+		<Name>Out</Name>
+		<Description>Redirect results to file</Description>
+		<MethodParameter>
+			<Name>filename</Name>
+		</MethodParameter>
+	</Command>
+	<Command>
+		<TokenId>OLESQL_OUT</TokenId>
+		<Name>Out</Name>
+		<Description>Redirect results to standard output</Description>
+		<MethodParameter>
+			<Name>stdout</Name>
+		</MethodParameter>
+	</Command>
+	<Command>
+		<TokenId>OLESQL_OUT</TokenId>
+		<Name>Out</Name>
+		<Description>Redirect results to standard error output</Description>
+		<MethodParameter>
+			<Name>stderr</Name>
+		</MethodParameter>
+	</Command>
+	<Command>
+		<TokenId>OLESQL_PERFTRACE</TokenId>
+		<Name>Perftrace</Name>
+		<Description>Changes the destination for performance metrics to file</Description>
+		<MethodParameter>
+			<Name>filename</Name>
+		</MethodParameter>
+	</Command>
+	<Command>
+		<TokenId>OLESQL_PERFTRACE</TokenId>
+		<Name>Perftrace</Name>
+		<Description>Changes the destination for performance metrics to standard error output</Description>
+		<MethodParameter>
+			<Name>stderr</Name>
+		</MethodParameter>
+	</Command>
+	<Command>
+		<TokenId>OLESQL_PERFTRACE</TokenId>
+		<Name>Perftrace</Name>
+		<Description>Changes the destination for performance metrics to standard output</Description>
+		<MethodParameter>
+			<Name>stdout</Name>
+		</MethodParameter>
+	</Command>
+	<Command>
+		<TokenId>OLESQL_CONNECT</TokenId>
+		<Name>Connect</Name>
+		<Description>Establish new connection and execute queries on that new connection</Description>
+		<MethodParameter>
+			<Name>timeout</Name>
+		</MethodParameter>
+	</Command>
+	<Command>
+		<TokenId>OLESQL_CONNECT</TokenId>
+		<Name>Connect</Name>
+		<Description>Establish new connection and execute queries on that new connection</Description>
+		<MethodParameter>
+			<Name>timeout</Name>
+		</MethodParameter>
+		<MethodParameter>
+			<Name>server</Name>
+		</MethodParameter>
+	</Command>
+	<Command>
+		<TokenId>OLESQL_CONNECT</TokenId>
+		<Name>Connect</Name>
+		<Description>Establish new connection and execute queries on that new connection</Description>
+		<MethodParameter>
+			<Name>timeout</Name>
+		</MethodParameter>
+		<MethodParameter>
+			<Name>server</Name>
+		</MethodParameter>
+		<MethodParameter>
+			<Name>user</Name>
+		</MethodParameter>
+	</Command>
+	<Command>
+		<TokenId>OLESQL_CONNECT</TokenId>
+		<Name>Connect</Name>
+		<Description>Establish new connection and execute queries on that new connection</Description>
+		<MethodParameter>
+			<Name>timeout</Name>
+		</MethodParameter>
+		<MethodParameter>
+			<Name>server</Name>
+		</MethodParameter>
+		<MethodParameter>
+			<Name>user</Name>
+		</MethodParameter>
+		<MethodParameter>
+			<Name>password</Name>
+		</MethodParameter>
+	</Command>
+	<Command>
+		<TokenId>ON</TokenId>
+		<Name>On Error</Name>
+		<Description>Specifies what action to take upon encountering an error in the batch (exit)</Description>
+		<MethodParameter>
+			<Name>exit</Name>
+		</MethodParameter>
+	</Command>
+	<Command>
+		<TokenId>ON</TokenId>
+		<Name>On Error</Name>
+		<Description>Specifies what action to take upon encountering an error in the batch (ignore)</Description>
+		<MethodParameter>
+			<Name>ignore</Name>
+		</MethodParameter>
+	</Command>
+	<Command>
+		<TokenId>ON</TokenId>
+		<Name>On Error</Name>
+		<Description>Specifies what action to take upon encountering an error in the batch (retry)</Description>
+		<MethodParameter>
+			<Name>retry n</Name>
+		</MethodParameter>
+	</Command>
+	<Command>
+		<TokenId>OLESQL_INCLUDE</TokenId>
+		<Name>Include</Name>
+		<Description>Reads the contents of a file and executes all batches contained in the file</Description>
+		<MethodParameter>
+			<Name>filename</Name>
+		</MethodParameter>
+	</Command>
+</OleSqlCommands>

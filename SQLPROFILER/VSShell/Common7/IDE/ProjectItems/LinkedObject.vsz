@@ -1,0 +1,8 @@
+VSWIZARD 7.0
+Wizard=Microsoft.SqlServer.Management.UI.WizardManager10
+Param="EngineAssemblyName=Microsoft.DataWarehouse"
+Param="Engine=Microsoft.DataWarehouse.Wizards.WizardEngineBase"
+Param="InitializerAssemblyName=Microsoft.DataWarehouse"
+Param="Initializer=Microsoft.DataWarehouse.Wizards.WizardInitializer"
+Param="UIAssemblyName=Microsoft.AnalysisServices.Wizards"
+Param="UI=Microsoft.AnalysisServices.Wizards.LinkedObjectWizard.WizardForm"

@@ -1,0 +1,373 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SqlTemplateData xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://tempuri.org/SqlTemplateData.xsd">
+  <Category>
+    <Name>AttachDetachDatabase</Name>
+    <DisplayName>Attach/Detach Database</DisplayName>
+    <Description>Templates to Attach and Detach Databases</Description>
+    <Templates>
+      <Template>
+        <Name>AttachDatabaseTemplate</Name>
+        <DisplayName>Attach Database Template</DisplayName>
+        <FileName>%INSTALL_DIR%\Attach_Database_Template.tql</FileName>
+        <Description>Attaches a database using sp_attach_db.  Requires data and log files.</Description>
+        <Parameters>
+          <Parameter>
+            <Name>database_name</Name>
+            <Type>sysname</Type>
+            <Default>pubs</Default>
+            <Description>The name of the database to attach.</Description>
+          </Parameter>
+          <Parameter>
+            <Name>filename1</Name>
+            <Type>nvarchar(260)</Type>
+            <Default>c:\program files\microsoft sql server\mssql\data\test_db.mdf</Default>
+            <Description>The physical location of the data file</Description>
+          </Parameter>
+          <Parameter>
+            <Name>filename2</Name>
+            <Type>nvarchar(260)</Type>
+            <Default>c:\program files\microsoft sql server\mssql\data\test_db_log.ldf</Default>
+            <Description>The physical location of the log file</Description>
+          </Parameter>
+        </Parameters>
+      </Template>
+      <Template>
+        <Name>AttachDatabaseDataFile</Name>
+        <DisplayName>Attach Database - Data File, only</DisplayName>
+        <FileName>%INSTALL_DIR%\Attach_Single_File_Database_Template.tql</FileName>
+        <Description>Attaches a database using a single data file, builds a new log file and performs additional cleanup work to remove replication from the newly attached database.</Description>
+        <Parameters>
+          <Parameter>
+            <Name>database_name</Name>
+            <Type>sysname</Type>
+            <Default>test_db</Default>
+            <Description>The name of the database to attach.</Description>
+          </Parameter>
+          <Parameter>
+            <Name>physname</Name>
+            <Type>nvarchar(260)</Type>
+            <Default>c:\program files\microsoft sql server\mssql\data\test_db.mdf</Default>
+            <Description>The physical location (Path and filename) of the data file to attach.</Description>
+          </Parameter>
+        </Parameters>
+      </Template>
+    </Templates>
+  </Category>
+  <Category>
+    <Name>Create_DB</Name>
+    <DisplayName>Create Database</DisplayName>
+    <Description>Templates to aid in the creation of a database</Description>
+    <Templates>
+      <Template>
+        <Name>BasicCreateDB</Name>
+        <DisplayName>Create Database Basic Template</DisplayName>
+        <FileName>%INSTALL_DIR%\BasicCreateDB.tql</FileName>
+        <Description>Template for creating a database in its most basic form.  An existing database of the same name will first be dropeed</Description>
+        <Parameters>
+          <Parameter>
+            <Name>database_name</Name>
+            <Type>sysname</Type>
+            <Default>test_db</Default>
+            <Description>The name of the database to create.</Description>
+          </Parameter>
+        </Parameters>
+      </Template>
+      <Template>
+        <Name>CreateDBAttach</Name>
+        <DisplayName>Create DB for Attach</DisplayName>
+        <FileName>%INSTALL_DIR%\CreateDBAttach.tql</FileName>
+        <Description>Create DB for attach</Description>
+        <Parameters>
+          <Parameter>
+            <Name>database_name</Name>
+            <Type>sysname</Type>
+            <Default>test_db</Default>
+            <Description>The name of the database to create.</Description>
+          </Parameter>
+          <Parameter>
+            <Name>logical_datafile_name</Name>
+            <Type>sysname</Type>
+            <Default>test_db_data</Default>
+            <Description>The logical name of the primary data file</Description>
+          </Parameter>
+          <Parameter>
+            <Name>os_datafile_name</Name>
+            <Type>sysname</Type>
+            <Default>\program files\microsoft sql server\mssql\data\test_db_data.mdf</Default>
+            <Description>The physical path and filename of the primary data file for the database to attach</Description>
+          </Parameter>
+          <Parameter>
+            <Name>datafilesize</Name>
+            <Type>integer</Type>
+            <Default>4</Default>
+            <Description>The size of the data file (in MB)</Description>
+          </Parameter>
+          <Parameter>
+            <Name>logical_logfile_name</Name>
+            <Type>sysname</Type>
+            <Default>test_db_log</Default>
+            <Description>The logical name of the primary log file</Description>
+          </Parameter>
+          <Parameter>
+            <Name>os_logfile_name</Name>
+            <Type>sysname</Type>
+            <Default>\program files\microsoft sql server\mssql\data\test_db_data.ldf</Default>
+            <Description>The physical path and filename of the primary log file for the database to attach</Description>
+          </Parameter>
+          <Parameter>
+            <Name>logfilesize</Name>
+            <Type>integer</Type>
+            <Default>4</Default>
+            <Description>The size of the log file (in MB)</Description>
+          </Parameter>
+        </Parameters>
+      </Template>
+     <Template>
+        <Name>MultiFileGroupsCreateDB</Name>
+        <DisplayName>Create DB on multiple file groups</DisplayName>
+        <FileName>%INSTALL_DIR%\MultiFileGroupsCreateDB.tql</FileName>
+        <Description>Create database on mulitple file groups</Description>
+        <Parameters>
+          <Parameter>
+            <Name>database_name</Name>
+            <Type>sysname</Type>
+            <Default>test_db</Default>
+            <Description>The name of the database to create.</Description>
+          </Parameter>
+          <Parameter>
+            <Name>os_file_name_1</Name>
+            <Type />
+            <Default>c:\program files\microsoft sql server\mssql\data\test_db_1.mdf</Default>
+            <Description>Path to the first data base file.</Description>
+          </Parameter>
+          <Parameter>
+            <Name>logical_file_name_1</Name>
+            <Type />
+            <Default>test_db_file_1</Default>
+            <Description>First logical file name.</Description>
+          </Parameter>
+          <Parameter>
+            <Name>os_file_name_2</Name>
+            <Type />
+            <Default>c:\program files\microsoft sql server\mssql\data\test_db_2.ndf</Default>
+            <Description>Path to the second data base file.</Description>
+          </Parameter>
+          <Parameter>
+            <Name>logical_file_name_2</Name>
+            <Type />
+            <Default>test_db_file_2</Default>
+            <Description>Second logical file name.</Description>
+          </Parameter>
+          <Parameter>
+            <Name>os_file_name_3</Name>
+            <Type />
+            <Default>c:\program files\microsoft sql server\mssql\data\test_db_3.ndf</Default>
+            <Description>Path to the third data base file.</Description>
+          </Parameter>
+          <Parameter>
+            <Name>logical_file_name_3</Name>
+            <Type />
+            <Default>test_db_file_3</Default>
+            <Description>Third logical file name.</Description>
+          </Parameter>
+          <Parameter>
+            <Name>os_file_name_4</Name>
+            <Type />
+            <Default>c:\program files\microsoft sql server\mssql\data\test_db_4.ndf</Default>
+            <Description>Path to the fourth data base file.</Description>
+          </Parameter>
+          <Parameter>
+            <Name>logical_file_name_4</Name>
+            <Type />
+            <Default>test_db_file_4</Default>
+            <Description>Fourth logical file name.</Description>
+          </Parameter>
+          <Parameter>
+            <Name>os_file_name_5</Name>
+            <Type />
+            <Default>c:\program files\microsoft sql server\mssql\data\test_db_5.ndf</Default>
+            <Description>Path to the fifth data base file.</Description>
+          </Parameter>
+          <Parameter>
+            <Name>logical_file_name_5</Name>
+            <Type />
+            <Default>test_db_file_5</Default>
+            <Description>Fifth logical file name.</Description>
+          </Parameter>
+          <Parameter>
+            <Name>os_log_file_name_1</Name>
+            <Type />
+            <Default>c:\program files\microsoft sql server\mssql\data\test_db_log_1.ldf</Default>
+            <Description>Path to the first log file.</Description>
+          </Parameter>
+          <Parameter>
+            <Name>logical_log_file_name_1</Name>
+            <Type />
+            <Default>test_db_log_file_1</Default>
+            <Description>First logical log file name.</Description>
+          </Parameter>
+          <Parameter>
+            <Name>file_group_name_1</Name>
+            <Type />
+            <Default>test_db_group_1</Default>
+            <Description>First group name.</Description>
+          </Parameter>
+          <Parameter>
+            <Name>file_group_name_2</Name>
+            <Type />
+            <Default>test_db_group_2</Default>
+            <Description>Second group name.</Description>
+          </Parameter>
+        </Parameters>
+      </Template>
+      <Template>
+        <Name>SpecCollationCreateDB</Name>
+        <DisplayName>Create database specifying collation</DisplayName>
+        <FileName>%INSTALL_DIR%\SpecCollationCreateDB.tql</FileName>
+        <Description>Create database specifying collation</Description>
+        <Parameters>
+          <Parameter>
+            <Name>database_name</Name>
+            <Type>sysname</Type>
+            <Default>test_db</Default>
+            <Description>The name of the database to create.</Description>
+          </Parameter>
+          <Parameter>
+            <Name>collation_name</Name>
+            <Type />
+            <Default>Latin1_General_CI_AI</Default>
+            <Description>The name of the collation to use.</Description>
+          </Parameter>
+        </Parameters>
+      </Template>
+    </Templates>
+  </Category>
+  <Category>
+    <Name>CreateFunction</Name>
+    <DisplayName>Create Function</DisplayName>
+    <Description>Templates to aid in the creation of user defined functions</Description>
+  </Category>
+  <Category>
+    <Name>CreateIndex</Name>
+    <DisplayName>Create Index</DisplayName>
+    <Description>Templates to aid in the creation of indexes</Description>
+  </Category>
+  <Category>
+    <Name>CreateProcedure</Name>
+    <DisplayName>Create Procedure</DisplayName>
+    <Description>Templates for the Creations of Stored Procedures</Description>
+  </Category>
+  <Category>
+    <Name>CreateStatistics</Name>
+    <DisplayName>Create Statistics</DisplayName>
+    <Description>Templates for the creation of statistics</Description>
+  </Category>
+  <Category>
+    <Name>CreateTable</Name>
+    <DisplayName>Create Table</DisplayName>
+    <Description>Templates for the creations of Tables</Description>
+  </Category>
+  <Category>
+    <Name>CreateTrigger</Name>
+    <DisplayName>Create Trigger</DisplayName>
+    <Description>Templates for the creation of Triggers</Description>
+  </Category>
+  <Category>
+    <Name>CreateView</Name>
+    <DisplayName>Create View</DisplayName>
+    <Description>Templates for the creation of Views</Description>
+  </Category>
+  <Category>
+    <Name>ManageExtendedProperty</Name>
+    <DisplayName>Manage Extended Property</DisplayName>
+    <Description>Templates for Managing Extended Properties</Description>
+  </Category>
+  <Category>
+    <Name>ManageLinkedServer</Name>
+    <DisplayName>Manage Linked Server</DisplayName>
+    <Description>Templates for Managing Linked Servers</Description>
+  </Category>
+  <Category>
+    <Name>ManageLoginRoleUser</Name>
+    <DisplayName>Manage Login Role User</DisplayName>
+    <Description>Templates for Managing Logins</Description>
+  </Category>
+  <Category>
+    <Name>UsingCursor</Name>
+    <DisplayName>Using a cursor</DisplayName>
+    <Description>Templates for using cursors</Description>
+  </Category>
+  <Category>
+    <Name>Register Assembly</Name>
+    <DisplayName>Register Assembly</DisplayName>
+    <Description>Templates for Registering and Manipulating Assemblies</Description>
+  </Category>
+  <Category>
+    <Name>Language_Constructs</Name>
+    <DisplayName>Language Constructs</DisplayName>
+    <Description>Templates to aid in using the T-SQL Language</Description>
+    <Templates>
+			<Template>
+				<Name>SimpleCase</Name>
+				<DisplayName>Simple CASE statement</DisplayName>
+				<FileName>%INSTALL_DIR%\SimpleCase.tql</FileName>
+				<Description>Template to aid in the construction of a simple CASE statement</Description>
+				<Parameters>
+					<Parameter>
+						<Name>input_expression</Name>
+						<Type>string</Type>
+						<Default>MyColumn</Default>
+						<Description>The expression evaluate and is any valid SQL Server expression</Description>
+					</Parameter>
+					<Parameter>
+						<Name>when_expression1</Name>
+						<Type>expression (string)</Type>
+						<Default>MyColumn = 1</Default>
+						<Description>a simple expression to which "input_expression" is compared</Description>
+					</Parameter>
+					<Parameter>
+						<Name>result_expression1</Name>
+						<Type>expression (string)</Type>
+						<Default>set @cnt = 1</Default>
+						<Description>The expression returned when "when_expression1" evaluates to true</Description>
+					</Parameter>
+					<Parameter>
+						<Name>when_expression2</Name>
+						<Type>expression (string)</Type>
+						<Default>MyColumn = 2</Default>
+						<Description>a simple expression to which "input_expression" is compared</Description>
+					</Parameter>
+					<Parameter>
+						<Name>result_expression2</Name>
+						<Type>expression (string)</Type>
+						<Default>set @cnt = 2</Default>
+						<Description>The expression returned when "when_expression2" evaluates to true</Description>
+					</Parameter>
+					<Parameter>
+						<Name>when_expression3</Name>
+						<Type>expression (string)</Type>
+						<Default>MyColumn = 3</Default>
+						<Description>a simple expression to which "input_expression" is compared</Description>
+					</Parameter>
+					<Parameter>
+						<Name>result_expression3</Name>
+						<Type>expression (string)</Type>
+						<Default>set @cnt = 4</Default>
+						<Description>The expression returned when "when_expression3" evaluates to true</Description>
+					</Parameter>
+					<Parameter>
+						<Name>else_result_expression</Name>
+						<Type>expression (string)</Type>
+						<Default>set @cnt = 0</Default>
+						<Description>The expression returned when all "when_expression(s)" evaluate to false</Description>
+					</Parameter>
+				</Parameters>
+			</Template>
+    </Templates>
+  </Category>
+  <Category>
+    <Name>My Templates</Name>
+    <DisplayName>My Templates</DisplayName>
+    <Description>User-Defined Templates</Description>
+  </Category>
+</SqlTemplateData>

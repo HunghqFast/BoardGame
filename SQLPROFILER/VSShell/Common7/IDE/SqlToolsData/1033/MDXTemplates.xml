@@ -1,0 +1,2619 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<MDXTemplates xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.microsoft.com/AnalysisServices/MDXTemplates">
+	<_locDefinition>
+		<_locDefault _loc="locNone" /> 
+		<_locTag _loc="locData">Category</_locTag> 
+		<_locTag _loc="locData">Name</_locTag> 
+		<_locTag _loc="locData">Description</_locTag> 
+	</_locDefinition> 
+	<Template>
+		<Category>Analytics</Category>
+		<Name>Rank by Position</Name>
+		<Description>Returns the rank of a specified tuple within a specified set, where the rank is based on the position of the tuple within the set.</Description>
+		<CalcMemberContent>
+			<Expression>Rank
+(
+   [&lt;&lt;Dimension&gt;&gt;].[&lt;&lt;Hierarchy&gt;&gt;].CurrentMember,
+   &lt;&lt;Ranking Set&gt;&gt;
+)
+
+// Returns the rank of the tuple within the set, 
+// where the rank is based on the position of the tuple within the set.
+			</Expression>
+			<FormatString>Standard</FormatString>
+		</CalcMemberContent>
+		<Type>CalculatedMember</Type>
+	</Template>
+	<Template>
+		<Category>Analytics</Category>
+		<Name>Rank by Value</Name>
+		<Description>Returns the rank of a specified tuple within a specified set, with the rank determined by the value of a specified numeric expression.</Description>
+		<CalcMemberContent>
+			<Expression>Rank
+(
+   [&lt;&lt;Dimension&gt;&gt;].[&lt;&lt;Hierarchy&gt;&gt;].CurrentMember,
+   &lt;&lt;Ranking Set&gt;&gt;,
+   &lt;&lt;Numeric Ranking Expression&gt;&gt;
+)
+
+// Returns the rank of the tuple within the set,  
+// with the rank determined by the value of a specified numeric expression.
+			</Expression>
+			<FormatString>Standard</FormatString>
+		</CalcMemberContent>
+		<Type>CalculatedMember</Type>
+	</Template>
+	<Template>
+		<Category>Financial</Category>
+		<Name>Net Profit Margin</Name>
+		<Description>Divides net income by net sales. Net profit margin is also known as operating margin.</Description>
+		<CalcMemberContent>
+			<Expression>&lt;&lt;Net Income&gt;&gt; / &lt;&lt;Net Sales&gt;&gt;
+			</Expression>
+			<FormatString>Percent</FormatString>
+		</CalcMemberContent>
+		<Type>CalculatedMember</Type>
+	</Template>
+	<Template>
+		<Category>Financial</Category>
+		<Name>Budget Variance</Name>
+		<Description>Calculates the difference between the actual amount and the budgeted or planned amount.</Description>
+		<CalcMemberContent>
+			<Expression>Case
+When IsEmpty
+     (
+        ( 
+          [Measures].[&lt;&lt;Amount Measure&gt;&gt;],
+          [&lt;&lt;Scenario Dimension&gt;&gt;].[&lt;&lt;Scenario Hierarchy&gt;&gt;].[&lt;&lt;Budget Member&gt;&gt;] 
+        )
+     ) 
+
+// Text that indicates the missing values for a budget. This text can be replaced with explicit Null, and then "Not Budgeted".	
+
+// Test account types to determine the order of subtraction.
+When [&lt;&lt;Account Dimension&gt;&gt;].[&lt;&lt;Account Type Hierarchy&gt;&gt;].CurrentMember Is 
+     [&lt;&lt;Account Dimension&gt;&gt;].[&lt;&lt;Account Type Hierarchy&gt;&gt;].[&lt;&lt;Expenditures Member]
+     Or
+     [&lt;&lt;Account Dimension&gt;&gt;].[&lt;&lt;Account Type Hierarchy&gt;&gt;].CurrentMember Is 
+     [&lt;&lt;Account Dimension&gt;&gt;].[&lt;&lt;Account Type Hierarchy&gt;&gt;].[&lt;&lt;Liabilities Member&gt;&gt;]
+
+Then ( [Measures].[&lt;&lt;Amount Measure&gt;&gt;],[&lt;&lt;Scenario Dimension&gt;&gt;].[&lt;&lt;Scenario Hierarchy&gt;&gt;].[&lt;&lt;Budget Member&gt;&gt;] ) 
+        -
+     ( [Measures].[&lt;&lt;Amount Measure&gt;&gt;],[&lt;&lt;Scenario Dimension&gt;&gt;].[&lt;&lt;Scenario Hierarchy&gt;&gt;].[&lt;&lt;Actual Member&gt;&gt;] )
+
+Else ( [Measures].[&lt;&lt;Amount Measure&gt;&gt;],[&lt;&lt;Scenario Dimension&gt;&gt;].[&lt;&lt;Scenario Hierarchy&gt;&gt;].[&lt;&lt;Actual Member&gt;&gt;] ) 
+        -
+     ( [Measures].[&lt;&lt;Amount Measure&gt;&gt;],[&lt;&lt;Scenario Dimension&gt;&gt;].[&lt;&lt;Scenario Hierarchy&gt;&gt;].[&lt;&lt;Budget Member&gt;&gt;] )
+End
+			</Expression>
+			<FormatString>Currency</FormatString>
+		</CalcMemberContent>
+		<Type>CalculatedMember</Type>
+	</Template>
+	<Template>
+		<Category>Analytics</Category>
+		<Name>Percentage of Total</Name>
+		<Description>Calculates the ratio of a specific member's value to the value of all members.</Description>
+		<CalcMemberContent>
+			<Expression>Case
+// Test to avoid division by zero.
+When IsEmpty
+     ( 
+        [Measures].[&lt;&lt;Target Measure&gt;&gt;] 
+     ) 
+Then Null
+
+Else ( [&lt;&lt;Target Dimension&gt;&gt;].[&lt;&lt;Target Hierarchy&gt;&gt;].CurrentMember,
+       [Measures].[&lt;&lt;Target Measure&gt;&gt;] ) 
+     /
+     ( 
+	   // The Root function returns the (All) value for the target dimension.
+       Root		
+       ( 
+          [&lt;&lt;Target Dimension&gt;&gt;] 
+        ), 
+        [Measures].[&lt;&lt;Target Measure&gt;&gt;] 
+     )
+
+End
+			</Expression>
+			<FormatString>Percent</FormatString>
+		</CalcMemberContent>
+		<Type>CalculatedMember</Type>
+	</Template>
+	<Template>
+		<Category>Analytics</Category>
+		<Name>Percentage of Parent</Name>
+		<Description>Calculates the ratio of a specific member's value to that of the member’s parent.</Description>
+		<CalcMemberContent>
+			<Expression>Case
+// Test to avoid division by zero.
+When IsEmpty
+     ( 
+        [Measures].[&lt;&lt;Target Measure&gt;&gt;] 
+     ) 
+Then Null
+
+// Test for current coordinate being on the (All) member.
+When [&lt;&lt;Target Dimension&gt;&gt;].[&lt;&lt;Target Hierarchy&gt;&gt;].CurrentMember.Level Is
+     [&lt;&lt;Target Dimension&gt;&gt;].[&lt;&lt;Target Hierarchy&gt;&gt;].[(All)]
+Then 1
+
+Else ( [&lt;&lt;Target Dimension&gt;&gt;].[&lt;&lt;Target Hierarchy&gt;&gt;].CurrentMember,
+       [Measures].[&lt;&lt;Target Measure&gt;&gt;] ) 
+     /
+     ( [&lt;&lt;Target Dimension&gt;&gt;].[&lt;&lt;Target Hierarchy&gt;&gt;].CurrentMember.Parent,
+       [Measures].[&lt;&lt;Target Measure&gt;&gt;] )
+
+End
+			</Expression>
+			<FormatString>Percent</FormatString>
+		</CalcMemberContent>
+		<Type>CalculatedMember</Type>
+	</Template>
+	<Template>
+		<Category>Analytics</Category>
+		<Name>Filtered Set of Attribute Members</Name>
+		<Description>Defines a set of attribute members that exist within the values of another attribute.</Description>
+		<CalcMemberContent>
+			<Expression>Exists
+(
+  [&lt;&lt;Target Dimension&gt;&gt;].[&lt;&lt;Target Attribute Hierarchy&gt;&gt;].Members,
+  Filter
+  (
+     [&lt;&lt;Target Dimension&gt;&gt;].[&lt;&lt;Target Related Attribute&gt;&gt;].[&lt;&lt;Target Level&gt;&gt;].Members,
+	 [&lt;&lt;Target Dimension&gt;&gt;].[&lt;&lt;Target Related Attribute&gt;&gt;].CurrentMember.MemberValue &lt;&lt;Expression&gt;&gt;
+  )
+)
+
+// The Exists function returns the set of members of one set that
+// exist with one or more tuples of one or more other sets.
+
+// The MemberValue function returns the value of a member.
+// value binding should be defined if the name and key columns
+// differ from one another.
+			</Expression>
+			<FormatString>Standard</FormatString>
+		</CalcMemberContent>
+		<Type>NamedSet</Type>
+	</Template>
+	<Template>
+		<Category>Analytics</Category>
+		<Name>Filter by Member Property Value</Name>
+		<Description>Filters the members of a set based on the value of a member property.</Description>
+		<CalcMemberContent>
+			<Expression>Filter
+(
+   [&lt;&lt;Target Dimension&gt;&gt;].[&lt;&lt;Target Hierarchy&gt;&gt;].[&lt;&lt;Target Level&gt;&gt;].Members,
+   // Val is a Visual Basic for Applications (VBA) function.
+   VBA!Val
+   (
+      [&lt;&lt;Target Dimension&gt;&gt;].[&lt;&lt;Target Hierarchy&gt;&gt;].CurrentMember.Properties( "&lt;&lt;Target Member Property&gt;&gt;") 
+   )
+   &lt;&lt;Search Condition&gt;&gt;
+)
+
+// The target member property must be intrinsically numeric.
+// The search condition is typically a simple comparison operator.
+			</Expression>
+			<FormatString>Standard</FormatString>
+		</CalcMemberContent>
+		<Type>CalculatedMember</Type>
+	</Template>
+	<Template>
+		<Category>Analytics</Category>
+		<Name>Filter by Attribute Value</Name>
+		<Description>Filters the members of one attribute based on existence with the value of another attribute in the same dimension.</Description>
+		<CalcMemberContent>
+			<Expression>Exists
+(
+   [&lt;&lt;Target Dimension&gt;&gt;].[&lt;&lt;Target Attribute Hierarchy&gt;&gt;].[&lt;&lt;Target Level&gt;&gt;].Members,
+   [&lt;&lt;Target Dimension&gt;&gt;].[&lt;&lt;Filter Attribute Hierarchy&gt;&gt;].[&lt;&lt;Attribute Member&gt;&gt;]
+)
+
+// This expression will return the subset of target attribute hierarchy members that
+// exist with the specified member of the filter attribute hierarchy.
+			</Expression>
+			<FormatString>Standard</FormatString>
+		</CalcMemberContent>
+		<Type>CalculatedMember</Type>
+	</Template>	
+	<Template>
+		<Category>Analytics</Category>
+		<Name>Top N Percent</Name>
+		<Description>Sorts a set, and then returns the specified number of topmost members whose cumulative total is at least the specified percentage.</Description>
+		<NamedSetContent>
+			<Expression>TopPercent
+(
+   &lt;&lt;Set&gt;&gt;,
+   &lt;&lt;Percentage&gt;&gt;,
+   &lt;&lt;Numeric Expression&gt;&gt;
+)
+
+// This expression will sort the set, and then return the specified number
+// of topmost Members whose cumulative total is at least the specified percentage.
+
+// The TopPercent function always breaks the hierarchy.
+			</Expression>
+		</NamedSetContent>
+		<Type>NamedSet</Type>
+	</Template>
+	<Template>
+		<Category>Analytics</Category>
+		<Name>Top N Count</Name>
+		<Description>Returns a specified number of items from the topmost members of a specified set.</Description>
+		<NamedSetContent>
+			<Expression>TopCount
+(
+   &lt;&lt;Set&gt;&gt;,
+   &lt;&lt;Count&gt;&gt;,
+   &lt;&lt;Numeric Expression&gt;&gt;
+)
+
+// This expression will return a specified number of items from the
+// topmost members of a specified set.
+
+// The TopCount function always breaks the hierarchy.			
+			</Expression>
+		</NamedSetContent>
+		<Type>NamedSet</Type>
+	</Template>	
+	<Template>
+		<Category>Analytics</Category>
+		<Name>Bottom N Count</Name>
+		<Description>Returns a specified number of items from the bottommost members of a specified set.</Description>
+		<NamedSetContent>
+			<Expression>BottomCount
+(
+   &lt;&lt;Set&gt;&gt;,
+   &lt;&lt;Count&gt;&gt;,
+   &lt;&lt;Numeric Expression&gt;&gt;
+)
+
+// This expression will return a specified number of items from the 
+// bottommost members of a specified set.
+
+// The BottomCount function always breaks the hierarchy.			
+			</Expression>
+		</NamedSetContent>
+		<Type>NamedSet</Type>
+	</Template>	
+	<Template>
+		<Category>Analytics</Category>
+		<Name>Bottom N Percent</Name>
+		<Description>Sorts a set, and then returns the specified number of bottommost members whose cumulative total is at least the specified percentage.</Description>
+		<NamedSetContent>
+			<Expression>BottomPercent
+(
+   &lt;&lt;Set&gt;&gt;,
+   &lt;&lt;Percentage&gt;&gt;,
+   &lt;&lt;Numeric Expression&gt;&gt;
+)
+
+// This expression will sort the set and return the specified number
+// of bottommost members whose cumulative total is at least the specified percentage.
+
+// The BottomPercent function always breaks the hierarchy.
+			</Expression>
+		</NamedSetContent>
+		<Type>NamedSet</Type>
+	</Template>
+	<Template>
+		<Category>Financial</Category>
+		<Name>Present Value</Name>
+		<Description>Calculates the present value of a sum of money to be received at a future date.</Description>
+		<CalcMemberContent>
+			<Expression>&lt;&lt;Future Value&gt;&gt;
+/
+(1 + i)^t
+
+// This expression defines the present value of a sum of money to be
+// received at a future date.
+
+// i represents the annual interest rate.
+// t represents the number of years.
+			</Expression>
+			<FormatString>Standard</FormatString>
+		</CalcMemberContent>
+		<Type>CalculatedMember</Type>
+	</Template>
+	<Template>
+		<Category>Financial</Category>
+		<Name>Future Value</Name>
+		<Description>Calculates the future value of a sum of money invested for a specific number of years, assuming credit and reinvestment of interest.</Description>
+		<CalcMemberContent>
+			<Expression>&lt;&lt;Present Value&gt;&gt;(1 + i)^t
+
+// This expression defines the future value of a sum of money 
+// invested for specific number of years, assuming credit and reinvestment of interest. 
+
+// i represents the annual interest rate.
+// t represents the number of years.		
+			</Expression>
+			<FormatString>Standard</FormatString>
+		</CalcMemberContent>
+		<Type>CalculatedMember</Type>
+	</Template>
+	<Template>
+		<Category>Financial</Category>
+		<Name>Gross Profit</Name>
+		<Description>Calculates the difference between the net sales revenue and the cost of goods sold.</Description>
+		<CalcMemberContent>
+			<Expression>&lt;&lt;Net Sales&gt;&gt; - &lt;&lt;Cost of Goods Sold&gt;&gt; 				
+			</Expression>
+			<FormatString>Standard</FormatString>
+		</CalcMemberContent>
+		<Type>CalculatedMember</Type>
+	</Template>
+	<Template>
+		<Category>Financial</Category>
+		<Name>Gross Profit Margin</Name>
+		<Description>Calculates the difference between net sales and the cost of goods sold, expressed as a percentage of net sales.</Description>
+		<CalcMemberContent>
+			<Expression>&lt;&lt;Net Sales&gt;&gt; - &lt;&lt;Cost of Goods Sold&gt;&gt;
+/
+&lt;&lt;Net Sales&gt;&gt;
+			</Expression>
+			<FormatString>Standard</FormatString>
+		</CalcMemberContent>
+		<Type>CalculatedMember</Type>
+	</Template>	
+	<Template>
+		<Category>Financial</Category>
+		<Name>Net Sales</Name>
+		<Description>Calculates the gross sales less returns, discounts, and allowances.</Description>
+		<CalcMemberContent>
+			<Expression>&lt;&lt;Gross Sales&gt;&gt; - 
+( &lt;&lt;Total Returns&gt;&gt; + 
+  &lt;&lt;Total Discounts&gt;&gt; + 
+  &lt;&lt;Total Allowances&gt;&gt;
+)
+			</Expression>
+			<FormatString>Standard</FormatString>
+		</CalcMemberContent>
+		<Type>CalculatedMember</Type>
+	</Template>
+	<Template>
+		<Category>Financial</Category>
+		<Name>Net Income</Name>
+		<Description>Calculates total earnings less operating expenses, taxes, interest, depreciation and other expenses.</Description>
+		<CalcMemberContent>
+			<Expression>&lt;&lt;Gross Profit&gt;&gt; - 
+( &lt;&lt;Operating Expenses&gt;&gt; + 
+  &lt;&lt;Tax Expense&gt;&gt; + 
+  &lt;&lt;Interest&gt;&gt; + 
+  &lt;&lt;Depreciation&gt;&gt;
+)
+
+// Any additional relevant expenses that should be included.
+			</Expression>
+			<FormatString>Standard</FormatString>
+		</CalcMemberContent>
+		<Type>CalculatedMember</Type>
+	</Template>
+	<Template>
+		<Category>Financial</Category>
+		<Name>Economic Value Added (EVA)</Name>
+		<Description>Defines a measure of economic performance that is based on the enterprise’s net profits less a deduction for the consumption of capital.</Description>
+		<CalcMemberContent>
+			<Expression>&lt;&lt;Net operating Profit after tax&gt;&gt; – 
+( &lt;&lt;Capital&gt;&gt; * &lt;&lt;Cost of Capital&gt;&gt; )
+			</Expression>
+			<FormatString>Standard</FormatString>
+		</CalcMemberContent>
+		<Type>CalculatedMember</Type>
+	</Template>
+	<Template>
+		<Category>Financial</Category>
+		<Name>Days Sales Outstanding (DSO)</Name>
+		<Description>Shows the age, typically in days, of an enterprise's accounts receivable and the average time that it takes to transform receivables into cash.</Description>
+		<CalcMemberContent>
+			<Expression>&lt;&lt;Receivables at Periods End&gt;&gt; / &lt;&lt;Sales Credited within Period&gt;&gt; *
+&lt;&lt;Number of Days in Period&gt;&gt;
+			</Expression>
+			<FormatString>Standard</FormatString>
+		</CalcMemberContent>
+		<Type>CalculatedMember</Type>
+	</Template>
+	<Template>
+		<Category>Time Series</Category>
+		<Name>Periods to Date</Name>
+		<Description>Returns the aggregate of a numeric expression from the start of a specified period to the current period.</Description>
+		<CalcMemberContent>
+			<Expression>Aggregate
+(
+  PeriodsToDate
+  (
+     [&lt;&lt;Target Dimension&gt;&gt;].[&lt;&lt;Target Hierarchy&gt;&gt;].[&lt;&lt;Target Level&gt;&gt;],
+	 [&lt;&lt;Target Dimension&gt;&gt;].[&lt;&lt;Target Hierarchy&gt;&gt;].CurrentMember
+  ),
+  [Measures].[&lt;&lt;Target Measure&gt;&gt;]
+)
+
+// This expression will return the aggregated value of the target
+// measure over the specified time periods, beginning with the 
+// first member of the target level, and ending with the current member.
+			</Expression>
+			<FormatString>Standard</FormatString>
+		</CalcMemberContent>
+		<Type>CalculatedMember</Type>
+	</Template>
+	<Template>
+		<Category>Time Series</Category>
+		<Name>Period over Period</Name>
+		<Description>Compares the value of a numeric expression in one period, typically the current period, to a previous period.</Description>
+		<CalcMemberContent>
+			<Expression>Case
+// Test for current coordinate being on (All) member.
+When [&lt;&lt;Target Dimension&gt;&gt;].[&lt;&lt;Target Hierarchy&gt;&gt;].CurrentMember.Level Is
+     [&lt;&lt;Target Dimension&gt;&gt;].[&lt;&lt;Target Hierarchy&gt;&gt;].[(All)]
+
+Then "NA"
+
+Else ( [&lt;&lt;Target Dimension&gt;&gt;].[&lt;&lt;Target Hierarchy&gt;&gt;].CurrentMember,
+	   [Measures].[&lt;&lt;Target Measure&gt;&gt;] ) 
+	 -
+     ( 
+       ParallelPeriod
+       (
+          [&lt;&lt;Target Dimension&gt;&gt;].[&lt;&lt;Target Hierarchy&gt;&gt;].[&lt;&lt;Target Level&gt;&gt;],
+          &lt;&lt;Number of Periods&gt;&gt;,
+	      [&lt;&lt;Target Dimension&gt;&gt;].[&lt;&lt;Target Hierarchy&gt;&gt;].CurrentMember
+       ),
+       [Measures].[&lt;&lt;Target Measure&gt;&gt;] 
+     )
+End
+
+// This expression evaluates the difference between the value of the numeric
+// expression in the previous period and that of the current period.
+			</Expression>
+			<FormatString>Standard</FormatString>
+		</CalcMemberContent>
+		<Type>CalculatedMember</Type>
+	</Template>	
+	<Template>
+		<Category>Time Series</Category>
+		<Name>Period over Period Growth</Name>
+		<Description>Compares the value of a numeric expression in one period to a previous period, as a percentage of the previous period’s value.</Description>
+		<CalcMemberContent>
+			<Expression>Case
+// Test for current coordinate being on (All) member.
+When [&lt;&lt;Target Dimension&gt;&gt;].[&lt;&lt;Target Hierarchy&gt;&gt;].CurrentMember.Level Is
+     [&lt;&lt;Target Dimension&gt;&gt;].[&lt;&lt;Target Hierarchy&gt;&gt;].[(All)]
+
+Then "NA"
+
+// Test to avoid division by zero.
+When IsEmpty
+     (
+       ( 
+         ParallelPeriod
+         (
+            [&lt;&lt;Target Dimension&gt;&gt;].[&lt;&lt;Target Hierarchy&gt;&gt;].[&lt;&lt;Target Level&gt;&gt;],
+            &lt;&lt;Number of Periods&gt;&gt;,
+		    [&lt;&lt;Target Dimension&gt;&gt;].[&lt;&lt;Target Hierarchy&gt;&gt;].CurrentMember
+         ),
+         [Measures].[&lt;&lt;Target Measure&gt;&gt;] 
+        )
+     ) 
+Then Null
+
+Else ( 
+       ( [&lt;&lt;Target Dimension&gt;&gt;].[&lt;&lt;Target Hierarchy&gt;&gt;].CurrentMember,
+	     [Measures].[&lt;&lt;Target Measure&gt;&gt;] ) 
+	   -
+       ( 
+         ParallelPeriod
+         (
+            [&lt;&lt;Target Dimension&gt;&gt;].[&lt;&lt;Target Hierarchy&gt;&gt;].[&lt;&lt;Target Level&gt;&gt;],
+            &lt;&lt;Number of Periods&gt;&gt;,
+	        [&lt;&lt;Target Dimension&gt;&gt;].[&lt;&lt;Target Hierarchy&gt;&gt;].CurrentMember
+         ),
+         [Measures].[&lt;&lt;Target Measure&gt;&gt;] 
+       ) 
+	 )
+	 /
+     ( 
+       ParallelPeriod
+       (
+          [&lt;&lt;Target Dimension&gt;&gt;].[&lt;&lt;Target Hierarchy&gt;&gt;].[&lt;&lt;Target Level&gt;&gt;],
+          &lt;&lt;Number of Periods&gt;&gt;,
+	      [&lt;&lt;Target Dimension&gt;&gt;].[&lt;&lt;Target Hierarchy&gt;&gt;].CurrentMember
+       ),
+       [Measures].[&lt;&lt;Target Measure&gt;&gt;] 
+     )
+End
+
+// This expression evaluates the difference between the value of the numeric
+// expression in the previous period and that of the current period, as a
+// percentage of the previous period's value.
+			</Expression>
+			<FormatString>Percent</FormatString>
+		</CalcMemberContent>
+		<Type>CalculatedMember</Type>
+	</Template>
+	<Template>
+		<Category>Time Series</Category>
+		<Name>Closing Period Balance</Name>
+		<Description>Returns the value of the last sibling among the descendants of a specific member at a specified level.</Description>
+		<CalcMemberContent>
+			<Expression>Aggregate
+(
+  ClosingPeriod
+  ( 
+	 [&lt;&lt;Target Dimension&gt;&gt;].[&lt;&lt;Target Hierarchy&gt;&gt;].[&lt;&lt;Target Level&gt;&gt;],
+     [&lt;&lt;Target Dimension&gt;&gt;].[&lt;&lt;Target Hierarchy&gt;&gt;].[&lt;&lt;Member&gt;&gt;]
+  ),
+  [Measures].[&lt;&lt;Target Measure&gt;&gt;]
+)
+
+// This calculation returns the value of the last sibling of the specified
+// member among the descendants of a specific member at a specified level.
+			</Expression>
+			<FormatString>Standard</FormatString>
+		</CalcMemberContent>
+		<Type>CalculatedMember</Type>
+	</Template>
+	<Template>
+		<Category>Time Series</Category>
+		<Name>Opening Period Balance</Name>
+		<Description>Returns the value of the first sibling among the descendants of a specified member at a specified level.</Description>
+		<CalcMemberContent>
+			<Expression>Aggregate
+(
+  OpeningPeriod
+  ( 
+	 [&lt;&lt;Target Dimension&gt;&gt;].[&lt;&lt;Target Hierarchy&gt;&gt;].[&lt;&lt;Target Level&gt;&gt;],
+     [&lt;&lt;Target Dimension&gt;&gt;].[&lt;&lt;Target Hierarchy&gt;&gt;].[&lt;&lt;Member&gt;&gt;]
+  ),
+  [Measures].[&lt;&lt;Target Measure&gt;&gt;]
+)
+
+// This calculation returns the value of the first sibling of the specified
+// member among the descendants of a specific member at a specified level.
+			</Expression>
+			<FormatString>Standard</FormatString>
+		</CalcMemberContent>
+		<Type>CalculatedMember</Type>
+	</Template>
+	<Template>
+		<Category>Time Series</Category>
+		<Name>Moving Average</Name>
+		<Description>Returns the average value of a member over a specified time interval.</Description>
+		<CalcMemberContent>
+			<Expression>Avg
+(
+   [&lt;&lt;Target Dimension&gt;&gt;].[&lt;&lt;Target Hierarchy&gt;&gt;].CurrentMember.Lag(&lt;&lt;Periods to Lag&gt;&gt;) : 
+   [&lt;&lt;Target Dimension&gt;&gt;].[&lt;&lt;Target Hierarchy&gt;&gt;].CurrentMember, 
+   [Measures].[&lt;&lt;Target Measure&gt;&gt;]
+)
+
+// This calculation returns the average value of a member over the specified time interval.
+			</Expression>
+			<FormatString>Standard</FormatString>
+		</CalcMemberContent>
+		<Type>CalculatedMember</Type>
+	</Template>
+	<Template>
+		<Category>Standard</Category>
+		<Name>Display Map</Name>
+		<Description>Displays a map for a selected cube object.</Description>
+		<StandardActionContent>
+			<Expression>"http://maps.msn.com/home.aspx?plce1=&lt;&lt;Entity to be Mapped&gt;&gt;&amp;regn1=&lt;&lt;Entity Region&gt;&gt;"
+
+// The "plce1" parameter represents a named location.
+
+// The "regn1" parameter indicates the region in which the named location is located.
+// The "regn1" parameter defaults to zero (0) if not explicitly specified.
+
+// 0 = North America
+// 1 = Europe
+// 2 = World Atlas
+// 3 = Australia
+// 4 = Brazil
+			</Expression>
+			<Condition></Condition>
+			<Target></Target>
+			<TargetType>AttributeMembers</TargetType>
+			<Description></Description>
+			<Type>Url</Type>
+			<Invocation>Interactive</Invocation>
+		</StandardActionContent>
+		<Type>StandardAction</Type>
+	</Template>
+	<Template>
+		<Category>Standard</Category>
+		<Name>Search for Term</Name>
+		<Description>Searches the Internet for a selected cube object.</Description>
+		<StandardActionContent>
+			<Expression>"http://search.msn.com/results.aspx?q=&lt;&lt;Entity to Search&gt;&gt;"</Expression>
+			<Condition></Condition>
+			<Target></Target>
+			<TargetType>AttributeMembers</TargetType>
+			<Description></Description>
+			<Type>Url</Type>
+			<Invocation>Interactive</Invocation>
+		</StandardActionContent>
+		<Type>StandardAction</Type>
+	</Template>
+	<Template>
+		<Category>Reporting</Category>
+		<Name>View Report</Name>
+		<Description>Launches a SQL Server Reporting Services report for a selected cube object.</Description>
+		<ReportActionContent>
+			<Expression></Expression>
+			<Condition></Condition>
+			<Target></Target>
+			<TargetType>AttributeMembers</TargetType>
+			<Description></Description>
+			<Type>Report</Type>
+			<ReportServerName>&lt;&lt;Target Server&gt;&gt;</ReportServerName>
+			<ReportServerPath>&lt;&lt;Report Server Virtual Directory&gt;&gt;?/&lt;&lt;Path to Report&gt;&gt;</ReportServerPath>
+			<Invocation>Interactive</Invocation>
+			<ReportFormat>HTML5</ReportFormat>
+		</ReportActionContent>
+		<Type>ReportingAction</Type>
+	</Template>
+	<Template>
+		<Category>Customers</Category>
+		<Name>Customer Retention Rate</Name>
+		<Description>Calculates the percentage of customers that are retained based on the number of customers that are lost in a specific period.</Description>
+		<KPIContent>
+			<ValueExpression>( 1- ( &lt;&lt;Number of Customers Lost&gt;&gt; / &lt;&lt;Total Number of Customers&gt;&gt; ) ) * 100
+			</ValueExpression>
+			<GoalExpression>/*This can be a fixed value if you know your Customer Retention Rate goal.*/
+&lt;&lt;Customer Retention Rate Goal&gt;&gt;
+			</GoalExpression>
+			<StatusExpression>/*Customer Retention Rate refers to the name of this KPI. If you change the name, change the reference in these functions as well.*/
+IIf
+( 
+   KPIValue( "Customer Retention Rate" ) - KPIGoal( "Customer Retention Rate" ) &gt; =0, 1, -1 
+)
+      </StatusExpression>
+      <TrendExpression>/*The periodicity of this trend comparison is defined by the level at which the ParallelPeriod is evaluated.*/
+IIf
+(  
+   KPIValue( "Customer Retention Rate" ) &gt;
+   ( KPIValue( "Customer Retention Rate" ),
+     ParallelPeriod
+	 ( 
+		[&lt;&lt;Time Dimension Name&gt;&gt;].[&lt;&lt;Time Hierarchy Name&gt;&gt;].[&lt;&lt;Time Year Level Name&gt;&gt;],
+		1,
+		[&lt;&lt;Time Dimension Name&gt;&gt;].[&lt;&lt;Time Hierarchy Name&gt;&gt;].CurrentMember
+	 )  
+   ), 1, -1
+)
+      </TrendExpression>
+			<Description>This key performance indicator (KPI) calculates the ratio of customers that are retained to customers that are lost within in a specific period.</Description>
+		</KPIContent>
+		<Type>KPI</Type>
+	</Template>
+	<Template>
+		<Category>Customers</Category>
+		<Name>Customer Satisfaction</Name>
+		<Description>Calculates and tracks the ratio of satisfied customers to the total number of customers.</Description>
+		<KPIContent>
+			<ValueExpression>&lt;&lt;Customer Satisfaction Measure&gt;&gt;</ValueExpression>
+			<GoalExpression>/*This can be a fixed value if you know your Customer Satisfaction goal.*/
+&lt;&lt;Customer Satisfaction Goal&gt;&gt;
+			</GoalExpression>
+			<StatusExpression>/*Customer Satisfaction refers to the name of this KPI. If you change the name, change the reference in these functions as well. */
+IIf
+( 
+   KPIValue( "Customer Satisfaction" ) - KPIGoal( "Customer Satisfaction" ) &gt;=0, 1, -1
+)
+          </StatusExpression>
+      <TrendExpression>/*The periodicity of this trend comparison is defined by the level at which the ParallelPeriod is evaluated.*/
+IIf
+( 
+  KPIValue( "Customer Satisfaction" ) &gt;
+  ( KPIValue( "Customer Satisfaction" ),
+    ParallelPeriod
+	(
+	   [&lt;&lt;Time Dimension Name&gt;&gt;].[&lt;&lt;Time Hierarchy Name&gt;&gt;].[&lt;&lt;Time Year Level Name&gt;&gt;],
+	   1,
+	   [&lt;&lt;Time Dimension Name&gt;&gt;].[&lt;&lt;Time Hierarchy Name&gt;&gt;].CurrentMember
+	)
+  ), 1, -1
+)
+      </TrendExpression>
+			<Description>This key performance indicator (KPI) tracks the ratio of satisfied customers to the total number of customers. The Status and Trend expressions assume that a higher value is better. If this is not the case, you may need to change the greater than sign (&gt;) to the less than sign (&lt;) in these expressions.</Description>
+		</KPIContent>
+		<Type>KPI</Type>
+	</Template>
+	<Template>
+		<Category>Customers</Category>
+		<Name>Customer Profitability</Name>
+		<Description>Tracks the profitability of individual customers and customer groups.</Description>
+		<KPIContent>
+			<ValueExpression>&lt;&lt;Sales Measure&gt;&gt; - &lt;&lt;Cost of Good Sold&gt;&gt;</ValueExpression>
+			<GoalExpression>&lt;&lt;Budgeted Sales&gt;&gt; - &lt;&lt;Cost of Good Sold Forecast&gt;&gt;</GoalExpression>
+			<StatusExpression>/*Customer Profitability refers to the name of this KPI. If you change the name, change the reference in these functions as well.*/
+IIf
+( 
+   KPIValue( "Customer Profitability" ) - KPIGoal( "Customer Profitability" )&gt;=0, 1, -1
+)
+          </StatusExpression>
+      <TrendExpression>/*The periodicity of this trend comparison is defined by the level at which the ParallelPeriod is evaluated.*/
+IIf
+( 
+  KPIValue( "Customer Profitability" ) &gt;
+  ( KPIValue( "Customer Profitability" ),
+    ParallelPeriod
+	( 
+	   [&lt;&lt;Time Dimension Name&gt;&gt;].[&lt;&lt;Time Hierarchy Name&gt;&gt;].[&lt;&lt;Time Year Level Name&gt;&gt;],
+	   1,
+	   [&lt;&lt;Time Dimension Name&gt;&gt;].[&lt;&lt;Time Hierarchy Name&gt;&gt;].CurrentMember
+	)
+  ), 1, -1
+)
+      </TrendExpression>
+			<Description>This key performance indicator (KPI) calculates the profitability of individual customers and customer groups. The Status and Trend expressions assume that a higher value is better. If this is not the case, you may need to change the greater than sign (&gt;) to the less than sign (&lt;) in these expressions.</Description>
+		</KPIContent>
+		<Type>KPI</Type>
+	</Template>
+	<Template>
+		<Category>Customers</Category>
+		<Name>New Accounts per Period</Name>
+		<Description>Calculates the percentage of new customers to the total number of customers.</Description>
+		<KPIContent>
+			<ValueExpression>&lt;&lt;Number of New Customers&gt;&gt; / &lt;&lt;Total Number of Customers&gt;&gt; *100</ValueExpression>
+			<GoalExpression>/*This can be a fixed value if you know your goal for new customer acquisitions.*/</GoalExpression>
+			<StatusExpression>/*New Accounts per Period refers to the name of this KPI. If you change the name, change the reference in these functions as well.*/
+IIf
+( 
+   KPIValue( "New Accounts per Period" ) - KPIGoal( "New Accounts per Period" ) &gt;=0, 1, -1
+)
+          </StatusExpression>
+      <TrendExpression>/*The periodicity of this trend comparison is defined by the level at which the ParallelPeriod is evaluated.*/
+IIf
+( 
+  KPIValue( "New Accounts per Period" ) &gt;
+  ( KPIValue( "New Accounts per Period" ),
+    ParallelPeriod
+	( 
+	   [&lt;&lt;Time Dimension Name&gt;&gt;].[&lt;&lt;Time Hierarchy Name&gt;&gt;].[&lt;&lt;Time Year Level Name&gt;&gt;],
+	   1,
+	   [&lt;&lt;Time Dimension Name&gt;&gt;].[&lt;&lt;Time Hierarchy Name&gt;&gt;].CurrentMember
+	)
+  ), 1, -1
+)
+      </TrendExpression>
+			<Description>This key performance indicator (KPI) calculates the ratio of new customers to the total number of customers. The Status and Trend expressions assume that a higher value is better. If this is not the case, you may need to change the greater than sign (&gt;) to the less than sign (&lt;) in these expressions.</Description>
+		</KPIContent>
+		<Type>KPI</Type>
+	</Template>
+	<Template>
+		<Category>Customers</Category>
+		<Name>Lost Accounts per Period</Name>
+		<Description>Calculates the ratio of customer turnover to the total number of customers.</Description>
+		<KPIContent>
+			<ValueExpression>&lt;&lt;Number of Lost Customers&gt;&gt; / &lt;&lt;Total Number of Customers&gt;&gt; *100</ValueExpression>
+			<GoalExpression>0 /*This can be a fixed value if you know your Customer Turnover goal.*/</GoalExpression>
+			<StatusExpression>/*Lost Accounts per Period refers to the name of this KPI. If you change the name, change the reference in these functions as well.*/
+IIf
+( 
+   KPIValue( "Lost Accounts per Period" ) - KPIGoal( "Lost Accounts per Period" ) &lt;=0, 1, -1
+)
+      </StatusExpression>
+      <TrendExpression>/*The periodicity of this trend comparison is defined by the level at which the ParallelPeriod is evaluated.*/
+IIf
+( 
+  KPIValue( "Lost Accounts per Period" ) &lt;
+  ( KPIValue( "Lost Accounts per Period" ),
+    ParallelPeriod
+	(
+	   [&lt;&lt;Time Dimension Name&gt;&gt;].[&lt;&lt;Time Hierarchy Name&gt;&gt;].[&lt;&lt;Time Year Level Name&gt;&gt;],
+       1,
+	   [&lt;&lt;Time Dimension Name&gt;&gt;].[&lt;&lt;Time Hierarchy Name&gt;&gt;].CurrentMember
+	)
+  ), 1, -1
+)
+      </TrendExpression>
+			<Description>This key performance indicator (KPI) calculates the ratio of customer turnover to the total number of customers. The Status and Trend expressions assume that a lower value is better. If this is not the case, you may need to change the less than sign (&lt;) to a greater than sign (&gt;) in these expressions.</Description>
+		</KPIContent>
+		<Type>KPI</Type>
+	</Template>
+	<Template>
+		<Category>Human Resources</Category>
+	  <Name>Turnover</Name>
+		<Description>Calculates the ratio of employee turnover to the total number of employees.</Description>
+		<KPIContent>
+			<ValueExpression>&lt;&lt;Number of Employee Departures&gt;&gt; / &lt;&lt;Total Number of Employees&gt;&gt; *100</ValueExpression>
+			<GoalExpression>/*This can be a fixed value if you know your percentage of customer turnover goal.*/</GoalExpression>
+			<StatusExpression>/*Turnover refers to the name of this KPI. If you change the name, change the reference in these functions as well.*/
+IIf
+( 
+   KPIValue( "Turnover" ) - KPIGoal( "Turnover" ) &lt;=0, 1, -1
+)
+      </StatusExpression>
+      <TrendExpression>/*The periodicity of this trend comparison is defined by the level at which the ParallelPeriod is evaluated.*/
+IIf
+( 
+  KPIValue( "Turnover" ) &lt;
+  ( KPIValue( "Turnover" ),
+    ParallelPeriod
+	(
+	   [&lt;&lt;Time Dimension Name&gt;&gt;].[&lt;&lt;Time Hierarchy Name&gt;&gt;].[&lt;&lt;Time Year Level Name&gt;&gt;],
+	   1,
+	   [&lt;&lt;Time Dimension Name&gt;&gt;].[&lt;&lt;Time Hierarchy Name&gt;&gt;].CurrentMember
+	)
+  ), 1, -1
+)
+      </TrendExpression>
+			<Description>This key performance indicator (KPI) calculates the ratio of employee turnover to the total number of employees. The Status and Trend expressions assume that a lower value is better. If this is not the case, you may need to change the less than sign (&lt;) to a greater than sign (&gt;) in these expressions.</Description>
+		</KPIContent>
+		<Type>KPI</Type>
+	</Template>
+	<Template>
+		<Category>Human Resources</Category>
+		<Name>Absenteeism</Name>
+		<Description>Calculates the ratio of lost work days to total possible work days.</Description>
+		<KPIContent>
+			<ValueExpression>&lt;&lt;Number of Days out&gt;&gt; / &lt;&lt;Number of Days in the Month&gt;&gt; *100</ValueExpression>
+			<GoalExpression>0</GoalExpression>
+			<StatusExpression>/*Absenteeism refers to the name of this KPI. If you change the name, change the reference in these functions as well. */
+IIf
+( 
+   KPIValue( "Absenteeism" ) - KPIGoal( "Absenteeism" ) &lt;=0, 1, -1
+)
+        </StatusExpression>
+        <TrendExpression>/*The periodicity of this trend comparison is defined by the level at which the ParallelPeriod is evaluated.*/
+IIf
+(  
+  KPIValue( "Absenteeism" ) &lt;
+  ( KPIValue( "Absenteeism" ),
+    ParallelPeriod
+	(
+	   [&lt;&lt;Time Dimension Name&gt;&gt;].[&lt;&lt;Time Hierarchy Name&gt;&gt;].[&lt;&lt;Time Year Level Name&gt;&gt;],
+	   1,
+	   [&lt;&lt;Time Dimension Name&gt;&gt;].[&lt;&lt;Time Hierarchy Name&gt;&gt;].CurrentMember
+	)
+  ), 1, -1
+)
+		</TrendExpression>
+			<Description>This key performance indicator (KPI) calculates the ratio of lost work days to total possible work days. The Status and Trend expressions assume that a lower value is better. If this is not the case, you may need to change the less than sign (&lt;) to a greater than sign (&gt;) in these expressions.</Description>
+		</KPIContent>
+		<Type>KPI</Type>
+	</Template>
+	<Template>
+		<Category>Human Resources</Category>
+		<Name>Headcount Part Time/Employee Base</Name>
+		<Description>Calculates the percentage of part-time employees over the entire employee base.</Description>
+		<KPIContent>
+			<ValueExpression>&lt;&lt;Number of Part Time Employees&gt;&gt; / &lt;&lt;Total Number of Employees&gt;&gt; *100</ValueExpression>
+			<GoalExpression>/*This can be a fixed value if you know your Headcount Part Time/Employee Base goal.*/</GoalExpression>
+			<StatusExpression>/*Headcount Part Time/Employee Base refers to the name of this KPI. If you change the name, change the reference in these functions as well. */
+IIf
+( 
+   KPIValue( "Headcount Part Time/Employee Base" ) - KPIGoal( "Headcount Part Time/Employee Base" ) &lt;=0, 1, -1
+)
+      </StatusExpression>
+      <TrendExpression>/*The periodicity of this trend comparison is defined by the level at which the ParallelPeriod is evaluated.*/
+IIf
+( 
+  KPIValue( "Headcount Part Time/Employee Base " ) &lt;
+  ( KPIValue( "Headcount Part Time/Employee Base" ),
+    ParallelPeriod
+	(
+	   [&lt;&lt;Time Dimension Name&gt;&gt;].[&lt;&lt;Time Hierarchy Name&gt;&gt;].[&lt;&lt;Time Year Level Name&gt;&gt;],
+	   1,
+	   [&lt;&lt;Time Dimension Name&gt;&gt;].[&lt;&lt;Time Hierarchy Name&gt;&gt;].CurrentMember
+	)
+  ), 1, -1
+)
+      </TrendExpression>
+      <Description>This key performance indicator (KPI) calculates the percentage of part time employees over the entire employee base. The Status and Trend expressions assume a lower value is better. If this is not the case, you may need to change the less  than sign (&lt;) to the greater than sign (&gt;) in these expressions.</Description>
+    </KPIContent>
+    <Type>KPI</Type>
+  </Template>
+  <Template>
+    <Category>Human Resources</Category>
+    <Name>Headcount Full Time/Employee Base</Name>
+    <Description>Calculates the percentage of full-time employees over the entire employee base.</Description>
+    <KPIContent>
+      <ValueExpression>&lt;&lt;Number of Full Time Employees&gt;&gt; / &lt;&lt;Total number of Employees&gt;&gt; *100</ValueExpression>
+      <GoalExpression>/*This can be a fixed value if you know your Headcount Full Time/Employee Base goal.*/</GoalExpression>
+      <StatusExpression>/*Headcount Full Time/Employee Base refers to the name of this KPI. If you change the name, change the reference in these functions as well. */
+IIf
+(
+   KPIValue( "Headcount Full Time/Employee Base" ) - KPIGoal( "Headcount Full Time/Employee Base" ) &gt;=0, 1, -1
+)
+        </StatusExpression>
+        <TrendExpression>/*The periodicity of this trend comparison is defined by the level at which the ParallelPeriod is evaluated.*/
+IIf
+( 
+  KPIValue( "Headcount Full Time/Employee Base" ) &gt;
+  ( KPIValue( "Headcount Full Time/Employee Base" ),
+    ParallelPeriod
+	(
+	   [&lt;&lt;Time Dimension Name&gt;&gt;].[&lt;&lt;Time Hierarchy Name&gt;&gt;].[&lt;&lt;Time Year Level Name&gt;&gt;],
+	   1,
+	   [&lt;&lt;Time Dimension Name&gt;&gt;].[&lt;&lt;Time Hierarchy Name&gt;&gt;].CurrentMember
+	)
+  ), 1, -1
+)
+      </TrendExpression>
+      <Description>This key performance indicator (KPI) calculates the percentage of full-time employees over the entire employee base. The Status and Trend expressions assume that a higher value is better. If this is not the case, you may need to change the greater than sign (&gt;) to the less than sign (&lt;) in these expressions.</Description>
+    </KPIContent>
+    <Type>KPI</Type>
+  </Template>
+  <Template>
+		<Category>Human Resources</Category>
+		<Name>Average Length of Employment</Name>
+		<Description>Calculates the average length of employment based on the total number of employees, regardless of whether the employees are full- or part-time.</Description>
+		<KPIContent>
+			<ValueExpression>&lt;&lt;Employment Duration&gt;&gt; / &lt;&lt;Total Number of Employees&gt;&gt;</ValueExpression>
+			<GoalExpression>/*This can be a fixed value if you know your Average Length of Employment goal.*/</GoalExpression>
+			<StatusExpression>/*Average Length of Employment refers to the name of this KPI. If you change the name, change the reference in these functions as well. */
+IIf
+(
+   KPIValue( "Average Length of Employment" ) - KPIGoal( "Average Length of Employment" ) &gt;=0, 1, -1
+)
+        </StatusExpression>
+      <TrendExpression>/*The periodicity of this trend comparison is defined by the level at which the ParallelPeriod is evaluated.*/
+IIf
+(
+  KPIValue( "Average Length of Employment" ) &gt;
+  ( KPIValue( "Average Length of Employment" ),
+    ParallelPeriod
+	(
+	   [&lt;&lt;Time Dimension Name&gt;&gt;].[&lt;&lt;Time Hierarchy Name&gt;&gt;].[&lt;&lt;Time Year Level Name&gt;&gt;],
+	   1,
+	   [&lt;&lt;Time Dimension Name&gt;&gt;].[&lt;&lt;Time Hierarchy Name&gt;&gt;].CurrentMember
+	)
+  ), 1, -1
+)
+	  </TrendExpression>
+			<Description>This key performance indicator (KPI) calculates the average length of employment based on the total number of employees, regardless of whether the employees are full- or part-time. The Status and Trend expressions assume that a higher value is better. If this is not the case, you may need to change the greater than sign (&gt;) to the less than sign (&lt;) in these expressions.</Description>
+		</KPIContent>
+		<Type>KPI</Type>
+	</Template>
+	<Template>
+		<Category>Human Resources</Category>
+		<Name>Employee Satisfaction Index</Name>
+		<Description>Tracks the satisfaction of the employee base.</Description>
+		<KPIContent>
+			<ValueExpression>&lt;&lt;Employee Satisfaction Index&gt;&gt;</ValueExpression>
+			<GoalExpression>/*This can be a fixed value if you know your Employee Satisfaction Index goal.*/</GoalExpression>
+			<StatusExpression>/*Employee Satisfaction Index refers to the name of this KPI. If you change the name, change the reference in these functions as well. */
+IIf
+( 
+   KPIValue( "Employee Satisfaction Index" ) - KPIGoal( "Employee Satisfaction Index" ) &gt;=0, 1, -1
+)
+      </StatusExpression>
+      <TrendExpression>/*The periodicity of this trend comparison is defined by the level at which the ParallelPeriod is evaluated.*/
+IIf
+( 
+  KPIValue( "Employee Satisfaction Index" ) &gt;
+  ( KPIValue( "Employee Satisfaction Index" ),
+    ParallelPeriod
+	(
+	   [&lt;&lt;Time Dimension Name&gt;&gt;].[&lt;&lt;Time Hierarchy Name&gt;&gt;].[&lt;&lt;Time Year Level Name&gt;&gt;],
+	   1,
+	   [&lt;&lt;Time Dimension Name&gt;&gt;].[&lt;&lt;Time Hierarchy Name&gt;&gt;].CurrentMember
+	)
+  ), 1, -1
+)
+      </TrendExpression>
+			<Description>This key performance indicator (KPI) template tracks the satisfaction of the employee base. The Status and Trend expressions assume that a higher value is better. If this is not the case, you may need to change the greater than sign (&gt;) to the less than sign (&lt;) in these expressions.</Description>
+		</KPIContent>
+		<Type>KPI</Type>
+	</Template>
+	<Template>
+		<Category>Human Resources</Category>
+		<Name>Training Cost/Employee</Name>
+		<Description>Calculates last year's training cost per employee less ten percent.</Description>
+		<KPIContent>
+			<ValueExpression>&lt;&lt;Training Cost&gt;&gt; / &lt;&lt;Total Number of Employees&gt;&gt;</ValueExpression>
+			<GoalExpression>0.9*
+( &lt;&lt;Training Cost&gt;&gt;, 
+  ParallelPeriod
+  (
+     [&lt;&lt;Time Dimension Name&gt;&gt;].[&lt;&lt;Time Hierarchy Name&gt;&gt;].[&lt;&lt;Time Year Level Name&gt;&gt;],
+     1,
+     [&lt;&lt;Time Dimension Name&gt;&gt;].[&lt;&lt;Time Hierarchy Name&gt;&gt;].CurrentMember
+  )
+)
+/
+( &lt;&lt;Total Number of Employees&gt;&gt;, 
+  ParallelPeriod
+  (
+     [&lt;&lt;Time Dimension Name&gt;&gt;].[&lt;&lt;Time Hierarchy Name&gt;&gt;].[&lt;&lt;Time Year Level Name&gt;&gt;],
+    1,
+     [&lt;&lt;Time Dimension Name&gt;&gt;].[&lt;&lt;Time Hierarchy Name&gt;&gt;].CurrentMember
+  )
+)
+      </GoalExpression>
+			<StatusExpression>/*Training Cost/Employee refers to the name of this KPI. If you change the name, change the reference in these functions as well. */
+IIf
+( 
+   KPIValue( "Training Cost/Employee" ) - KPIGoal( "Training Cost/Employee" ) &lt;=0, 1, -1
+)
+      </StatusExpression>
+      <TrendExpression>/*The periodicity of this trend comparison is defined by the level at which the ParallelPeriod is evaluated.*/
+IIf
+( 
+  KPIValue( "Training Cost/Employee" ) &lt;
+  ( KPIValue( "Training Cost/Employee" ),
+    ParallelPeriod
+	( 
+	   [&lt;&lt;Time Dimension Name&gt;&gt;].[&lt;&lt;Time Hierarchy Name&gt;&gt;].[&lt;&lt;Time Year Level Name&gt;&gt;],
+	   1,
+	   [&lt;&lt;Time Dimension Name&gt;&gt;].[&lt;&lt;Time Hierarchy Name&gt;&gt;].CurrentMember
+	)
+  ), 1, -1
+)
+      </TrendExpression>
+      <Description>This key performance indicator (KPI) is based on last year's training cost/employee less ten percent. The Status and Trend expressions also assume that a lower value is better. If this is not the case, you may need to change the less than sign (&lt;) to the greater than sign (&gt;) in these expressions.</Description>
+		</KPIContent>
+		<Type>KPI</Type>
+	</Template>
+	<Template>
+		<Category>Human Resources</Category>
+		<Name>Training Hours/Employee</Name>
+		<Description>Calculates last year's training hours per employee less ten percent.</Description>
+		<KPIContent>
+			<ValueExpression>&lt;&lt;Training Hours&gt;&gt; / &lt;&lt;Total Number of Employees&gt;&gt;</ValueExpression>
+			<GoalExpression>0.9 * 
+( &lt;&lt;Training Hours&gt;&gt;, 
+  ParallelPeriod
+  (
+	 [&lt;&lt;Time Dimension Name&gt;&gt;].[&lt;&lt;Time Hierarchy Name&gt;&gt;].[&lt;&lt;Time Year Level Name&gt;&gt;],
+	 1,
+	 [&lt;&lt;Time Dimension Name&gt;&gt;].[&lt;&lt;Time Hierarchy Name&gt;&gt;].CurrentMember
+  )
+)
+/
+( &lt;&lt;Total Number of Employees&gt;&gt;,
+  ParallelPeriod
+  (
+	 [&lt;&lt;Time Dimension Name&gt;&gt;].[&lt;&lt;Time Hierarchy Name&gt;&gt;].[&lt;&lt;Time Year Level Name&gt;&gt;],
+	 1,
+	 [&lt;&lt;Time Dimension Name&gt;&gt;].[&lt;&lt;Time Hierarchy Name&gt;&gt;].CurrentMember
+  )
+)
+      </GoalExpression>
+			<StatusExpression>/*Training Hour/Employee refers to the name of this KPI. If you change the name, change the reference in these functions as well. */
+IIf
+( 
+   KPIValue( "Training Hour/Employee" ) - KPIGoal( "Training Hour/Employee" ) &lt;=0, 1, -1
+)
+      </StatusExpression>
+      <TrendExpression>/*The periodicity of this trend comparison is defined by the level at which the ParallelPeriod is evaluated.*/
+IIf
+( 
+  KPIValue( "Training Hour/Employee" ) &lt;
+  ( KPIValue( "Training Hour/Employee" ),
+    ParallelPeriod
+	(
+	   [&lt;&lt;Time Dimension Name&gt;&gt;].[&lt;&lt;Time Hierarchy Name&gt;&gt;].[&lt;&lt;Time Year Level Name&gt;&gt;],
+	   1,
+	   [&lt;&lt;Time Dimension Name&gt;&gt;].[&lt;&lt;Time Hierarchy Name&gt;&gt;].CurrentMember
+	)
+  ), 1, -1
+)
+      </TrendExpression>
+      <Description>This key performance indicator (KPI) is based on last year's training hours per employee less ten percent. The Status and Trend expressions also assume that a lower value is better. If this is not the case, you may need to change the less than sign (&lt;) to the greater than sign (&gt;) in these expressions.</Description>
+		</KPIContent>
+		<Type>KPI</Type>
+	</Template>
+	<Template>
+		<Category>Human Resources</Category>
+		<Name>Average Salary by Job Title</Name>
+		<Description>Divides the total salary of all employees in a job title by the number of employees with that job title. This KPI assumes that a hierarchy exists with the list of job titles, and that this hierarchy is separate from the employee dimension.</Description>
+		<KPIContent>
+			<ValueExpression>(&lt;&lt;Salary&gt;&gt;,[&lt;&lt;Employee Dimension&gt;&gt;].[&lt;&lt;Employee Hierarchy&gt;&gt;].[&lt;&lt;Employee Hierarchy All Member&gt;&gt;] )/&lt;&lt;Total number of Employee&gt;&gt;</ValueExpression>
+			<GoalExpression>&lt;&lt;Target Average Salary per Job Title&gt;&gt;</GoalExpression>
+			<StatusExpression>/*Average Salary by Job title refers to the name of this KPI. If you change the name, change the reference in these functions as well. */
+IIf
+( 
+   KPIValue( "Average Salary by Job title" ) - KPIGoal( "Average Salary by Job title" ) &lt;=0, 1,- 1
+)
+      </StatusExpression>
+      <TrendExpression>/*The periodicity of this trend comparison is defined by the level at which the ParallelPeriod is evaluated.*/
+IIf
+( 
+  KPIValue( "Average Salary by Job title" ) &lt;
+  ( KPIValue( "Average Salary by Job title" ),
+    ParallelPeriod
+	(
+	   [&lt;&lt;Time Dimension Name&gt;&gt;].[&lt;&lt;Time Hierarchy Name&gt;&gt;].[&lt;&lt;Time Year Level Name&gt;&gt;],
+	   1,
+	   [&lt;&lt;Time Dimension Name&gt;&gt;].[&lt;&lt;Time Hierarchy Name&gt;&gt;].CurrentMember
+	)
+  ), 1, -1
+)
+      </TrendExpression>
+			<Description>This key performance indicator (KPI) that divides the total salary of all employees in that job title divided by the number of employees with that job title. This KPI assumes that a hierarchy exists with the list of job titles, and that this hierarchy is separate from the employee dimension. For each job title, the KPI takes the total salary of all employees in that job title and divides by the number of employees with that job title. The Status and Trend expressions assume that a lower value is better. If this is not the case, you may need to change the less than sign (&lt;) to a greater than sign (&gt;) in these expressions.</Description>
+		</KPIContent>
+		<Type>KPI</Type>
+	</Template>
+	<Template>
+		<Category>Internal Processes</Category>
+		<Name>On-Time Delivery Percentage</Name>
+		<Description>Calculates the on-time delivery percentage based on the ratio of on-time deliveries to the total number of deliveries.</Description>
+		<KPIContent>
+			<ValueExpression>&lt;&lt;On Time Delivery Count&gt;&gt; / &lt;&lt;Total Delivery Count&gt;&gt;</ValueExpression>
+			<GoalExpression>1 /* Here 1 represents an on-time delivery goal of 100%. This value can be changed if you have a different on-time delivery percentage goal.*/</GoalExpression>
+		<StatusExpression>/*On-Time Delivery Percentage refers to the name of this KPI. If you change the name, change the reference in these functions as well. */
+IIf
+( 
+   KPIValue( "On-Time Delivery Percentage" ) - KPIGoal( "On-Time Delivery Percentage" ) &gt;=0, 1, -1
+)
+    </StatusExpression>
+    <TrendExpression>/*The periodicity of this trend comparison is defined by the level at which the ParallelPeriod is evaluated.*/
+IIf
+( 
+  KPIValue( "On-Time Delivery Percentage" ) &gt;
+  ( KPIValue( "On-Time Delivery Percentage" ),
+    ParallelPeriod
+	(
+	   [&lt;&lt;Time Dimension Name&gt;&gt;].[&lt;&lt;Time Hierarchy Name&gt;&gt;].[&lt;&lt;Time Year Level Name&gt;&gt;],
+	   1,
+	   [&lt;&lt;Time Dimension Name&gt;&gt;].[&lt;&lt;Time Hierarchy Name&gt;&gt;].CurrentMember
+	)
+  ), 1, -1
+)
+    </TrendExpression>
+    <Description>This key performance indicator (KPI) calculates the on-time delivery percentage based on the ratio of on-time deliveries to the total number of deliveries. The Status and Trend expressions assume that a higher value is better. If this is not the case, you may need to change the greater than sign (&gt;) to the less than sign (&lt;) in these expressions.</Description>
+		</KPIContent>
+		<Type>KPI</Type>
+	</Template>
+	<Template>
+		<Category>Internal Processes</Category>
+		<Name>Late Delivery Percentage</Name>
+		<Description>Calculates the late delivery percentage based on the ratio of late deliveries to the total number of deliveries.</Description>
+		<KPIContent>
+			<ValueExpression>&lt;&lt;Late Delivery Count&gt;&gt; / &lt;&lt;Total Delivery Count&gt;&gt;</ValueExpression>
+			<GoalExpression>0 /* Here 0 represents a late delivery percentage goal of 0%. This value can be changed if you have a different late delivery percentage goal.*/</GoalExpression>
+		<StatusExpression>/*Late Delivery Percentage refers to the name of this KPI. If you change the name, change the reference in these functions as well. */
+IIf
+(
+   KPIValue( "Late Delivery Percentage" ) - KPIGoal( "Late Delivery Percentage" ) &lt;=0, 1, -1
+)
+    </StatusExpression>
+    <TrendExpression>/*The periodicity of this trend comparison is defined by the level at which the ParallelPeriod is evaluated.*/
+IIf
+(
+  KPIValue( "Late Delivery Percentage" ) &lt;
+  ( KPIValue( "Late Delivery Percentage" ),
+    ParallelPeriod
+	(
+	   [&lt;&lt;Time Dimension Name&gt;&gt;].[&lt;&lt;Time Hierarchy Name&gt;&gt;].[&lt;&lt;Time Year Level Name&gt;&gt;],
+	   1,
+	   [&lt;&lt;Time Dimension Name&gt;&gt;].[&lt;&lt;Time Hierarchy Name&gt;&gt;].CurrentMember
+	)
+  ), 1, -1
+)
+    </TrendExpression>
+    <Description>This key performance indicator (KPI) calculates the late delivery percentage based on the ratio of late deliveries to the total number of deliveries. The Status and Trend expressions assume that the a lower value is better. If this is not the case, you may need to change the &lt; sign by &gt; in these expressions.</Description>
+		</KPIContent>
+		<Type>KPI</Type>
+	</Template>
+	<Template>
+		<Category>Internal Processes</Category>
+		<Name>Shipping Cost/Total Cost</Name>
+		<Description>Calculates the percentage of the shipping cost to the total cost of the finished product.</Description>
+		<KPIContent>
+			<ValueExpression>&lt;&lt;Shipping Cost&gt;&gt; / ( &lt;&lt;Shipping Cost&gt;&gt;,[&lt;&lt;Product Dimension&gt;&gt;].[&lt;&lt;Product Hierarchy&gt;&gt;].[&lt;&lt;All Member&gt;&gt;] )</ValueExpression>
+			<GoalExpression>/*This can be a fixed value if you know your Shipping Cost/Total Cost goal.*/</GoalExpression>
+			<StatusExpression>/*Shipping Cost/Total Cost refers to the name of this KPI. If you change the name, change the reference in these functions as well. */
+IIf
+(
+   KPIValue( "Shipping Cost/Total Cost" ) - KPIGoal( "Shipping Cost/Total Cost" ) &lt;=0, 1, -1
+)
+      </StatusExpression>
+      <TrendExpression>/*The periodicity of this trend comparison is defined by the level at which the ParallelPeriod is evaluated.*/
+IIf
+(
+  KPIValue( "Shipping Cost/Total Cost" ) &lt;
+  ( KPIValue( "Shipping Cost/Total Cost" ),
+    ParallelPeriod
+	(
+	   [&lt;&lt;Time Dimension Name&gt;&gt;].[&lt;&lt;Time Hierarchy Name&gt;&gt;].[&lt;&lt;Time Year Level Name&gt;&gt;],
+	   1,
+	   [&lt;&lt;Time Dimension Name&gt;&gt;].[&lt;&lt;Time Hierarchy Name&gt;&gt;].CurrentMember
+	)
+  ), 1, -1
+)
+      </TrendExpression>
+			<Description>This key performance indicator (KPI) calculates the percentage of the shipping cost to the total cost of the finished product. The Status and Trend expressions assume that the a lower value is better. If this is not the case, you may need to change the &lt; sign by &gt; in these expressions.</Description>
+		</KPIContent>
+		<Type>KPI</Type>
+	</Template>
+	<Template>
+		<Category>Internal Processes</Category>
+		<Name>Order Backlog Percent</Name>
+		<Description>Tracks the order backlog metric per product and region.</Description>
+		<KPIContent>
+			<ValueExpression>&lt;&lt;Order Backlog&gt;&gt; / ( &lt;&lt;Order Backlog&gt;&gt;, Root( [&lt;&lt;Product Dimension&gt;&gt;] ), Root( [&lt;&lt;Region Dimension&gt;&gt;] ) )</ValueExpression>
+			<GoalExpression>0 /*0 represents an Order Backlog Percentage goal of 0%. This can be a fixed value if you know your Order Backlog Percent goal.*/</GoalExpression>
+			<StatusExpression>/*Order Backlog Percent refers to the name of this KPI. If you change the name, change the reference in these functions as well. */
+IIf
+(
+   KPIValue( "Order Backlog Percent" ) - KPIGoal( "Order Backlog Percent" ) &lt;=0, 1, -1
+)
+      </StatusExpression>
+      <TrendExpression>/*The periodicity of this trend comparison is defined by the level at which the ParallelPeriod is evaluated.*/
+IIf
+(
+  KPIValue( "Order Backlog Percent" ) &lt;
+  ( KPIValue( "Order Backlog Percent" ),
+    ParallelPeriod
+	( 
+	   [&lt;&lt;Time Dimension Name&gt;&gt;].[&lt;&lt;Time Hierarchy Name&gt;&gt;].[&lt;&lt;Time Year Level Name&gt;&gt;],
+	   1,
+	   [&lt;&lt;Time Dimension Name&gt;&gt;].[&lt;&lt;Time Hierarchy Name&gt;&gt;].CurrentMember
+	)
+  ), 1, -1
+)
+      </TrendExpression>
+			<Description>This key performance indicator (KPI) tracks the order backlog metric per product and region. The Status and Trend expressions assume that the a lower value is better. If this is not the case, you may need to change the &lt; sign by &gt; in these expressions.</Description>
+		</KPIContent>
+		<Type>KPI</Type>
+	</Template>
+	<Template>
+		<Category>Financial</Category>
+		<Name>Economic Value Added (EVA)</Name>
+		<Description>Calculates a financial performance measure that tries to capture the true economic profit of an enterprise.</Description>
+		<KPIContent>
+			<ValueExpression>&lt;&lt;Net Operating Profit After Tax&gt;&gt; – ( &lt;&lt;Capital&gt;&gt; * &lt;&lt;Cost of Capital&gt;&gt; )</ValueExpression>
+			<GoalExpression>/*This can be a fixed value if you know your Economic Value Added (EVA) goal.*/
+&lt;&lt;EVA Goal&gt;&gt;
+			</GoalExpression>
+			<StatusExpression>/*Economic Value Added (EVA) refers to the name of this KPI. If you change the name, change the reference in these functions as well. */ 
+IIf
+(
+   KPIValue( "Economic Value Added (EVA)" ) - KPIGoal( "Economic Value Added (EVA)" ) >=0, 1, -1
+)
+      </StatusExpression>
+			<TrendExpression>/*The periodicity of this trend comparison is defined by the level at which the ParallelPeriod is evaluated.*/
+IIf
+(
+  KPIValue( "Economic Value Added (EVA)" ) > 
+  ( KPIValue( "Economic Value Added (EVA)" ),
+    ParallelPeriod
+	(
+	   [&lt;&lt;Time Dimension Name&gt;&gt;].[&lt;&lt;Time Hierarchy Name&gt;&gt;].[&lt;&lt;Time Year Level Name&gt;&gt;],
+	   1,
+	   [&lt;&lt;Time Dimension Name&gt;&gt;].[&lt;&lt;Time Hierarchy Name&gt;&gt;].CurrentMember
+	)
+  ), 1, -1
+) 
+			</TrendExpression>
+			<Description>This key performance indicator (KPI) is a financial performance measure that tries to capture the true economic profit of an enterprise. The Status and Trend expressions assume that a higher value is better. If this is not the case, you may need to change the greater than sign (&gt;) to the less than sign (&lt;) in these expressions.</Description>
+		</KPIContent>
+		<Type>KPI</Type>
+	</Template>
+	<Template>
+		<Category>Financial</Category>
+    <Name>Market Share</Name>
+		<Description>Calculates a financial performance measure that tries to track the Market share index.</Description>
+		<KPIContent>
+			<ValueExpression>&lt;&lt;Sales&gt;&gt; / &lt;&lt;Industry Sales&gt;&gt; </ValueExpression>
+			<GoalExpression>/*This can be a fixed value if you know your Market Share goal.*/
+&lt;&lt;Market Share goal&gt;&gt;
+			</GoalExpression>
+			<StatusExpression>/*Market Share refers to the name of this KPI. If you change the name, change the reference in these functions as well. */
+IIf
+(
+   KPIValue( "Market Share" ) - KPIGoal( "Market Share" ) >=0, 1, -1
+)
+          </StatusExpression>
+			<TrendExpression>/*The periodicity of this trend comparison is defined by the level at which the ParallelPeriod is evaluated.*/
+IIf
+( 
+  KPIValue( "Market Share" ) > 
+  ( KPIValue( "Market Share" ),
+    ParallelPeriod
+	(
+	   [&lt;&lt;Time Dimension Name&gt;&gt;].[&lt;&lt;Time Hierarchy Name&gt;&gt;].[&lt;&lt;Time Year Level Name&gt;&gt;],
+	   1,
+	   [&lt;&lt;Time Dimension Name&gt;&gt;].[&lt;&lt;Time Hierarchy Name&gt;&gt;].CurrentMember
+	)
+  ), 1, -1
+) </TrendExpression>
+			<Description>This key performance indicator (KPI) tries to track the Market share index. The Status and Trend expressions assume that a higher value is better. If this is not the case, you may need to change the greater than sign (&gt;) to the less than sign (&lt;) in these expressions.</Description>
+		</KPIContent>
+		<Type>KPI</Type>
+	</Template>
+	<Template>
+		<Category>Financial</Category>
+		<Name>Days of Sales Outstanding (DSO)</Name>
+		<Description>Measures the days of sales outstanding.</Description>
+		<KPIContent>
+			<ValueExpression>&lt;&lt;Unit in stock quantity&gt;&gt;/&lt;&lt;Average sales per day&gt;&gt;</ValueExpression>
+			<GoalExpression>/*This can be a fixed value if you know your Days of Sales Outstanding (DSO) goal.*/</GoalExpression>
+			<StatusExpression>/*Days of Sales Outstanding (DSO) refers to the name of this KPI. If you change the name, change the reference in these functions as well. */
+IIf
+( 
+   KPIValue( "Days of Sales Outstanding (DSO)" ) - KPIGoal( "Days of Sales Outstanding (DSO)" ) &lt;=0, 1, -1
+)
+          </StatusExpression>
+      <TrendExpression>/*The periodicity of this trend comparison is defined by the level at which the ParallelPeriod is evaluated.*/
+IIf
+(
+  KPIValue( "Days of Sales Outstanding (DSO)" )&lt;
+  ( KPIValue( "Days of Sales Outstanding (DSO)" ),
+    ParallelPeriod
+	( 
+	   [&lt;&lt;Time Dimension Name&gt;&gt;].[&lt;&lt;Time Hierarchy Name&gt;&gt;].[&lt;&lt;Time Year Level Name&gt;&gt;],
+	   1,
+	   [&lt;&lt;Time Dimension Name&gt;&gt;].[&lt;&lt;Time Hierarchy Name&gt;&gt;].CurrentMember
+	)
+  ), 1, -1
+)
+      </TrendExpression>
+      <Description>This key performance indicator (KPI) template measures the days of sales outstanding. The Status and Trend expressions assume that the a lower value is better. If this is not the case, you may need to change the &lt; sign by &gt; in these expressions.</Description>
+		</KPIContent>
+		<Type>KPI</Type>
+	</Template>
+	<Template>
+		<Category>Financial</Category>
+		<Name>Sales/Industry Sales Percent</Name>
+		<Description>Tracks the performance of the company sales compared to the industry.</Description>
+		<KPIContent>
+			<ValueExpression>&lt;&lt;Sales&gt;&gt; / &lt;&lt;Industry Sales&gt;&gt;</ValueExpression>
+			<GoalExpression>/*This can be a fixed value if you know your Sales/Industry Sales Percent goal.*/</GoalExpression>
+			<StatusExpression>/*Sales/Industry Sales Percent refers to the name of this KPI. If you change the name, change the reference in these functions as well. */
+IIf
+(
+   KPIValue( "Sales/Industry Sales Percent" ) - KPIGoal( "Sales/Industry Sales Percent" ) &gt;=0, 1, -1
+)
+      </StatusExpression>
+      <TrendExpression>/*The periodicity of this trend comparison is defined by the level at which the ParallelPeriod is evaluated.*/
+IIf
+(
+  KPIValue( "Sales/Industry Sales Percent" ) &gt;
+  ( KPIValue( "Sales/Industry Sales Percent" ),
+    ParallelPeriod
+    ( 
+	   [&lt;&lt;Time Dimension Name&gt;&gt;].[&lt;&lt;Time Hierarchy Name&gt;&gt;].[&lt;&lt;Time Year Level Name&gt;&gt;],
+	   1,
+	   [&lt;&lt;Time Dimension Name&gt;&gt;].[&lt;&lt;Time Hierarchy Name&gt;&gt;].CurrentMember
+	)
+  ), 1, -1
+)
+      </TrendExpression>
+      <Description>This key performance indicator (KPI) tracks the performance of the company sales compared to the industry. The Status and Trend expressions assume that a higher value is better. If this is not the case, you may need to change the greater than sign (&gt;) to the less than sign (&lt;) in these expressions.</Description>
+		</KPIContent>
+		<Type>KPI</Type>
+	</Template>
+	<Template>
+		<Category>Financial</Category>
+		<Name>Sales Growth vs. Industry Sales Growth</Name>
+		<Description>Tracks the performance of the company sales growth compared to the industry growth.</Description>
+		<KPIContent>
+			<ValueExpression>&lt;&lt;Sales growth&gt;&gt; / &lt;&lt;Industry Sales growth&gt;&gt;</ValueExpression>
+			<GoalExpression>/*This can be a fixed value if you know your Sales Growth vs. Industry Sales Growth goal.*/</GoalExpression>
+			<StatusExpression>/*Sales Growth vs. Industry Sales Growth refers to the name of this KPI. If you change the name, change the reference in these functions as well. */
+IIf
+( 
+   KPIValue( "Sales Growth vs. Industry Sales Growth" ) - KPIGoal( "Sales Growth vs. Industry Sales Growth" ) &gt;=0, 1, -1
+)
+      </StatusExpression>
+      <TrendExpression>/*The periodicity of this trend comparison is defined by the level at which the ParallelPeriod is evaluated.*/
+IIf
+(
+  KPIValue( "Sales Growth vs. Industry Sales Growth" ) &gt;
+  ( KPIValue( "Sales Growth vs. Industry Sales Growth" ),
+    ParallelPeriod
+	( 
+	   [&lt;&lt;Time Dimension Name&gt;&gt;].[&lt;&lt;Time Hierarchy Name&gt;&gt;].[&lt;&lt;Time Year Level Name&gt;&gt;],
+	   1,
+	   [&lt;&lt;Time Dimension Name&gt;&gt;].[&lt;&lt;Time Hierarchy Name&gt;&gt;].CurrentMember
+	)
+  ), 1, -1
+)
+      </TrendExpression>
+      <Description>This key performance indicator (KPI) tracks the performance of the company sales growth compared to the industry growth. The Status and Trend expressions also assume that a higher value is better. If this is not the case, you may need to change the greater than sign (&gt;) to the less than sign (&lt;) in these expressions.</Description>
+		</KPIContent>
+		<Type>KPI</Type>
+	</Template>
+	<Template>
+		<Category>Financial</Category>
+		<Name>Budget Variance</Name>
+		<Description>Tracks the variance between actual and budget data.</Description>
+		<KPIContent>
+			<ValueExpression>
+Case
+When IsEmpty
+     (
+       (
+          [Measures].[&lt;&lt;measure Name&gt;&gt;]
+          [&lt;&lt;Scenario Dimension&gt;&gt;].[&lt;&lt;Scenario Hierarchy&gt;&gt;].[&lt;&lt;Budget Member&gt;&gt;]
+       )
+     )
+Then "Not Budgeted"
+
+When [&lt;&lt;Account Dimension&gt;&gt;].[&lt;&lt;Account Type Hierarchy&gt;&gt;].CurrentMember Is
+	 [&lt;&lt;Account Dimension&gt;&gt;].[&lt;&lt;Account Type Hierarchy&gt;&gt;].[&lt;&lt;Expense Member&gt;&gt;]
+     Or
+     [&lt;&lt;Account Dimension&gt;&gt;].[&lt;&lt;Account Type Hierarchy&gt;&gt;].CurrentMember Is
+     [&lt;&lt;Account Dimension&gt;&gt;].[&lt;&lt;Account Type&gt;&gt;].[&lt;&lt;Liabilities Member&gt;&gt;]
+
+Then ( [Measures].[&lt;&lt;measure Name&gt;&gt;],[&lt;&lt;Scenario Dimension&gt;&gt;].[&lt;&lt;Scenario Hierarchy&gt;&gt;].[&lt;&lt;Budget Member&gt;&gt;] )
+	 -
+	 ( [Measures].[&lt;&lt;measure Name&gt;&gt;],[&lt;&lt;Scenario Dimension&gt;&gt;].[&lt;&lt;Scenario Hierarchy&gt;&gt;].[&lt;&lt;Actual Member&gt;&gt;] )
+
+Else ( [Measures].[&lt;&lt;measure Name&gt;&gt;],[&lt;&lt;Scenario Dimension&gt;&gt;].[&lt;&lt;Scenario Hierarchy&gt;&gt;].[&lt;&lt;Actual Member&gt;&gt;] )
+	 -
+	 ( [Measures].[&lt;&lt;measure Name&gt;&gt;],[&lt;&lt;Scenario Dimension&gt;&gt;].[&lt;&lt;Scenario Hierarchy&gt;&gt;].[&lt;&lt;Budget Member&gt;&gt;] )
+End
+    </ValueExpression>
+			<GoalExpression>0 /*0 represents the variance thresholds that can be tolerated. This value can be changed to any threshold that meets your business needs.*/</GoalExpression>
+		<StatusExpression>/*Budget Variance refers to the name of this KPI. If you change the name, change the reference in these functions as well. */
+IIf
+( 
+   KPIValue( "Budget Variance" )=0, 1, -1
+)
+    </StatusExpression>
+			<TrendExpression>/*The periodicity of this trend comparison is defined by the level at which the ParallelPeriod is evaluated.*/
+IIf
+(
+  KPIValue( "Budget Variance" ) &lt;
+  ( KPIValue( "Budget Variance" ),
+    ParallelPeriod
+	( 
+	   [&lt;&lt;Time Dimension Name&gt;&gt;].[&lt;&lt;Time Hierarchy Name&gt;&gt;].[&lt;&lt;Time Year Level Name&gt;&gt;],
+	   1,
+	   [&lt;&lt;Time Dimension Name&gt;&gt;].[&lt;&lt;Time Hierarchy Name&gt;&gt;].CurrentMember
+	)
+  ), 1, -1
+)
+      </TrendExpression>
+			<Description>This key performance indicator (KPI) tracks the variance between actual and budget data. The Trend expression also assumes that a lower value is better. If this is not the case, may need to change the &lt; sign by &gt; in these expressions.</Description>
+		</KPIContent>
+		<Type>KPI</Type>
+	</Template>
+	<Template>
+		<Category>Financial</Category>
+		<Name>Net Income</Name>
+		<Description>Tracks the performance of the net income account.</Description>
+		<KPIContent>
+			<ValueExpression>&lt;&lt;Operating Profit&gt;&gt; + &lt;&lt;Other Incomes&gt;&gt; - &lt;&lt;Other Expenses&gt;&gt; - &lt;&lt;Taxes&gt;&gt; </ValueExpression>
+			<GoalExpression>/*This can be a fixed value if you know your Net Income goal, or this expression can be a measure or even the same expression as the Value expression if your cube contains data for actual and budget scenarios.*/</GoalExpression>
+		<StatusExpression>/*Net Income refers to the name of this KPI. If you change the name, change the reference in these functions as well. */
+IIf
+(
+   KPIValue( "Net Income" ) - KPIGoal( "Net Income" )&gt;=0, 1, -1
+)
+        </StatusExpression>
+    <TrendExpression>/*The periodicity of this trend comparison is defined by the level at which the ParallelPeriod is evaluated.*/
+IIf
+( 
+  KPIValue( "Net Income" ) &gt;
+  ( KPIValue( "Net Income" ),
+    ParallelPeriod
+	( 
+	   [&lt;&lt;Time Dimension Name&gt;&gt;].[&lt;&lt;Time Hierarchy Name&gt;&gt;].[&lt;&lt;Time Year Level Name&gt;&gt;],
+	   1,
+	   [&lt;&lt;Time Dimension Name&gt;&gt;].[&lt;&lt;Time Hierarchy Name&gt;&gt;].CurrentMember
+	)
+  ), 1, -1
+)
+    </TrendExpression>
+    <Description>This key performance indicator (KPI) tracks the performance of the net income account. The Status and Trend expressions also assume that a higher value is better. If this is not the case, you may need to change the greater than sign (&gt;) to the less than sign (&lt;) in these expressions.</Description>
+		</KPIContent>
+		<Type>KPI</Type>
+	</Template>
+	<Template>
+		<Category>Financial</Category>
+		<Name>Earnings Per Share</Name>
+		<Description>Calculates the earnings per share, which represents the profit that is accruing to stockholders for each share held.</Description>
+		<KPIContent>
+			<ValueExpression>( &lt;&lt;Net Income&gt;&gt; – &lt;&lt;Preferred Dividends&gt;&gt; ) / &lt;&lt;Weighted Average Common Stock Outstanding&gt;&gt;</ValueExpression>
+			<GoalExpression>/*This can be a fixed value if you know your Earning Per Share (EPS) goal, or this expression can be a measure or even the same expression as the Value expression if your cube holds data for actual and budget scenarios.*/</GoalExpression>
+			<StatusExpression>/*Earnings Per Share refers to the name of this KPI. If you change the name, change the reference in these functions as well. */
+IIf
+( 
+   KPIValue( "Earnings Per Share" ) - KPIGoal( "Earnings Per Share" ) &gt;=0, 1, -1
+)
+      </StatusExpression>
+      <TrendExpression>/*The periodicity of this trend comparison is defined by the level at which the ParallelPeriod is evaluated.*/
+IIf
+(
+  KPIValue( "Earnings Per Share" )&gt;
+  ( KPIValue( "Earnings Per Share" ),
+    ParallelPeriod
+	( 
+	   [&lt;&lt;Time Dimension Name&gt;&gt;].[&lt;&lt;Time Hierarchy Name&gt;&gt;].[&lt;&lt;Time Year Level Name&gt;&gt;],
+	   1,
+	   [&lt;&lt;Time Dimension Name&gt;&gt;].[&lt;&lt;Time Hierarchy Name&gt;&gt;].CurrentMember
+	)
+   ), 1, -1
+)
+      </TrendExpression>
+      <Description>This key performance indicator (KPI) calculates the earnings per share, which represents the profit that is accruing to stockholders for each share held. The Status and Trend expressions also assume that a higher value is better. If this is not the case, you may need to change the greater than sign (&gt;) to the less than sign (&lt;) in these expressions.</Description>
+		</KPIContent>
+		<Type>KPI</Type>
+	</Template>
+	<Template>
+		<Category>Financial</Category>
+		<Name>Basic Earnings Per Share</Name>
+		<Description>Calculates the basic earnings per share, which represents the profit that is accruing to stockholders for both each share held and any common stock equivalents.</Description>
+		<KPIContent>
+			<ValueExpression>(&lt;&lt;Net Income&gt;&gt; – &lt;&lt;Preferred Dividends&gt;&gt;) / (&lt;&lt;Weighted Average Common Stock Outstanding&gt;&gt; + &lt;&lt;Common Stock Equivalents&gt;&gt;)</ValueExpression>
+			<GoalExpression>/*This can be a fixed value if you know your Basic Earnings Per Share goal, or this expression can be a measure or even the same expression as the Value expression if your cube hold data for actual and budget scenarios.*/</GoalExpression>
+			<StatusExpression>/*Basic Earnings Per Share refers to the name of this KPI. If you change the name, change the reference in these functions as well. */
+IIf
+(
+   KPIValue( "Basic Earnings Per Share" ) - KPIGoal( "Basic Earnings Per Share" ) &gt;=0, 1, -1
+)
+      </StatusExpression>
+      <TrendExpression>/*The periodicity of this trend comparison is defined by the level at which the ParallelPeriod is evaluated.*/
+IIf
+(
+  KPIValue( "Basic Earnings Per Share" ) &gt;
+  ( KPIValue( "Basic Earnings Per Share" ),
+    ParallelPeriod
+	(
+	   [&lt;&lt;Time Dimension Name&gt;&gt;].[&lt;&lt;Time Hierarchy Name&gt;&gt;].[&lt;&lt;Time Year Level Name&gt;&gt;],
+	   1,
+	   [&lt;&lt;Time Dimension Name&gt;&gt;].[&lt;&lt;Time Hierarchy Name&gt;&gt;].CurrentMember
+	)
+   ), 1, -1
+)
+            </TrendExpression>
+            <Description>This key performance indicator (KPI) calculates the basic earnings per share, which represents the profit that is accruing to stockholders for both each share held and any common stock equivalents. The Status and Trend expressions also assume that a higher value is better. If this is not the case, you may need to change the greater than sign (&gt;) to the less than sign (&lt;) in these expressions.</Description>
+		</KPIContent>
+		<Type>KPI</Type>
+	</Template>
+	<Template>
+		<Category>Financial</Category>
+		<Name>Diluted Earnings Per Share</Name>
+		<Description>Calculates the diluted earnings per share, which represents the profit that is accruing to stockholders for both each share held and any diluted securities.</Description>
+		<KPIContent>
+			<ValueExpression>(&lt;&lt;Net Income&gt;&gt; – &lt;&lt;Preferred Dividends&gt;&gt;) / (&lt;&lt;Weighted Average Common Stock Outstanding&gt;&gt; + &lt;&lt;Diluted Securities&gt;&gt;)</ValueExpression>
+			<GoalExpression>/*This can be a fixed value if you know your Diluted Earnings Per Share goal, or this expression can be a measure or even the same expression as the Value expression if your cube hold data for actual and budget scenarios.*/</GoalExpression>
+			<StatusExpression>/*Diluted Earnings Per Share refers to the name of this KPI. If you change the name, change the reference in these functions as well. */
+IIf
+(
+   KPIValue( "Diluted Earnings Per Share" ) - KPIGoal( "Diluted Earnings Per Share" ) &gt;=0, 1, -1
+)
+      </StatusExpression>
+      <TrendExpression>/*The periodicity of this trend comparison is defined by the level at which the ParallelPeriod is evaluated.*/
+IIf
+(
+  KPIValue( "Diluted Earnings Per Share" ) &gt;
+  ( KPIValue( "Diluted Earnings Per Share" ),
+    ParallelPeriod
+	( 
+	   [&lt;&lt;Time Dimension Name&gt;&gt;].[&lt;&lt;Time Hierarchy Name&gt;&gt;].[&lt;&lt;Time Year Level Name&gt;&gt;],
+	   1,
+	   [&lt;&lt;Time Dimension Name&gt;&gt;].[&lt;&lt;Time Hierarchy Name&gt;&gt;].CurrentMember
+	)
+  ), 1, -1
+)
+              </TrendExpression>
+              <Description>This key performance indicator (KPI) calculates the diluted earnings per share, which represents the profit that is accruing to stockholders for both each share held and any diluted securities. The Status and Trend expressions also assume that a higher value is better. If this is not the case, you may need to change the greater than sign (&gt;) to the less than sign (&lt;) in these expressions.</Description>
+		</KPIContent>
+		<Type>KPI</Type>
+	</Template>
+	<Template>
+		<Category>Financial</Category>
+		<Name>P/E Ratio</Name>
+		<Description>Calculates the price-to-earnings (P/E) ratio and tracks this ratio’s performance against the corporate objective.</Description>
+		<KPIContent>
+			<ValueExpression>&lt;&lt;Market Price Per Share&gt;&gt;/&lt;&lt;Earnings Per Share&gt;&gt;</ValueExpression>
+			<GoalExpression>/*This can be a fixed value if you know your P/E Ratio goal.*/</GoalExpression>
+			<StatusExpression>/*P/E Ratio refers to the name of this KPI. If you change the name, change the reference in these functions as well. */
+IIf
+(
+   KPIValue( "P/E Ratio" ) - KPIGoal( "P/E Ratio" ) &gt;=0, 1, -1
+)
+          </StatusExpression>
+      <TrendExpression>/*The periodicity of this trend comparison is defined by the level at which the ParallelPeriod is evaluated.*/
+IIf
+( 
+  KPIValue( "P/E Ratio" )&gt;
+  ( KPIValue( "P/E Ratio" ),
+    ParallelPeriod
+    ( 
+	   [&lt;&lt;Time Dimension Name&gt;&gt;].[&lt;&lt;Time Hierarchy Name&gt;&gt;].[&lt;&lt;Time Year Level Name&gt;&gt;],
+	   1,
+	   [&lt;&lt;Time Dimension Name&gt;&gt;].[&lt;&lt;Time Hierarchy Name&gt;&gt;].CurrentMember
+	)
+  ), 1, -1
+)
+      </TrendExpression>
+      <Description>This key performance indicator (KPI) calculates the P/E ratio and tracks this ratio’s performance against the corporate objective. The Status and Trend expressions also assume that a higher value is better. If this is not the case, you may need to change the greater than sign (&gt;) to the less than sign (&lt;) in these expressions.</Description>
+		</KPIContent>
+		<Type>KPI</Type>
+	</Template>
+	<Template>
+		<Category>Financial</Category>
+		<Name>Price/Sales Ratio</Name>
+		<Description>Calculates the price-to-sales ratio and tracks this ratio’s performance against the corporate objective.</Description>
+		<KPIContent>
+			<ValueExpression>&lt;&lt;Price&gt;&gt; / &lt;&lt;Net Sales&gt;&gt;</ValueExpression>
+			<GoalExpression>/*This can be a fixed value if you know your Price/Sales Ratio goal.*/</GoalExpression>
+			<StatusExpression>/*Price/Sales Ratio refers to the name of this KPI. If you change the name, change the reference in these functions as well. */
+IIf
+(
+   KPIValue( "Price/Sales Ratio" ) - KPIGoal( "Price/Sales Ratio" ) &gt;=0, 1, -1
+)
+      </StatusExpression>
+      <TrendExpression>/*The periodicity of this trend comparison is defined by the level at which the ParallelPeriod is evaluated.*/
+IIf
+(
+  KPIValue( "Price/Sales Ratio" ) &gt;
+  ( KPIValue( "Price/Sales Ratio" ),
+    ParallelPeriod
+	( 
+	   [&lt;&lt;Time Dimension Name&gt;&gt;].[&lt;&lt;Time Hierarchy Name&gt;&gt;].[&lt;&lt;Time Year Level Name&gt;&gt;],
+	   1,
+	   [&lt;&lt;Time Dimension Name&gt;&gt;].[&lt;&lt;Time Hierarchy Name&gt;&gt;].CurrentMember
+	)
+  ), 1, -1
+)
+      </TrendExpression>
+      <Description>This key performance indicator (KPI) calculates the price-to-sales ratio and tracks this ratio’s performance against the corporate objective. The Status and Trend expressions also assume that a higher value is better. If this is not the case, you may need to change the greater than sign (&gt;) to the less than sign (&lt;) in these expressions.</Description>
+		</KPIContent>
+		<Type>KPI</Type>
+	</Template>
+	<Template>
+		<Category>Financial</Category>
+		<Name>Price/Cash Flow Ratio</Name>
+		<Description>Calculates the price-to-cash flow ratio and tracks this ratio’s performance against the corporate objective.</Description>
+		<KPIContent>
+			<ValueExpression>&lt;&lt;Price&gt;&gt; / &lt;&lt;Cash Flow&gt;&gt;</ValueExpression>
+			<GoalExpression>/*This can be a fixed value if you know your Price/Sales Ratio goal.*/</GoalExpression>
+			<StatusExpression>/*Price/Cash Flow Ratio refers to the name of this KPI. If you change the name, change the reference in these functions as well. */
+IIf
+(
+   KPIValue( "Price/Cash Flow Ratio" ) - KPIGoal( "Price/Cash Flow Ratio" ) &gt;=0, 1, -1
+)
+      </StatusExpression>
+      <TrendExpression>/*The periodicity of this trend comparison is defined by the level at which the ParallelPeriod is evaluated.*/
+IIf
+(
+  KPIValue( "Price/Cash Flow Ratio" )&gt;
+  ( KPIValue( "Price/Cash Flow Ratio" ),
+    ParallelPeriod
+	( 
+	   [&lt;&lt;Time Dimension Name&gt;&gt;].[&lt;&lt;Time Hierarchy Name&gt;&gt;].[&lt;&lt;Time Year Level Name&gt;&gt;],
+	   1,
+	   [&lt;&lt;Time Dimension Name&gt;&gt;].[&lt;&lt;Time Hierarchy Name&gt;&gt;].CurrentMember
+	)
+  ), 1, -1
+)
+            </TrendExpression>
+            <Description>This key performance indicator (KPI) calculates the price-to-cash flow ratio and tracks this ratio’s performance against the corporate objective. The Status and Trend expressions also assume that a higher value is better. If this is not the case, you may need to change the greater than sign (&gt;) to the less than sign (&lt;) in these expressions.</Description>
+		</KPIContent>
+		<Type>KPI</Type>
+	</Template>
+	<Template>
+		<Category>Financial</Category>
+		<Name>Liquidity Ratio</Name>
+		<Description>Calculates the liquidity ratio and tracks this ratio’s performance against the corporate objective. This ratio tries to determine whether a firm is maintaining an appropriate level of liquidity.</Description>
+		<KPIContent>
+			<ValueExpression>&lt;&lt;Current Assets&gt;&gt; / &lt;&lt;Current Liabilities&gt;&gt;</ValueExpression>
+			<GoalExpression>/*This can be a fixed value if you know your Liquidity Ratio goal.*/</GoalExpression>
+			<StatusExpression>/*Liquidity Ratio refers to the name of this KPI. If you change the name, change the reference in these functions as well. */
+IIf
+(
+   KPIValue( "Liquidity Ratio" ) - KPIGoal( "Liquidity Ratio" ) &gt;=0, 1, -1
+)
+      </StatusExpression>
+      <TrendExpression>/*The periodicity of this trend comparison is defined by the level at which the ParallelPeriod is evaluated.*/
+IIf
+(
+  KPIValue( "Liquidity Ratio" ) &gt;
+  ( KPIValue( "Liquidity Ratio" ),
+    ParallelPeriod
+	( 
+	   [&lt;&lt;Time Dimension Name&gt;&gt;].[&lt;&lt;Time Hierarchy Name&gt;&gt;].[&lt;&lt;Time Year Level Name&gt;&gt;],
+	   1,
+	   [&lt;&lt;Time Dimension Name&gt;&gt;].[&lt;&lt;Time Hierarchy Name&gt;&gt;].CurrentMember
+	)
+  ), 1, -1
+)
+            </TrendExpression>
+            <Description>This key performance indicator (KPI) calculates the liquidity ratio and tracks this ratio’s performance against the corporate objective. The Status and Trend expressions also assume that a higher value is better. If this is not the case, you may need to change the greater than sign (&gt;) to the less than sign (&lt;) in these expressions.</Description>
+		</KPIContent>
+		<Type>KPI</Type>
+	</Template>
+	<Template>
+		<Category>Financial</Category>
+		<Name>Quick Ratio</Name>
+		<Description>Calculates the quick ratio and tracks this ratio’s performance against the corporate objective. This ratio places the emphasis on the firm’s short term viability (that is, the firm’s ability to stay in business).</Description>
+		<KPIContent>
+			<ValueExpression>( &lt;&lt;Cash&gt;&gt; + &lt;&lt;Marketable Securities&gt;&gt; + &lt;&lt;Receivables&gt;&gt; ) / &lt;&lt;Current liabilities&gt;&gt;</ValueExpression>
+			<GoalExpression>/*This can be a fixed value if you know your Quick Ratio goal.*/</GoalExpression>
+			<StatusExpression>/*Quick Ratio refers to the name of this KPI. If you change the name, change the reference in these functions as well. */
+IIf
+(
+   KPIValue( "Quick Ratio" ) - KPIGoal( "Quick Ratio" ) &gt;=0, 1, -1
+)
+      </StatusExpression>
+      <TrendExpression>/*The periodicity of this trend comparison is defined by the level at which the ParallelPeriod is evaluated.*/
+IIf
+(
+  KPIValue( "Quick Ratio" ) &gt;
+  ( KPIValue( "Quick Ratio" ),
+    ParallelPeriod
+	( 
+	   [&lt;&lt;Time Dimension Name&gt;&gt;].[&lt;&lt;Time Hierarchy Name&gt;&gt;].[&lt;&lt;Time Year Level Name&gt;&gt;],
+	   1,
+	   [&lt;&lt;Time Dimension Name&gt;&gt;].[&lt;&lt;Time Hierarchy Name&gt;&gt;].CurrentMember
+	)
+  ), 1, -1
+)
+            </TrendExpression>
+            <Description>This key performance indicator (KPI) calculates the quick ratio and tracks this ratio’s performance against the corporate objective. The Status and Trend expressions also assume that a higher value is better. If this is not the case, you may need to change the greater than sign (&gt;) to the less than sign (&lt;) in these expressions.</Description>
+		</KPIContent>
+		<Type>KPI</Type>
+	</Template>
+	<Template>
+		<Category>Financial</Category>
+		<Name>Stockholders Equity</Name>
+		<Description>Calculates the stockholders equity or capital, and tracks this value’s performance against the corporate objective. This value represents the bottom line of the balance sheet.</Description>
+		<KPIContent>
+			<ValueExpression>&lt;&lt;Total Assets&gt;&gt; - &lt;&lt;Total Liabilities&gt;&gt;</ValueExpression>
+			<GoalExpression>/*This can be a fixed value if you know your Stockholders Equity goal.*/</GoalExpression>
+			<StatusExpression>/*Stockholders Equity refers to the name of this KPI. If you change the name, change the reference in these functions as well. */
+IIf
+(
+   KPIValue( "Stockholders Equity" ) - KPIGoal( "Stockholders Equity" ) &gt;=0, 1, -1
+)
+      </StatusExpression>
+      <TrendExpression>/*The periodicity of this trend comparison is defined by the level at which the ParallelPeriod is evaluated.*/
+IIf
+(
+  KPIValue( "Stockholders Equity" ) &gt;
+  ( KPIValue( "Stockholders Equity" ),
+    ParallelPeriod
+	( 
+	   [&lt;&lt;Time Dimension Name&gt;&gt;].[&lt;&lt;Time Hierarchy Name&gt;&gt;].[&lt;&lt;Time Year Level Name&gt;&gt;],
+	   1,
+	   [&lt;&lt;Time Dimension Name&gt;&gt;].[&lt;&lt;Time Hierarchy Name&gt;&gt;].CurrentMember
+	)
+  ), 1, -1
+)
+            </TrendExpression>
+            <Description>This key performance indicator (KPI) calculates the stockholders equity and track this value's performance against the corporate objective. The Status and Trend expressions also assume that a higher value is better. If this is not the case, you may need to change the greater than sign (&gt;) to the less than sign (&lt;) in these expressions.</Description>
+		</KPIContent>
+		<Type>KPI</Type>
+	</Template>
+	<Template>
+		<Category>Financial</Category>
+		<Name>Book Value / Share</Name>
+		<Description>Calculates the book value per share and tracks this ratio’s performance against the corporate objective.</Description>
+		<KPIContent>
+			<ValueExpression>( &lt;&lt;Stockholders’ Equity&gt;&gt; – &lt;&lt;Preferred Stock&gt;&gt; ) / &lt;&lt;Common Stock Outstanding&gt;&gt;</ValueExpression>
+			<GoalExpression>/*This can be a fixed value if you know your Book Value / Share goal.*/</GoalExpression>
+			<StatusExpression>/*Book Value / Share refers to the name of this KPI. If you change the name, change the reference in these functions as well. */
+IIf
+( 
+   KPIValue( "Book Value / Share" ) - KPIGoal( "Book Value / Share" ) &gt;=0, 1, -1
+)
+      </StatusExpression>
+      <TrendExpression>/*The periodicity of this trend comparison is defined by the level at which the ParallelPeriod is evaluated.*/
+IIf
+( 
+  KPIValue( "Book Value / Share" ) &gt;
+  ( KPIValue( "Book Value / Share" ),
+    ParallelPeriod
+	( 
+	   [&lt;&lt;Time Dimension Name&gt;&gt;].[&lt;&lt;Time Hierarchy Name&gt;&gt;].[&lt;&lt;Time Year Level Name&gt;&gt;],
+	   1,
+	   [&lt;&lt;Time Dimension Name&gt;&gt;].[&lt;&lt;Time Hierarchy Name&gt;&gt;].CurrentMember
+	)
+  ), 1, -1
+)
+                  </TrendExpression>
+                  <Description>This key performance indicator (KPI) calculates the book value per share and tracks this ratio’s performance against the corporate objective. The Status and Trend expressions also assume that a higher value is better. If this is not the case, you may need to change the greater than sign (&gt;) to the less than sign (&lt;) in these expressions.</Description>
+		</KPIContent>
+		<Type>KPI</Type>
+	</Template>
+	<Template>
+		<Category>Financial</Category>
+		<Name>Dividend Yield</Name>
+		<Description>Calculates the dividend yield and tracks this ratio’s performance against the corporate objective.</Description>
+		<KPIContent>
+			<ValueExpression>&lt;&lt;Dividends Per Share&gt;&gt; / &lt;&lt;Market Price Per Share&gt;&gt;</ValueExpression>
+			<GoalExpression>/*This can be a fixed value if you know your Dividend Yield goal.*/</GoalExpression>
+			<StatusExpression>/*Dividend Yield refers to the name of this KPI. If you change the name, change the reference in these functions as well. */
+IIf
+(
+   KPIValue( "Dividend Yield" ) - KPIGoal( "Dividend Yield" ) &gt;=0, 1, -1
+)
+      </StatusExpression>
+      <TrendExpression>/*The periodicity of this trend comparison is defined by the level at which the ParallelPeriod is evaluated.*/
+IIf
+(
+  KPIValue( "Dividend Yield" ) &gt;
+  ( KPIValue( "Dividend Yield" ),
+    ParallelPeriod
+	( 
+	   [&lt;&lt;Time Dimension Name&gt;&gt;].[&lt;&lt;Time Hierarchy Name&gt;&gt;].[&lt;&lt;Time Year Level Name&gt;&gt;],
+	   1,
+	   [&lt;&lt;Time Dimension Name&gt;&gt;].[&lt;&lt;Time Hierarchy Name&gt;&gt;].CurrentMember
+	)
+  ), 1, -1
+)
+      </TrendExpression>
+      <Description>This key performance indicator (KPI) calculates the dividend yield and tracks this ratio’s performance against the corporate objective. The Status and Trend expressions also assume that a higher value is better. If this is not the case, you may need to change the greater than sign (&gt;) to the less than sign (&lt;) in these expressions.</Description>
+		</KPIContent>
+		<Type>KPI</Type>
+	</Template>
+	<Template>
+		<Category>Financial</Category>
+		<Name>Dividend Payout</Name>
+		<Description>Calculates the dividend payout and tracks this ratio’s performance against the corporate objective.</Description>
+		<KPIContent>
+			<ValueExpression>&lt;&lt;Dividends Per Share&gt;&gt; / &lt;&lt;Earnings Per Share&gt;&gt;</ValueExpression>
+			<GoalExpression>/*This can be a fixed value if you know your Dividend Payout goal.*/</GoalExpression>
+			<StatusExpression>/*Dividend Payout refers to the name of this KPI. If you change the name, change the reference in these functions as well. */
+IIf
+(
+   KPIValue( "Dividend Payout" ) - KPIGoal( "Dividend Payout" ) &gt;=0, 1, -1
+)
+      </StatusExpression>
+      <TrendExpression>/*The periodicity of this trend comparison is defined by the level at which the ParallelPeriod is evaluated.*/
+IIf
+(
+  KPIValue( "Dividend Payout" ) &gt;
+  ( KPIValue( "Dividend Payout" ),
+    ParallelPeriod
+	( 
+	   [&lt;&lt;Time Dimension Name&gt;&gt;].[&lt;&lt;Time Hierarchy Name&gt;&gt;].[&lt;&lt;Time Year Level Name&gt;&gt;],
+	   1,
+	   [&lt;&lt;Time Dimension Name&gt;&gt;].[&lt;&lt;Time Hierarchy Name&gt;&gt;].CurrentMember
+	)
+  ), 1, -1
+)
+                  </TrendExpression>
+                  <Description>This key performance indicator (KPI) calculates the dividend payout and tracks this ratio’s performance against the corporate objective. The Status and Trend expressions also assume that a higher value is better. If this is not the case, you may need to change the greater than sign (&gt;) to the less than sign (&lt;) in these expressions.</Description>
+		</KPIContent>
+		<Type>KPI</Type>
+	</Template>
+	<Template>
+		<Category>Financial</Category>
+		<Name>Receivables Turnover Ratio</Name>
+		<Description>Calculates the receivables turnover ratio and tracks this ratio’s performance against the corporate objective. This indicator measures the efficiency in collecting receivables.</Description>
+		<KPIContent>
+			<ValueExpression>&lt;&lt;Credit Sales&gt;&gt; / &lt;&lt;Average Receivables Balance&gt;&gt;</ValueExpression>
+			<GoalExpression>/*This can be a fixed value if you know your Receivables Turnover Ratio goal.*/</GoalExpression>
+			<StatusExpression>/*Receivables Turnover Ratio refers to the name of this KPI. If you change the name, change the reference in these functions as well. */
+IIf
+(
+   KPIValue( "Receivables Turnover Ratio" ) - KPIGoal( "Receivables Turnover Ratio" ) &gt;=0, 1, -1
+)
+      </StatusExpression>
+      <TrendExpression>/*The periodicity of this trend comparison is defined by the level at which the ParallelPeriod is evaluated.*/
+IIf
+(
+  KPIValue( "Receivables Turnover Ratio" ) &gt;
+  ( KPIValue( "Receivables Turnover Ratio" ),
+    ParallelPeriod
+	( 
+	   [&lt;&lt;Time Dimension Name&gt;&gt;].[&lt;&lt;Time Hierarchy Name&gt;&gt;].[&lt;&lt;Time Year Level Name&gt;&gt;],
+	   1,
+	   [&lt;&lt;Time Dimension Name&gt;&gt;].[&lt;&lt;Time Hierarchy Name&gt;&gt;].CurrentMember
+	)
+  ), 1, -1
+)
+                  </TrendExpression>
+                  <Description>This key performance indicator (KPI) calculates the receivables turnover ratio and tracks this ratio’s performance against the corporate objective. The Status and Trend expressions also assume that a higher value is better. If this is not the case, you may need to change the greater than sign (&gt;) to the less than sign (&lt;) in these expressions.</Description>
+		</KPIContent>
+		<Type>KPI</Type>
+	</Template>
+  <Template>
+    <Category>Financial</Category>
+    <Name>Days Receivables</Name>
+    <Description>Calculates the days receivables and tracks this ratio’s performance against the corporate objective. Days receivable is the average age of receivables (that is, the average length of time to collect receivables).</Description>
+    <KPIContent>
+      <ValueExpression>365 / &lt;&lt;Receivables Turnover ratio&gt;&gt;</ValueExpression>
+      <GoalExpression>/*This can be a fixed value if you know your Days Receivables goal.*/</GoalExpression>
+      <StatusExpression>/*Days Receivables refers to the name of this KPI. If you change the name, change the reference in these functions as well. */
+IIf
+(
+   KPIValue( "Days Receivables" ) - KPIGoal( "Days Receivables" ) &lt;=0, 1, -1
+)
+          </StatusExpression>
+      <TrendExpression>/*The periodicity of this trend comparison is defined by the level at which the ParallelPeriod is evaluated.*/
+IIf
+(
+  KPIValue( "Days Receivables" ) &lt;
+  ( KPIValue( "Days Receivables" ),
+    ParallelPeriod
+	( 
+	   [&lt;&lt;Time Dimension Name&gt;&gt;].[&lt;&lt;Time Hierarchy Name&gt;&gt;].[&lt;&lt;Time Year Level Name&gt;&gt;],
+	   1,
+	   [&lt;&lt;Time Dimension Name&gt;&gt;].[&lt;&lt;Time Hierarchy Name&gt;&gt;].CurrentMember
+	)
+  ), 1, -1
+)
+      </TrendExpression>
+      <Description>This key performance indicator (KPI) calculates the days receivables and tracks this ratio’s performance against the corporate objective. The Status and Trend expressions assume that the a lower value is better. If this is not the case, you may need to change the less than sign (&lt;) to the greater than sign (&gt;) in these expressions.</Description>
+    </KPIContent>
+    <Type>KPI</Type>
+  </Template>
+  <Template>
+		<Category>Financial</Category>
+		<Name>Inventory Turnover Ratio</Name>
+    <Description>Calculates the inventory turnover ratio and tracks this ratio’s performance against the corporate objective. This indicator measures the efficiency in keeping a small inventory in house.</Description>
+    <KPIContent>
+      <ValueExpression>&lt;&lt;Cost of Goods Sold&gt;&gt; / &lt;&lt;Average Inventory Balance&gt;&gt;</ValueExpression>
+      <GoalExpression>/*This can be a fixed value if you know your Inventory Turnover Ratio goal.*/</GoalExpression>
+      <StatusExpression>/*Inventory Turnover Ratio refers to the name of this KPI. If you change the name, change the reference in these functions as well. */
+IIf
+( 
+   KPIValue( "Inventory Turnover Ratio" ) - KPIGoal( "Inventory Turnover Ratio" ) &gt;=0, 1, -1
+)
+      </StatusExpression>
+      <TrendExpression>/*The periodicity of this trend comparison is defined by the level at which the ParallelPeriod is evaluated.*/
+IIf
+( 
+  KPIValue( "Inventory Turnover Ratio" ) &gt;
+  ( KPIValue( "Inventory Turnover Ratio" ),
+    ParallelPeriod
+	( 
+	   [&lt;&lt;Time Dimension Name&gt;&gt;].[&lt;&lt;Time Hierarchy Name&gt;&gt;].[&lt;&lt;Time Year Level Name&gt;&gt;],
+	   1,
+	   [&lt;&lt;Time Dimension Name&gt;&gt;].[&lt;&lt;Time Hierarchy Name&gt;&gt;].CurrentMember
+	)
+  ), 1, -1
+)
+          </TrendExpression>
+          <Description>This key performance indicator (KPI) calculates the inventory turnover ratio and tracks this ratio’s performance against the corporate objective. The Status and Trend expressions also assume that a higher value is better. If this is not the case, you may need to change the greater than sign (&gt;) to the less than sign (&lt;) in these expressions.</Description>
+    </KPIContent>
+    <Type>KPI</Type>
+  </Template>
+  <Template>
+    <Category>Financial</Category>
+    <Name>Days Inventory</Name>
+    <Description>Calculates the days inventory and tracks this ratio’s performance against the corporate objective. Days inventory is the average age of inventory.</Description>
+    <KPIContent>
+      <ValueExpression>365 / &lt;&lt;Inventory Turnover ratio&gt;&gt;</ValueExpression>
+      <GoalExpression>/*This can be a fixed value if you know your Days Inventory goal.*/</GoalExpression>
+      <StatusExpression>/*Days Inventory refers to the name of this KPI. If you change the name, change the reference in these functions as well. */
+IIf
+(
+   KPIValue( "Days Inventory" ) - KPIGoal( "Days Inventory" ) &lt;=0, 1, -1
+)
+      </StatusExpression>
+      <TrendExpression>/*The periodicity of this trend comparison is defined by the level at which the ParallelPeriod is evaluated.*/
+IIf
+( 
+  KPIValue( "Days Inventory" ) &lt;
+  ( KPIValue( "Days Inventory" ),
+    ParallelPeriod
+	( 
+	   [&lt;&lt;Time Dimension Name&gt;&gt;].[&lt;&lt;Time Hierarchy Name&gt;&gt;].[&lt;&lt;Time Year Level Name&gt;&gt;],
+	   1,
+	   [&lt;&lt;Time Dimension Name&gt;&gt;].[&lt;&lt;Time Hierarchy Name&gt;&gt;].CurrentMember
+	)
+  ), 1, -1
+)
+      </TrendExpression>
+      <Description>This key performance indicator (KPI) calculates the days inventory and tracks this ratio’s performance against the corporate objective. The Status and Trend expressions assume that the a lower value is better. If this is not the case, you may need to change the less than sign (&lt;) to the greater than sign (&gt;) in these expressions.</Description>
+    </KPIContent>
+    <Type>KPI</Type>
+  </Template>
+	<Template>
+		<Category>Financial</Category>
+		<Name>Asset Turnover</Name>
+		<Description>Calculates the asset turnover and tracks this ratio’s performance against the corporate objective.</Description>
+		<KPIContent>
+			<ValueExpression>&lt;&lt;Net Sales&gt;&gt; / &lt;&lt;Average Total Assets&gt;&gt;</ValueExpression>
+			<GoalExpression>/*This can be a fixed value if you know your Asset Turnover goal.*/</GoalExpression>
+      <StatusExpression>/*Asset Turnover refers to the name of this KPI. If you change the name, change the reference in these functions as well. */
+IIf
+( 
+   KPIValue( "Asset Turnover" ) - KPIGoal( "Asset Turnover" ) &gt;=0, 1, -1
+)
+          </StatusExpression>
+      <TrendExpression>/*The periodicity of this trend comparison is defined by the level at which the ParallelPeriod is evaluated.*/
+IIf
+(  
+  KPIValue( "Asset Turnover" ) &gt;
+  ( KPIValue( "Asset Turnover" ),
+    ParallelPeriod
+	( 
+	   [&lt;&lt;Time Dimension Name&gt;&gt;].[&lt;&lt;Time Hierarchy Name&gt;&gt;].[&lt;&lt;Time Year Level Name&gt;&gt;],
+	   1,
+	   [&lt;&lt;Time Dimension Name&gt;&gt;].[&lt;&lt;Time Hierarchy Name&gt;&gt;].CurrentMember
+	)
+  ), 1, -1
+)
+          </TrendExpression>
+          <Description>This key performance indicator (KPI) calculates the asset turnover and tracks this ratio’s performance against the corporate objective. The Status and Trend expressions also assume that a higher value is better. If this is not the case, you may need to change the greater than sign (&gt;) to the less than sign (&lt;) in these expressions.</Description>
+		</KPIContent>
+		<Type>KPI</Type>
+	</Template>
+	<Template>
+		<Category>Financial</Category>
+		<Name>Interest Coverage</Name>
+		<Description>Calculates the interest coverage and tracks this ratio’s performance against the corporate objective.</Description>
+		<KPIContent>
+			<ValueExpression>&lt;&lt;Income Before Interest And Taxes&gt;&gt; / &lt;&lt;Interest Expense&gt;&gt;</ValueExpression>
+			<GoalExpression>/*This can be a fixed value if you know your Interest Coverage goal.*/</GoalExpression>
+      <StatusExpression>/*Interest Coverage refers to the name of this KPI. If you change the name, change the reference in these functions as well. */
+IIf
+( 
+   KPIValue( "Interest Coverage" ) - KPIGoal( "Interest Coverage" ) &gt;=0, 1, -1
+)
+          </StatusExpression>
+      <TrendExpression>/*The periodicity of this trend comparison is defined by the level at which the ParallelPeriod is evaluated.*/
+IIf
+(
+  KPIValue( "Interest Coverage" ) &gt;
+  ( KPIValue( "Interest Coverage" ),
+    ParallelPeriod
+	( 
+	   [&lt;&lt;Time Dimension Name&gt;&gt;].[&lt;&lt;Time Hierarchy Name&gt;&gt;].[&lt;&lt;Time Year Level Name&gt;&gt;],
+	   1,
+	   [&lt;&lt;Time Dimension Name&gt;&gt;].[&lt;&lt;Time Hierarchy Name&gt;&gt;].CurrentMember
+	)
+  ), 1, -1
+)
+          </TrendExpression>
+          <Description>This key performance indicator (KPI) calculates the interest coverage and tracks this ratio’s performance against the corporate objective. The Status and Trend expressions also assume that a higher value is better. If this is not the case, you may need to change the greater than sign (&gt;) to the less than sign (&lt;) in these expressions.</Description>
+		</KPIContent>
+		<Type>KPI</Type>
+	</Template>
+	<Template>
+		<Category>Financial</Category>
+		<Name>Debt Ratio</Name>
+		<Description>Calculates the debt ratio and tracks this ratio’s performance against the corporate objective.</Description>
+		<KPIContent>
+			<ValueExpression>&lt;&lt;Total Debt&gt;&gt; / &lt;&lt;Total Assets&gt;&gt;</ValueExpression>
+			<GoalExpression>/*This can be a fixed value if you know your Debt Ratio goal.*/</GoalExpression>
+      <StatusExpression>/*Debt Ratio refers to the name of this KPI. If you change the name, change the reference in these functions as well. */
+IIf
+(
+   KPIValue( "Debt Ratio" ) - KPIGoal( "Debt Ratio" ) &lt;=0, 1, -1
+)
+          </StatusExpression>
+      <TrendExpression>/*The periodicity of this trend comparison is defined by the level at which the ParallelPeriod is evaluated.*/
+IIf
+( 
+  KPIValue( "Debt Ratio" ) &lt;
+  ( KPIValue( "Debt Ratio" ),
+    ParallelPeriod
+	( 
+	   [&lt;&lt;Time Dimension Name&gt;&gt;].[&lt;&lt;Time Hierarchy Name&gt;&gt;].[&lt;&lt;Time Year Level Name&gt;&gt;],
+	   1,
+	   [&lt;&lt;Time Dimension Name&gt;&gt;].[&lt;&lt;Time Hierarchy Name&gt;&gt;].CurrentMember
+	)
+  ), 1, -1
+)
+          </TrendExpression>
+          <Description>This key performance indicator (KPI) calculates the debt ratio and tracks this ratio’s performance against the corporate objective. The Status and Trend expressions assume that the a lower value is better. If this is not the case, you may need to change the less than sign (&lt;) to the greater than sign (&gt;) in these expressions.</Description>
+		</KPIContent>
+		<Type>KPI</Type>
+	</Template>
+	<Template>
+		<Category>Financial</Category>
+		<Name>Debt to Equity Ratio</Name>
+		<Description>
+      Calculates the debt-to-equity ratio and tracks this ratio’s performance against the corporate objective. This ratio determines if the firm has overextended itself through the use of financial leverage. Does the firm have principal and interest payment obligations exceeding the firm’s ability to pay, not only now but into the future as well? This ratio focuses on the protective cushion that owner’s equity provides for creditors.
+    </Description>
+		<KPIContent>
+			<ValueExpression>&lt;&lt;Total liabilities&gt;&gt; / (&lt;&lt;Total liabilities&gt;&gt; + &lt;&lt;Stockholders’ equity&gt;&gt;)</ValueExpression>
+			<GoalExpression>/*This can be a fixed value if you know your Debt to Equity Ratio goal.*/</GoalExpression>
+      <StatusExpression>/*Debt to Equity Ratio refers to the name of this KPI. If you change the name, change the reference in these functions as well. */
+IIf
+( 
+   KPIValue( "Debt to Equity Ratio" ) - KPIGoal( "Debt to Equity Ratio" ) &lt;=0, 1, -1
+)
+          </StatusExpression>
+      <TrendExpression>/*The periodicity of this trend comparison is defined by the level at which the ParallelPeriod is evaluated.*/
+IIf
+( 
+  KPIValue( "Debt to Equity Ratio" ) &lt;
+  ( KPIValue( "Debt to Equity Ratio" ),
+    ParallelPeriod
+	( 
+	   [&lt;&lt;Time Dimension Name&gt;&gt;].[&lt;&lt;Time Hierarchy Name&gt;&gt;].[&lt;&lt;Time Year Level Name&gt;&gt;],
+	   1,
+	   [&lt;&lt;Time Dimension Name&gt;&gt;].[&lt;&lt;Time Hierarchy Name&gt;&gt;].CurrentMember
+	)
+  ), 1, -1
+)
+                  </TrendExpression>
+                  <Description>This key performance indicator (KPI) calculates the debt-to-equity ratio and tracks this ratio’s performance against the corporate objective. The Status and Trend expressions assume that the a lower value is better. If this is not the case, you may need to change the less than sign (&lt;) to the greater than sign (&gt;) in these expressions.</Description>
+		</KPIContent>
+		<Type>KPI</Type>
+	</Template>
+	<Template>
+		<Category>Financial</Category>
+		<Name>Interest Earned Over Time</Name>
+		<Description>Calculates the interest earned over time and tracks this ratio’s performance against the corporate objective.</Description>
+		<KPIContent>
+			<ValueExpression>&lt;&lt;Earnings before interest and Taxes&gt;&gt; / &lt;&lt;Interest Expense&gt;&gt;</ValueExpression>
+			<GoalExpression>/*This can be a fixed value if you know your Interest Earned Over Time goal.*/</GoalExpression>
+      <StatusExpression>/*Interest Earned Over Time refers to the name of this KPI. If you change the name, change the reference in these functions as well. */
+IIf
+( 
+   KPIValue( "Interest Earned Over Time" ) - KPIGoal( "Interest Earned Over Time" ) &gt;=0, 1, -1
+)
+          </StatusExpression>
+      <TrendExpression>/*The periodicity of this trend comparison is defined by the level at which the ParallelPeriod is evaluated.*/
+IIf
+(
+  KPIValue( "Interest Earned Over Time" ) &gt;
+  ( KPIValue( "Interest Earned Over Time" ),
+    ParallelPeriod
+	( 
+	   [&lt;&lt;Time Dimension Name&gt;&gt;].[&lt;&lt;Time Hierarchy Name&gt;&gt;].[&lt;&lt;Time Year Level Name&gt;&gt;],
+	   1,
+	   [&lt;&lt;Time Dimension Name&gt;&gt;].[&lt;&lt;Time Hierarchy Name&gt;&gt;].CurrentMember
+	)
+  ), 1, -1
+)
+                  </TrendExpression>
+                  <Description>This key performance indicator (KPI) calculates the interest earned over time and tracks this ratio’s performance against the corporate objective. The Status and Trend expressions also assume that a higher value is better. If this is not the case, you may need to change the greater than sign (&gt;) to the less than sign (&lt;) in these expressions.</Description>
+		</KPIContent>
+		<Type>KPI</Type>
+	</Template>
+	<Template>
+		<Category>Financial</Category>
+		<Name>Cash Flow to Assets Ratio</Name>
+		<Description>Calculates the cash flow–to-assets ratio and tracks this ratio’s performance against the corporate objective. This indicator measures the ability of assets to generate operating cash flows.</Description>
+		<KPIContent>
+			<ValueExpression>&lt;&lt;Net Cash flow from operating activities&gt;&gt; / &lt;&lt;average total assets&gt;&gt;</ValueExpression>
+			<GoalExpression>/*This can be a fixed value if you know your Cash Flow to Assets Ratio goal.*/</GoalExpression>
+      <StatusExpression>/*Cash Flow to Assets Ratio refers to the name of this KPI. If you change the name, change the reference in these functions as well. */
+IIf
+( 
+   KPIValue( "Cash Flow to Assets Ratio" ) - KPIGoal( "Cash Flow to Assets Ratio" ) &gt;=0, 1, -1
+)
+          </StatusExpression>
+      <TrendExpression>/*The periodicity of this trend comparison is defined by the level at which the ParallelPeriod is evaluated.*/
+IIf
+( 
+  KPIValue( "Cash Flow to Assets Ratio" ) &gt;
+  ( KPIValue( "Cash Flow to Assets Ratio" ),
+    ParallelPeriod
+	( 
+	   [&lt;&lt;Time Dimension Name&gt;&gt;].[&lt;&lt;Time Hierarchy Name&gt;&gt;].[&lt;&lt;Time Year Level Name&gt;&gt;],
+	   1,
+	   [&lt;&lt;Time Dimension Name&gt;&gt;].[&lt;&lt;Time Hierarchy Name&gt;&gt;].CurrentMember
+	)
+  ), 1, -1
+)
+                  </TrendExpression>
+                  <Description>This key performance indicator (KPI) calculates the cash flow-to-assets ratio and tracks this ratio’s performance against the corporate objective. The Status and Trend expressions also assume that a higher value is better. If this is not the case, you may need to change the greater than sign (&gt;) to the less than sign (&lt;) in these expressions.</Description>
+		</KPIContent>
+		<Type>KPI</Type>
+	</Template>
+	<Template>
+		<Category>Financial</Category>
+		<Name>Cash Flow to Sales Ratio</Name>
+		<Description>Calculates the cash flow-to-sales ratio and tracks this ratio’s performance against the corporate objective. This indicator measures the ability of sales to generate operating cash flows.</Description>
+		<KPIContent>
+			<ValueExpression>&lt;&lt;Net Cash flow from operating activities&gt;&gt; / &lt;&lt;Sales&gt;&gt;</ValueExpression>
+			<GoalExpression>/*This can be a fixed value if you know your Cash Flow to Sales Ratio goal.*/</GoalExpression>
+      <StatusExpression>/*Cash Flow to Sales Ratio refers to the name of this KPI. If you change the name, change the reference in these functions as well. */
+IIf
+( 
+   KPIValue( "Cash Flow to Sales Ratio" ) - KPIGoal( "Cash Flow to Sales Ratio" ) &gt;=0, 1, -1
+)
+          </StatusExpression>
+      <TrendExpression>/*The periodicity of this trend comparison is defined by the level at which the ParallelPeriod is evaluated.*/
+IIf
+( 
+  KPIValue( "Cash Flow to Sales Ratio" ) &gt;
+  ( KPIValue( "Cash Flow to Sales Ratio" ),
+    ParallelPeriod
+	( 
+	   [&lt;&lt;Time Dimension Name&gt;&gt;].[&lt;&lt;Time Hierarchy Name&gt;&gt;].[&lt;&lt;Time Year Level Name&gt;&gt;],
+	   1,
+	   [&lt;&lt;Time Dimension Name&gt;&gt;].[&lt;&lt;Time Hierarchy Name&gt;&gt;].CurrentMember
+	)
+  ), 1, -1
+)
+                        </TrendExpression>
+                        <Description>This key performance indicator (KPI) calculates the cash flow-to-sales ratio and tracks this ratio’s performance against the corporate objective. The Status and Trend expressions also assume that a higher value is better. If this is not the case, you may need to change the greater than sign (&gt;) to the less than sign (&lt;) in these expressions.</Description>
+		</KPIContent>
+		<Type>KPI</Type>
+	</Template>
+  <Template>
+    <Category>Financial</Category>
+    <Name>Cash flow to Capital Expenditures Ratio</Name>
+    <Description>Calculates the cash flow-to-capital expenditures ratio and tracks this ratio’s performance against the corporate objective. This indicator measures the ability of a company to maintain plant and equipment from the cash provided by operations, instead of by borrowing or issuing new stock.</Description>
+    <KPIContent>
+      <ValueExpression>( &lt;&lt;Net Cash Flow from Operating Activities&gt;&gt;-&lt;&lt;Dividends&gt;&gt; ) / &lt;&lt;Expenditures for Plant and Equipment&gt;&gt;</ValueExpression>
+      <GoalExpression>/*This can be a fixed value if you know your Cash Flow to Capital Expenditures Ratio goal.*/</GoalExpression>
+      <StatusExpression>/*Cash Flow to Capital Expenditures refers to the name of this KPI. If you change the name, change the reference in these functions as well. */
+IIf
+( 
+   KPIValue( "Cash Flow to Capital Expenditures Ratio" ) - KPIGoal( "Cash Flow to Capital Expenditures Ratio" ) &gt;=0, 1, -1
+)
+      </StatusExpression>
+      <TrendExpression>/*The periodicity of this trend comparison is defined by the level at which the ParallelPeriod is evaluated.*/
+IIf
+( 
+  KPIValue( "Cash Flow to Capital Expenditures Ratio" ) &gt;
+  ( KPIValue( "Cash Flow to Capital Expenditures Ratio" ),
+    ParallelPeriod
+	( 
+	   [&lt;&lt;Time Dimension Name&gt;&gt;].[&lt;&lt;Time Hierarchy Name&gt;&gt;].[&lt;&lt;Time Year Level Name&gt;&gt;],
+	   1,
+	   [&lt;&lt;Time Dimension Name&gt;&gt;].[&lt;&lt;Time Hierarchy Name&gt;&gt;].CurrentMember
+	)
+  ), 1, -1
+)
+      </TrendExpression>
+      <Description>This key performance indicator (KPI) calculates the cash flow-to-capital expenditures ratio and tracks this ratio’s performance against the corporate objective. The Status and Trend expressions also assume that a higher value is better. If this is not the case, you may need to change the greater than sign (&gt;) to the less than sign (&lt;) in these expressions.</Description>
+    </KPIContent>
+    <Type>KPI</Type>
+  </Template>
+  <Template>
+		<Category>Financial</Category>
+		<Name>Cash Flow to Total Debt Ratio</Name>
+		<Description>Calculates the cash flow-to-total debt ratio and tracks this ratio’s performance against the corporate objective. This indicator measures the ability of the firm to pay its debts. This indicator helps predict a bankruptcy.</Description>
+		<KPIContent>
+			<ValueExpression>&lt;&lt;Net Cash flow from operating activities&gt;&gt; / &lt;&lt;Total liabilities&gt;&gt;</ValueExpression>
+			<GoalExpression>/*This can be a fixed value if you know your Cash Flow to Total Debt Ratio goal.*/</GoalExpression>
+      <StatusExpression>/*Cash Flow to Total Debt Ratio refers to the name of this KPI. If you change the name, change the reference in these functions as well. */
+IIf
+( 
+   KPIValue( "Cash Flow to Total Debt Ratio" ) - KPIGoal( "Cash Flow to Total Debt Ratio" ) &gt;=0, 1, -1
+)
+          </StatusExpression>
+      <TrendExpression>/*The periodicity of this trend comparison is defined by the level at which the ParallelPeriod is evaluated.*/
+IIf
+( 
+  KPIValue( "Cash Flow to Total Debt Ratio" ) &gt;
+  ( KPIValue( "Cash Flow to Total Debt Ratio" ),
+    ParallelPeriod
+	( 
+	   [&lt;&lt;Time Dimension Name&gt;&gt;].[&lt;&lt;Time Hierarchy Name&gt;&gt;].[&lt;&lt;Time Year Level Name&gt;&gt;],
+	   1,
+	   [&lt;&lt;Time Dimension Name&gt;&gt;].[&lt;&lt;Time Hierarchy Name&gt;&gt;].CurrentMember
+	)
+  ), 1, -1
+)
+                          </TrendExpression>
+                          <Description>This key performance indicator (KPI) calculates the cash flow-to-total debt ratio and tracks this ratio’s performance against the corporate objective. The Status and Trend expressions also assume that a higher value is better. If this is not the case, you may need to change the greater than sign (&gt;) to the less than sign (&lt;) in these expressions.</Description>
+		</KPIContent>
+		<Type>KPI</Type>
+	</Template>
+	<Template>
+		<Category>Financial</Category>
+		<Name>Cash Flow Yield</Name>
+		<Description>Calculates the cash flow yield and tracks this ratio’s performance against the corporate objective. This indicator measures the ability of the firm to generate operating cash flows in relation to net income.</Description>
+		<KPIContent>
+			<ValueExpression>&lt;&lt;Net Cash flow from operating activities&gt;&gt; / &lt;&lt;Net Income&gt;&gt;</ValueExpression>
+			<GoalExpression>/*This can be a fixed value if you know your Cash Flow Yield goal.*/</GoalExpression>
+      <StatusExpression>/*Cash Flow Yield refers to the name of this KPI. If you change the name, change the reference in these functions as well. */
+IIf
+(
+   KPIValue( "Cash Flow Yield" ) - KPIGoal( "Cash Flow Yield" ) &gt;=0, 1, -1
+)
+            </StatusExpression>
+      <TrendExpression>/*The periodicity of this trend comparison is defined by the level at which the ParallelPeriod is evaluated.*/
+IIf
+( 
+  KPIValue( "Cash Flow Yield" ) &gt;
+  ( KPIValue( "Cash Flow Yield" ),
+    ParallelPeriod
+	( 
+	   [&lt;&lt;Time Dimension Name&gt;&gt;].[&lt;&lt;Time Hierarchy Name&gt;&gt;].[&lt;&lt;Time Year Level Name&gt;&gt;],
+       1,
+	   [&lt;&lt;Time Dimension Name&gt;&gt;].[&lt;&lt;Time Hierarchy Name&gt;&gt;].CurrentMember
+	)
+  ), 1, -1
+)
+                          </TrendExpression>
+                          <Description>This key performance indicator (KPI) calculates the cash flow yield and tracks this ratio’s performance against the corporate objective. The Status and Trend expressions also assume that a higher value is better. If this is not the case, you may need to change the greater than sign (&gt;) to the less than sign (&lt;) in these expressions.</Description>
+		</KPIContent>
+		<Type>KPI</Type>
+	</Template>
+	<Template>
+		<Category>Financial</Category>
+		<Name>Goodwill</Name>
+		<Description>Calculates the goodwill of the company and tracks this value’s performance against the corporate objective. This KPI represents the value of a company’s name and reputation, its customer relations, and other factors that would produce better-than-typical future earnings.</Description>
+		<KPIContent>
+			<ValueExpression>&lt;&lt;Goodwill&gt;&gt;</ValueExpression>
+			<GoalExpression>/*This can be a fixed value if you know your Goodwill goal.*/</GoalExpression>
+      <StatusExpression>/*Goodwill refers to the name of this KPI. If you change the name, change the reference in these functions as well. */
+IIf
+(
+   KPIValue( "Goodwill" ) - KPIGoal( "Goodwill" ) &gt;=0, 1, -1
+)
+          </StatusExpression>
+      <TrendExpression>/*The periodicity of this trend comparison is defined by the level at which the ParallelPeriod is evaluated.*/
+IIf
+( 
+  KPIValue( "Goodwill" )&gt;
+  ( KPIValue( "Goodwill" ),
+    ParallelPeriod
+	( 
+	   [&lt;&lt;Time Dimension Name&gt;&gt;].[&lt;&lt;Time Hierarchy Name&gt;&gt;].[&lt;&lt;Time Year Level Name&gt;&gt;],
+	   1,
+	   [&lt;&lt;Time Dimension Name&gt;&gt;].[&lt;&lt;Time Hierarchy Name&gt;&gt;].CurrentMember
+	)
+  ), 1, -1
+)
+                              </TrendExpression>
+                              <Description>This key performance indicator (KPI) calculates the goodwill of the company and tracks this value’s performance against the corporate objective. The Status and Trend expressions also assume that a higher value is better. If this is not the case, you may need to change the greater than sign (&gt;) to the less than sign (&lt;) in these expressions.</Description>
+		</KPIContent>
+		<Type>KPI</Type>
+	</Template>
+	<Template>
+		<Category>Financial</Category>
+		<Name>Gross Profit Margin</Name>
+		<Description>Calculates the gross profit margin and tracks this ratio’s performance against the corporate objective. The gross profit margin is calculated by dividing gross profit by net sales.</Description>
+		<KPIContent>
+			<ValueExpression>&lt;&lt;Gross Profit&gt;&gt; / &lt;&lt;Net Sales&gt;&gt;*100</ValueExpression>
+			<GoalExpression>/*This can be a fixed value if you know your Gross Profit Margin goal.*/</GoalExpression>
+			<StatusExpression>/*Gross Profit Margin refers to the name of this KPI. If you change the name, change the reference in these functions as well. */
+IIf
+( 
+   KPIValue( "Gross Profit Margin" ) - KPIGoal( "Gross Profit Margin" )&gt;=0, 1, -1
+)
+      </StatusExpression>
+      <TrendExpression>/*The periodicity of this trend comparison is defined by the level at which the ParallelPeriod is evaluated.*/
+IIf
+( 
+  KPIValue( "Gross Profit Margin" ) &gt;
+  ( KPIValue( "Gross Profit Margin" ),
+    ParallelPeriod
+	( 
+	   [&lt;&lt;Time Dimension Name&gt;&gt;].[&lt;&lt;Time Hierarchy Name&gt;&gt;].[&lt;&lt;Time Year Level Name&gt;&gt;],
+	   1,
+	   [&lt;&lt;Time Dimension Name&gt;&gt;].[&lt;&lt;Time Hierarchy Name&gt;&gt;].CurrentMember
+	)
+  ), 1, -1
+)
+      </TrendExpression>
+      <Description>This key performance indicator (KPI) calculates the gross profit margin and tracks this ratio’s performance against the corporate objective. The Status and Trend expressions also assume that a higher value is better. If this is not the case, you may need to change the greater than sign (&gt;) to the less than sign (&lt;) in these expressions.</Description>
+		</KPIContent>
+		<Type>KPI</Type>
+	</Template>
+	<Template>
+		<Category>Financial</Category>
+		<Name>Net Profit Margin</Name>
+		<Description>Calculates the net profit margin and tracks this ratio’s performance against the corporate objective. Also known as operating margin, the net profit margin is calculated by dividing net income by net sales. The value, expressed as a percentage, represents how much of every dollar in revenue results in net income.</Description>
+		<KPIContent>
+			<ValueExpression>&lt;&lt;Net Income&gt;&gt; / &lt;&lt;Net Sales&gt;&gt;*100</ValueExpression>
+			<GoalExpression>/*This can be a fixed value if you know your Net Profit Margin goal.*/</GoalExpression>
+			<StatusExpression>/*Net Profit Margin refers to the name of this KPI. If you change the name, change the reference in these functions as well. */
+IIf
+( 
+   KPIValue( "Net Profit Margin" ) - KPIGoal( "Net Profit Margin" ) &gt;=0, 1, -1
+)
+      </StatusExpression>
+      <TrendExpression>/*The periodicity of this trend comparison is defined by the level at which the ParallelPeriod is evaluated.*/
+IIf
+( 
+  KPIValue( "Net Profit Margin" ) &gt;
+  ( KPIValue( "Net Profit Margin" ),
+    ParallelPeriod
+	( 
+	   [&lt;&lt;Time Dimension Name&gt;&gt;].[&lt;&lt;Time Hierarchy Name&gt;&gt;].[&lt;&lt;Time Year Level Name&gt;&gt;],
+	   1,
+	   [&lt;&lt;Time Dimension Name&gt;&gt;].[&lt;&lt;Time Hierarchy Name&gt;&gt;].CurrentMember
+	)
+  ), 1, -1
+)
+      </TrendExpression>
+      <Description>This key performance indicator (KPI) calculates the net profit margin and tracks this ratio’s performance against the corporate objective. The Status and Trend expressions also assume that a higher value is better. If this is not the case, you may need to change the greater than sign (&gt;) to the less than sign (&lt;) in these expressions.</Description>
+		</KPIContent>
+		<Type>KPI</Type>
+	</Template>
+	<Template>
+		<Category>Financial</Category>
+		<Name>Operating Margin</Name>
+		<Description>Calculates the operating margin and tracks this ratio’s performance against the corporate objective. The operating margin is calculated by dividing operating income by sales.</Description>
+		<KPIContent>
+			<ValueExpression>&lt;&lt;Operating Income&gt;&gt; / &lt;&lt;Sales&gt;&gt;*100</ValueExpression>
+			<GoalExpression>/*This can be a fixed value if you know your Operating Margin goal.*/</GoalExpression>
+			<StatusExpression>/*Operating Margin refers to the name of this KPI. If you change the name, change the reference in these functions as well. */
+IIf
+( 
+   KPIValue( "Operating Margin" ) - KPIGoal( "Operating Margin" ) &gt;=0, 1, -1
+)
+      </StatusExpression>
+      <TrendExpression>/*The periodicity of this trend comparison is defined by the level at which the ParallelPeriod is evaluated.*/
+Iif
+(
+  KPIValue( "Operating Margin" ) &gt;
+  ( KPIValue( "Operating Margin" ),
+    ParallelPeriod
+	( 
+	   [&lt;&lt;Time Dimension Name&gt;&gt;].[&lt;&lt;Time Hierarchy Name&gt;&gt;].[&lt;&lt;Time Year Level Name&gt;&gt;],
+	   1,
+	   [&lt;&lt;Time Dimension Name&gt;&gt;].[&lt;&lt;Time Hierarchy Name&gt;&gt;].CurrentMember
+	)
+  ), 1, -1
+)
+      </TrendExpression>
+      <Description>This key performance indicator (KPI) calculates the operating margin and tracks this ratio’s performance against the corporate objective. The Status and Trend expressions also assume that a higher value is better. If this is not the case, you may need to change the greater than sign (&gt;) to the less than sign (&lt;) in these expressions.</Description>
+		</KPIContent>
+		<Type>KPI</Type>
+	</Template>
+	<Template>
+		<Category>Financial</Category>
+		<Name>Pre-Tax Margin</Name>
+		<Description>Calculates the pre-tax margin and tracks this ratio’s performance against the corporate objective. The pre-tax margin is calculated by dividing income before tax by sales.</Description>
+		<KPIContent>
+			<ValueExpression>&lt;&lt;Income Before Tax&gt;&gt; / &lt;&lt;Sales&gt;&gt;*100</ValueExpression>
+			<GoalExpression>/*This can be a fixed value if you know your Pre-Tax Margin goal.*/</GoalExpression>
+			<StatusExpression>/*Pre-Tax Margin refers to the name of this KPI. If you change the name, change the reference in these functions as well. */
+Iif
+(
+   KPIValue( "Pre-Tax Margin" ) - KPIGoal( "Pre-Tax Margin" ) &gt;=0, 1, -1
+)
+      </StatusExpression>
+      <TrendExpression>/*The periodicity of this trend comparison is defined by the level at which the ParallelPeriod is evaluated.*/
+Iif
+(
+  KPIValue( "Pre-Tax Margin" ) &gt;
+  ( KPIValue( "Pre-Tax Margin" ),
+    ParallelPeriod
+	( 
+	   [&lt;&lt;Time Dimension Name&gt;&gt;].[&lt;&lt;Time Hierarchy Name&gt;&gt;].[&lt;&lt;Time Year Level Name&gt;&gt;],
+	   1,
+	   [&lt;&lt;Time Dimension Name&gt;&gt;].[&lt;&lt;Time Hierarchy Name&gt;&gt;].CurrentMember
+	)
+  ), 1, -1
+)
+      </TrendExpression>
+      <Description>This key performance indicator (KPI) calculates the pre-tax margin and tracks this ratio’s performance against the corporate objective. The Status and Trend expressions also assume that a higher value is better. If this is not the case, you may need to change the greater than sign (&gt;) to the less than sign (&lt;) in these expressions.</Description>
+		</KPIContent>
+		<Type>KPI</Type>
+	</Template>
+	<Template>
+		<Category>Financial</Category>
+		<Name>Return On Assets</Name>
+		<Description>Calculates the return on assets and tracks this ratio’s performance against the corporate objective. The return on assets is calculated by dividing net income by total assets.</Description>
+		<KPIContent>
+			<ValueExpression>&lt;&lt;Net Income&gt;&gt; / &lt;&lt;Total Assets&gt;&gt;</ValueExpression>
+			<GoalExpression>/*This can be a fixed value if you know your Return On Assets goal.*/</GoalExpression>
+			<StatusExpression>/*Return On Assets refers to the name of this KPI. If you change the name, change the reference in these functions as well. */
+IIf
+( 
+   KPIValue( "Return On Assets" ) - KPIGoal( "Return On Assets" ) &gt;=0, 1, -1
+)
+      </StatusExpression>
+      <TrendExpression>/*The periodicity of this trend comparison is defined by the level at which the ParallelPeriod is evaluated.*/
+IIf
+( 
+  KPIValue( "Return On Assets" ) &gt;
+  ( KPIValue( "Return On Assets" ),
+    ParallelPeriod
+	(  
+	   [&lt;&lt;Time Dimension Name&gt;&gt;].[&lt;&lt;Time Hierarchy Name&gt;&gt;].[&lt;&lt;Time Year Level Name&gt;&gt;],
+	   1,
+	   [&lt;&lt;Time Dimension Name&gt;&gt;].[&lt;&lt;Time Hierarchy Name&gt;&gt;].CurrentMember
+	)
+  ), 1, -1
+)
+      </TrendExpression>
+      <Description>This key performance indicator (KPI) calculates the return on assets and tracks this ratio’s performance against the corporate objective. The Status and Trend expressions also assume that a higher value is better. If this is not the case, you may need to change the greater than sign (&gt;) to the less than sign (&lt;) in these expressions.</Description>
+		</KPIContent>
+		<Type>KPI</Type>
+	</Template>
+	<Template>
+		<Category>Financial</Category>
+		<Name>Return On Equity</Name>
+		<Description>Calculates the return on equity and tracks this ratio’s performance against the corporate objective. The return on equity is calculated by dividing net income by stockholders equity.</Description>
+    <KPIContent>
+      <ValueExpression>&lt;&lt;Net Income&gt;&gt; / &lt;&lt;Stockholders’ equity&gt;&gt;</ValueExpression>
+      <GoalExpression>/*This can be a fixed value if you know your Return On Equity goal.*/</GoalExpression>
+      <StatusExpression>/*Return On Equity refers to the name of this KPI. If you change the name, change the reference in these functions as well. */
+IIf
+(
+   KPIValue( "Return On Equity" ) - KPIGoal( "Return On Equity" ) &gt;=0, 1, -1
+)
+      </StatusExpression>
+      <TrendExpression>/*The periodicity of this trend comparison is defined by the level at which the ParallelPeriod is evaluated.*/
+IIf
+( 
+  KPIValue( "Return On Equity" ) &gt;
+  ( KPIValue( "Return On Equity" ),
+    ParallelPeriod
+	( 
+	   [&lt;&lt;Time Dimension Name&gt;&gt;].[&lt;&lt;Time Hierarchy Name&gt;&gt;].[&lt;&lt;Time Year Level Name&gt;&gt;],
+	   1,
+	   [&lt;&lt;Time Dimension Name&gt;&gt;].[&lt;&lt;Time Hierarchy Name&gt;&gt;].CurrentMember
+	)
+  ), 1, -1
+)
+      </TrendExpression>
+      <Description>This key performance indicator (KPI) calculates the return on equity and tracks this ratio’s performance against the corporate objective. The Status and Trend expressions also assume that a higher value is better. If this is not the case, you may need to change the greater than sign (&gt;) to the less than sign (&lt;) in these expressions.</Description>
+		</KPIContent>
+		<Type>KPI</Type>
+	</Template>
+	<Template>
+		<Category>Financial</Category>
+		<Name>Residual Income</Name>
+		<Description>Calculates the amount of money left over after the company has paid all of its ordinary and necessary debts.</Description>
+    <KPIContent>
+      <ValueExpression>&lt;&lt;Project Profit&gt;&gt; - (&lt;&lt;Amount of Assets investments required&gt;&gt; * &lt;&lt;ROA Rate&gt;&gt;)</ValueExpression>
+      <GoalExpression>/*This can be a fixed value if you know your Residual Income goal.*/</GoalExpression>
+      <StatusExpression>/*Residual Income refers to the name of this KPI. If you change the name, change the reference in these functions as well. */
+IIf
+(
+   KPIValue( "Residual Income" ) - KPIGoal( "Residual Income" ) &gt;=0, 1, -1
+)
+      </StatusExpression>
+      <TrendExpression>/*The periodicity of this trend comparison is defined by the level at which the ParallelPeriod is evaluated.*/
+IIf
+( 
+  KPIValue( "Residual Income" ) &gt;
+  ( KPIValue( "Residual Income" ),
+    ParallelPeriod
+	( 
+	   [&lt;&lt;Time Dimension Name&gt;&gt;].[&lt;&lt;Time Hierarchy Name&gt;&gt;].[&lt;&lt;Time Year Level Name&gt;&gt;],
+	   1,
+	   [&lt;&lt;Time Dimension Name&gt;&gt;].[&lt;&lt;Time Hierarchy Name&gt;&gt;].CurrentMember
+	)
+  ), 1, -1
+)
+      </TrendExpression>
+      <Description>This key performance indicator (KPI) calculates the amount of money left over after the company has paid all of its ordinary and necessary debts. The Status and Trend expressions assume that a higher value is better. If this is not the case, you may need to change the greater than sign (&gt;) to the less than sign (&lt;) in these expressions.</Description>
+		</KPIContent>
+		<Type>KPI</Type>
+	</Template>
+	<Template>
+		<Category>Financial</Category>
+		<Name>Revenue Per Employee</Name>
+		<Description>Calculates the revenue per employee and tracks this ratio’s performance against the corporate objective.</Description>
+    <KPIContent>
+      <ValueExpression>&lt;&lt;Net Sales&gt;&gt; / &lt;&lt;Total Employee Count&gt;&gt;</ValueExpression>
+      <GoalExpression>/*This can be a fixed value if you know your Revenue Per Employee goal.*/</GoalExpression>
+      <StatusExpression>/*Revenue Per Employee refers to the name of this KPI. If you change the name, change the reference in these functions as well. */
+IIf
+( 
+   KPIValue( "Revenue Per Employee" ) - KPIGoal( "Revenue Per Employee" ) &gt;=0, 1, -1
+)
+      </StatusExpression>
+      <TrendExpression>/*The periodicity of this trend comparison is defined by the level at which the ParallelPeriod is evaluated.*/
+IIf
+( 
+  KPIValue( "Revenue Per Employee" ) &gt;
+  ( KPIValue( "Revenue Per Employee" ),
+    ParallelPeriod
+	( 
+	   [&lt;&lt;Time Dimension Name&gt;&gt;].[&lt;&lt;Time Hierarchy Name&gt;&gt;].[&lt;&lt;Time Year Level Name&gt;&gt;],
+	   1,
+	   [&lt;&lt;Time Dimension Name&gt;&gt;].[&lt;&lt;Time Hierarchy Name&gt;&gt;].CurrentMember
+	)
+  ), 1, -1
+)
+          </TrendExpression>
+          <Description>This key performance indicator (KPI) calculates the revenue per employee and tracks this ratio’s performance against the corporate objective. The Status and Trend expressions also assume that a higher value is better. If this is not the case, you may need to change the greater than sign (&gt;) to the less than sign (&lt;) in these expressions.</Description>
+		</KPIContent>
+		<Type>KPI</Type>
+	</Template>
+	<Template>
+		<Category>Financial</Category>
+		<Name>Income Per Employee</Name>
+		<Description>Calculates the income per employee and tracks this ratio’s performance against the corporate objective.</Description>
+    <KPIContent>
+      <ValueExpression>&lt;&lt;Net Income&gt;&gt; / &lt;&lt;Total Employee Count&gt;&gt;</ValueExpression>
+      <GoalExpression>/*This can be a fixed value if you know your Income Per Employee goal.*/</GoalExpression>
+      <StatusExpression>/*Income Per Employee refers to the name of this KPI. If you change the name, change the reference in these functions as well. */
+IIf
+( 
+   KPIValue( "Income Per Employee" ) - KPIGoal( "Income Per Employee" ) &gt;=0, 1, -1
+)
+      </StatusExpression>
+      <TrendExpression>/*The periodicity of this trend comparison is defined by the level at which the ParallelPeriod is evaluated.*/
+IIf
+( 
+  KPIValue( "Income Per Employee" ) &gt;
+  ( KPIValue( "Income Per Employee" ),
+    ParallelPeriod
+	( 
+	   [&lt;&lt;Time Dimension Name&gt;&gt;].[&lt;&lt;Time Hierarchy Name&gt;&gt;].[&lt;&lt;Time Year Level Name&gt;&gt;],
+	   1,
+	   [&lt;&lt;Time Dimension Name&gt;&gt;].[&lt;&lt;Time Hierarchy Name&gt;&gt;].CurrentMember
+	)
+  ), 1, -1
+)
+            </TrendExpression>
+            <Description>This key performance indicator (KPI) calculates the income per employee and tracks this ratio’s performance against the corporate objective. The Status and Trend expressions also assume that a higher value is better. If this is not the case, you may need to change the greater than sign (&gt;) to the less than sign (&lt;) in these expressions.</Description>
+		</KPIContent>
+		<Type>KPI</Type>
+	</Template>
+</MDXTemplates>

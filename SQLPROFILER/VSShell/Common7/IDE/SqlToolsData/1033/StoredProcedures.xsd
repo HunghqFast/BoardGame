@@ -1,0 +1,29 @@
+<?xml version="1.0" ?>
+<xs:schema id="StoredProcedures" targetNamespace="http://tempuri.org/StoredProcedures.xsd" xmlns:mstns="http://tempuri.org/StoredProcedures.xsd" xmlns="http://tempuri.org/StoredProcedures.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" attributeFormDefault="qualified" elementFormDefault="qualified">
+	<xs:element name="StoredProcedures" msdata:IsDataSet="true" msdata:EnforceConstraints="False">
+		<xs:complexType>
+			<xs:choice maxOccurs="unbounded">
+				<xs:element name="StoredProcedure">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Name" type="xs:string" minOccurs="1" maxOccurs="1" />
+							<xs:element name="Description" type="xs:string" minOccurs="0" maxOccurs="1" />
+							<xs:element name="Obsolete" type="xs:string" minOccurs="0" maxOccurs="1" />
+							<xs:element name="VersionLow" type="xs:integer" minOccurs="0" maxOccurs="1" />
+							<xs:element name="VersionHigh" type="xs:integer" minOccurs="0" maxOccurs="1" />
+							<xs:element name="MethodParameter" minOccurs="0" maxOccurs="unbounded">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="Name" type="xs:string" minOccurs="1" maxOccurs="1" />
+										<xs:element name="Text" type="xs:string" minOccurs="1" maxOccurs="1" />
+										<xs:element name="Description" type="xs:string" minOccurs="0" maxOccurs="1" />
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:choice>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>
