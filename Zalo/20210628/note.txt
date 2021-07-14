@@ -19,6 +19,7 @@ a.
 b. https://stackoverflow.com/questions/46362040/call-a-nested-function-in-python
 c. https://www.programiz.com/python-programming/closure
 d. https://stackoverflow.com/questions/36263131/how-to-call-multi-level-nested-function-in-python/36263253
+Cau nay check lai thu
 
 7. In Git, a new branch can be created from ?
 https://www.git-tower.com/learn/git/faq/create-branch/
