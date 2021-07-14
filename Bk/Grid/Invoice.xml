@@ -1,0 +1,625 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE grid [
+  <!ENTITY DefaultCurrency "r_ma_nt0">
+  <!ENTITY DefaultHandle "m_status_df">
+  <!ENTITY DefaultUserFilterType "m_loc_nsd">
+
+  <!ENTITY CommandWhenVoucherBeforeInit SYSTEM "..\Include\Command\WhenVoucherBeforeInit.txt">
+  <!ENTITY CommandWhenVoucherAfterInit SYSTEM "..\Include\Command\WhenVoucherAfterInit.txt">
+
+  <!ENTITY FastBusiness.Encryption.Begin "">
+  <!ENTITY Key "stt_rec = @stt_rec and client_code = @@unit">
+  <!ENTITY Join "'a left join dmtthddt e2 on a.tinh_trang_hddt = e2.status left join dmttct u0 on a.ma_ct = u0.ma_ct and a.status = u0.status left join vsysuser u1 on a.user_id0 = u1.u_id left join vsysuser u2 on a.user_id2 = u2.u_id left join vsysuser u3 on a.nguoi_ph = u3.u_id left join dmmagd m1 on m1.ma_ct = ''E01'' and a.loai_ct = m1.loai_ct and a.ma_gd = m1.ma_gd'">
+  <!ENTITY Declare "declare @error_code char(1), @q nvarchar(4000), @p char(6), @ngay_ct smalldatetime, @so_ct varchar(32), @mau_so varchar(32), @ky_hieu varchar(32), @key_hd_goc varchar(512)
+select @p = convert(char(6), ngay_ct, 112) from c01$000000 where &Key;
+">
+  <!ENTITY BeginSelect "select @error_code = '', @q = 'if exists(select * from m01$' + @p + ' where stt_rec = @stt_rec and client_code = @u and tinh_trang_hddt ">
+  <!ENTITY EndSelect ") set @r = ''1'''">
+  <!ENTITY Statement "
+exec sp_executesql @q, N'@u varchar(32), @stt_rec varchar(32), @r char(1) out', @@unit, @stt_rec, @error_code out
+
+if @error_code = '' begin
+  set @q = 'select @a = ngay_ct, @b = so_ct, @c = mau_so, @d = ky_hieu, @e = keys from m01$' + @p + ' where stt_rec = @stt_rec and client_code = @u'
+  exec sp_executesql @q, N'@u varchar(32), @stt_rec varchar(32), @a smalldatetime out, @b varchar(32) out, @c varchar(32) out, @d varchar(32) out, @e varchar(512) out', @@unit, @stt_rec, @ngay_ct out, @so_ct out, @mau_so out, @ky_hieu out, @key_hd_goc out
+  select @error_code as error_code, @stt_rec as stt_rec, @ngay_ct as ngay_ct, @so_ct as so_ct, @mau_so as mau_so, @ky_hieu as ky_hieu, @key_hd_goc as key_hd_goc
+end else
+  select @error_code as error_code
+return">
+  <!ENTITY FastBusiness.Encryption.End "">
+
+  <!ENTITY BaseTable "01">
+  <!ENTITY VoucherCode "E01">
+  <!ENTITY Customer "ma_kh">
+  <!ENTITY Method "310">
+  <!ENTITY MethodViewFile "m = ((type == '1' || ('59'.indexOf(transCode) != -1)) ? '310' : (type == '2' ? '320' : '350'));">
+  <!ENTITY Controller "Invoice">
+  <!ENTITY CommandPrintVoucher SYSTEM "..\Include\Command\PrintVoucher.txt">
+  <!ENTITY ScriptPrintVoucher SYSTEM "..\Include\Javascript\PrintVoucher.txt">
+
+  <!ENTITY % Control.Filter SYSTEM "..\Include\Filter.ent">
+  %Control.Filter;
+
+  <!ENTITY Table "#Table">
+  <!ENTITY BeginExecuteReader "/*&lt;execute database='@system'&gt;">
+  <!ENTITY EndExecuteReader "&lt;/execute&gt;*/">
+  <!ENTITY CarryOff "&lt;carry mode='@off'/&gt;">
+
+  <!ENTITY DowloadScript SYSTEM "..\Include\Javascript\DownloadScript.txt">
+  <!ENTITY TransferID "Invoice">
+
+  <!ENTITY FastBusiness.Encryption.Begin "">
+  <!ENTITY CreateTicket "declare @ticket varchar(32), @filename varchar(128), @description nvarchar(128), @authorize int
+&BeginExecuteReader;&CarryOff;
+declare @ticket varchar(32), @connectionID varchar(32), @authorize int, @advance tinyint;
+select @ticket = lower(replace(newid(),'-',''))
+select @advance = advance from userinfo2 where id = @@userID;
+select @connectionID = isnull(connection_id, '') from dmdn where client_code = @@unit;
+if @connectionID &lt;&gt; '' insert into import select @ticket, connection, getdate() from sysconnections where id = @connectionID
+select @ticket as ticket, case when @@admin = 1 then 1 else @@sysDatabaseName.dbo.FastBusiness$System$GetAuthorize(@advance, @@userID, 'Invoice', 'New') end as authorize
+&EndExecuteReader;
+select @ticket = ticket, @authorize = authorize from &Table;
+if @@language = 'v' select @filename = 'Invoice.xlsx', @description = N'Hóa đơn bán hàng'
+else select @filename = 'Invoice2.xlsx', @description = N'Sales Invoice'
+insert into ticket values(@ticket, @@userID, '&TransferID;', @filename, @description, '@@appDatabaseName', getdate());">
+  <!ENTITY FastBusiness.Encryption.End "">
+
+  <!ENTITY UserDefinedQueryDownLoad "controller=Invoice&amp;form=' + g._formImport + '">
+  <!ENTITY % UserDefinedField SYSTEM "..\Include\SetUserDefinedField.ent">
+  %UserDefinedField;
+
+  <!ENTITY % Notice SYSTEM "..\Include\Notice.ent">
+  %Notice;
+  %Notice.Export.Include;
+]>
+
+<grid table="m01$000000" code="stt_rec" order="ngay_ct, so_ct" type="Voucher" id="E01" uniKey="true" database="Ext" xmlns="urn:schemas-fast-com:data-grid">
+  <title v="Hóa đơn bán hàng" e="Sales Invoice"></title>
+  <subTitle v="Cập nhật hóa đơn: thêm, sửa, xóa..." e="Add, Edit, Delete Invoice..."></subTitle>
+  <partition table="c01$000000" prime="m01$" inquiry="i01$" field="ngay_ct" expression="convert(char(6), {0}, 112)" increase="dateadd(month, 1, {0})" default="000000"/>
+
+  <fields>
+    <field name="stt_rec" isPrimaryKey="true" width="0" hidden="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="ma_dvcs" width="100" allowFilter="&GridVoucherAllowFilter;">
+      <header v="Đơn vị" e="Unit"></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+    <field name="ngay_ct" type="DateTime" dataFormatString="@datetimeFormat" width="100" allowFilter="&GridVoucherAllowFilter;">
+      <header v="Ngày hóa đơn" e="Invoice Date"></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+    <field name="so_ct" width="100" align="right" allowFilter="&GridVoucherAllowFilter;">
+      <header v="Số hóa đơn" e="Invoice Number"></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+    <field name="ky_hieu" width="80" align="right" allowFilter="&GridVoucherAllowFilter;">
+      <header v="Ký hiệu" e="Serial Number"></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+
+    <field name="ten_kh" width="300" allowFilter="&GridVoucherAllowFilter;">
+      <header v="Tên khách" e="Customer Name"></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+    <field name="nguoi_mua" width="300" allowFilter="&GridVoucherAllowFilter;">
+      <header v="Người mua" e="Buyer"></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+
+    <field name="t_thanh_toan_nt" type="Decimal" dataFormatString="@foreignCurrencyAmountViewFormat" width="120" clientDefault="0.00" aliasName="a" allowFilter="&GridVoucherAllowFilter;" aggregate="Sum">
+      <header v="Thanh toán" e="Payment"></header>
+      <items style="Numeric"/>
+      <query>&InsertCommandFilter;</query>
+    </field>
+    <field name="ma_nt" width="100" allowFilter="&GridVoucherAllowFilter;">
+      <header v="Mã nt" e="Currency Code"></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+
+    <field name="ma_ct" aliasName="a">
+      <header v="" e=""/>
+    </field>
+    <field name="status" hidden="true" width="0" aliasName="a">
+      <header v="" e=""/>
+    </field>
+    <field name="u0" external="true" defaultValue="rtrim(u0.statusname%l)" width="120" aliasName="u0" allowFilter="&GridVoucherAllowFilter;">
+      <header v="Trạng thái" e="Voucher Status"/>
+      <query>&InsertCommandFilter;</query>
+    </field>
+
+    <field name="tinh_trang_hddt" hidden="true" width="0" aliasName="a">
+      <header v="" e=""/>
+    </field>
+    <field name="e2" external="true" defaultValue="rtrim(e2.statusname%l)" width="120" aliasName="e2" allowFilter="&GridVoucherAllowFilter;">
+      <header v="Tình trạng" e="Authentication Status"/>
+      <query>&InsertCommandFilter;</query>
+    </field>
+    <field name="nguoi_ph" type="Int32" aliasName="a">
+      <header v="" e=""/>
+    </field>
+    <field name="u3" external="true" defaultValue="rtrim(u3.u_name)" width="200" aliasName="u3.u_name" allowFilter="&GridVoucherAllowFilter;">
+      <header v="Người phát hành" e="Released By"/>
+      <query>&InsertCommandFilter;</query>
+    </field>
+
+    <field name="loai_ct" aliasName="a">
+      <header v="" e=""/>
+    </field>
+    <field name="ma_gd" hidden="true" width="0" aliasName="a">
+      <header v="" e=""/>
+    </field>
+    <field name="m1" external="true" defaultValue="rtrim(m1.ten_gd%l)" width="120" aliasName="m1" allowFilter="&GridVoucherAllowFilter;">
+      <header v="Loại hóa đơn" e="Invoice Type"/>
+      <query>&InsertCommandFilter;</query>
+    </field>
+
+    <field name="so_nb" width="100" align="right" allowFilter="&GridVoucherAllowFilter;">
+      <header v="Tham chiếu" e="Reference"></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+
+    <field name="datetime0" type="DateTime" dataFormatString="dd/MM/yyyy HH:mm" width="120" aliasName="a" allowFilter="&GridVoucherAllowFilter;">
+      <header v="Ngày tạo" e="Created Date"></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+    <field name="datetime2" type="DateTime" dataFormatString="dd/MM/yyyy HH:mm" width="120" aliasName="a" allowFilter="&GridVoucherAllowFilter;">
+      <header v="Ngày sửa" e="Modified Date"></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+
+    <field name="user_id0" type="Int32" aliasName="a">
+      <header v="" e=""/>
+    </field>
+    <field name="u1" external="true" defaultValue="rtrim(u1.u_name)" width="200" aliasName="u1" allowFilter="&GridVoucherAllowFilter;">
+      <header v="Người tạo" e="Created By"/>
+      <query>&InsertCommandFilter;</query>
+    </field>
+
+    <field name="user_id2" type="Int32" aliasName="a">
+      <header v="" e=""/>
+    </field>
+    <field name="u2" external="true" defaultValue="rtrim(u2.u_name)" width="200" aliasName="u2" allowFilter="&GridVoucherAllowFilter;">
+      <header v="Người sửa" e="Modified By"/>
+      <query>&InsertCommandFilter;</query>
+    </field>
+
+    <field name="mau_so" width="0" hidden="true">
+      <header v="" e=""></header>
+    </field>
+  </fields>
+
+  <views>
+    <view id="Grid">
+      <field name="stt_rec"/>
+      <field name="ma_dvcs"/>
+      <field name="ngay_ct"/>
+      <field name="so_ct"/>
+      <field name="ky_hieu"/>
+
+
+      <field name="ten_kh"/>
+      <field name="nguoi_mua"/>
+
+      <field name="t_thanh_toan_nt"/>
+      <field name="ma_nt"/>
+
+      <field name="tinh_trang_hddt"/>
+      <field name="ma_gd"/>
+      <field name="status"/>
+
+      <field name="so_nb"/>
+
+      <field name="u0"/>
+      <field name="e2"/>
+      <field name="u3"/>
+      <field name="m1"/>
+      <field name="datetime0"/>
+      <field name="datetime2"/>
+      <field name="u1"/>
+      <field name="u2"/>
+
+      <field name="mau_so"/>
+    </view>
+  </views>
+
+  <commands>
+    <command event="Showing">
+      <text>
+        <![CDATA[
+declare @$importType char(1), @formTax varchar(32), @switch char(1), @switch$Period char(1), @switch$Date smalldatetime
+exec FastBusiness$System$GetOptions @@unit, 'loai_tep_hd', @$importType output
+select @formTax = case when @$importType = '1' then '901' else '902' end
+]]>
+        &BeginExecuteReader;&CarryOff;
+        <![CDATA[
+if exists(select 1 from dmdntt where client_code = @@unit and status = '1') begin
+  declare @s$Period char(1)
+  if exists(select 1 from dmdntt where client_code = @@unit and tieu_chuan = '2' and status = '1') select @s$Period = '1'
+  select status as switch, ngay_hl as switch_date, isnull(@s$Period, '0') as switch_period from dmdntt where client_code = @@unit
+end else select '' as switch, null as switch_date, '0' as switch_period
+]]>
+        &EndExecuteReader;
+        <![CDATA[
+select @switch = switch, @switch$Date = switch_date, @switch$Period = switch_period from ]]>&Table;<![CDATA[
+select 'show$Grid$InitFreeField(this, ''901,902'');this._formImport = ' + @formTax + ';show$Grid$Switch$Button(this, ''Command'', ''45'', ''' + @switch$Period + ''');this._$switch = ''' + @switch + ''';this._$switch$Date = ''' + case when @switch$Date is not null then convert(varchar(8), @switch$Date, 112) else '' end + ''';' as message 
+return
+]]>
+      </text>
+    </command>
+
+    <command event="Loading">
+      <text>
+        &CreateTicket;
+        &CommandWhenVoucherBeforeInit;
+        <![CDATA[select @message = @message + 'this._authorize = ''' + rtrim(@authorize) + ''';this._key = ''' + @ticket + ''';load$Grid(this);']]>
+        &CommandWhenVoucherAfterInit;
+      </text>
+    </command>
+
+    <command event="Closing">
+      <text>
+        <![CDATA[
+select 'dispose$Grid(this);' as message
+return
+]]>
+      </text>
+    </command>
+  </commands>
+
+  <script>
+    <text>
+      <![CDATA[/* <flatten type="Javascript"> */
+function load$Grid(g) {
+  g.add_onResponseComplete(on$GridInvoice$ResponseComplete);
+  g.add_commandEvent(on$GridInvoice$ExecuteCommand);
+}
+function dispose$Grid(g) {
+  try {g.remove_commandEvent(on$GridInvoice$ExecuteCommand);} catch (ex) {}
+  try {g.remove_onResponseComplete(on$GridInvoice$ResponseComplete);} catch (ex) {}
+}
+/* </flatten> */]]><![CDATA[
+function on$GridInvoice$ExecuteCommand(sender, e) {
+  var action = e.type.Action, g = sender;
+  switch (action) {
+    case 'Command':
+      var v = e.type.Value;
+      if (g._activeRow <= 0 && ('40.45.51'.indexOf(v) == -1)) return;
+      switch (v) {
+        case '10':
+        case '20':
+        case '30':
+        case '50':
+          on$GridInvoice$request(g, v);
+          break;
+        case '40':
+        case '45':
+          g._commandAction = (v == '40' ? 'Other' : 'Period');
+          g.executeCommand({commandName: 'New', commandArgument: '0'});
+          break;
+        case '51':
+          g._commandAction = 'OtherReplacement';
+          g.executeCommand({commandName: 'New', commandArgument: '0'});
+          break;
+        default:
+          break;
+      }
+      break;
+    case 'Print':
+      if (g._activeRow <= 0) return;
+      var v = e.type.Value.split(',')[1], t = g._getItemValue(g._activeRow, g._getColumnOrder('ma_gd'));
+      switch (v) {
+        case '010':
+          e.type.cancelEvent = true;
+          g.request(g, 'PrintVoucher', 'PrintVoucher', [['stt_rec', 'String', g._getItemValue(g._activeRow, g._getColumnOrder('stt_rec'))]]);
+          break;
+        case '020':
+        case '025':
+          if ((t == '1') || (t == '6') || (t == '7')) e.type.cancelEvent = true;
+          break;
+        case '030':
+          if (t != '6' && t != '7') e.type.cancelEvent = true;
+          break;
+        default:
+          break;
+      }
+      break;
+    case 'ImportData':
+      ]]>&NoticeExecuteCommand;<![CDATA[
+      break;
+    case 'Download':
+      ]]>&UserDefinedDownload;<![CDATA[
+      break;
+    default:
+      break;
+  }
+}
+]]><![CDATA[/* <flatten type="Javascript"> */
+function on$GridInvoice$request(g, type) {
+  var c1 = (type == '50' ? 'Replace' : 'Adjustment'), c2 = (
+    type == '10' ? 'Increase' : (
+      type == '20' ? 'Decrease' : (
+        type == '30' ? 'Adjustment' : 'Replace'
+      )
+    )
+  );
+  g.request(g, c1, c2, [['stt_rec', 'String', g._getItemValue(g._activeRow, g._getColumnOrder('stt_rec'))], ['type', 'String', type], ['mau_so_ct', 'String', g._getItemValue(g._activeRow, g._getColumnOrder('mau_so'))]]);
+}
+/* </flatten> */
+function on$GridInvoice$ResponseComplete(sender, e) {
+  var g = e.object, context = e.type.Context, result = e.type.Result, o = e.type.Object;
+  switch (context) {
+    case 'Increase':
+    case 'Decrease':
+    case 'Adjustment':
+    case 'Replace':
+      if (invalidCommand(g, result[0].Value)) return;
+      g._commandAction = context;
+      g._commandResult = [result[1].Value, result[2].Value, result[3].Value, result[4].Value, result[5].Value, result[6].Value];
+      g.executeCommand({commandName: 'Clone', commandArgument: '0'});
+      break;
+    case 'PrintVoucher':
+      grid$PrintVoucher$Type(g, result);
+      break;
+    case 'Notice':
+      var c = (g._formImport == '901' ? 'InvoiceImport' : 'InvoiceTaxImport');
+      ]]>&NoticeResponseComplete;<![CDATA[
+      break;
+    case 'NoticeUpdate':
+      ]]>&NoticeResponseCompleteUpdate;<![CDATA[
+      break;
+    default:
+      break;
+  }
+}
+/* <flatten type="Javascript"> */
+function invalidCommand(g, v) {
+  var r = false, l = g._language == 'v';
+  switch (v) {
+    case '1':
+      r = true;
+      m = l ? 'Trạng thái hóa đơn điện tử không hợp lệ.' : 'Status is invalid.';
+      break;
+    case '2':
+      r = true;
+      m = l ? 'Hóa đơn điều chỉnh không hợp lệ.' : 'Adjustment invoice is invalid.';
+      break;
+    default:
+      break;
+  }
+  if (r) $message.show(m, String.format('$find(\'{0}\')._focusWhenTabChanged();', g.get_id());
+  return r;
+}
+
+function grid$CommandExcute$FormLoading(g, f) {
+  var v = g._commandAction;
+  switch (v) {
+    case 'Increase':
+    case 'Decrease':
+    case 'Adjustment':
+    case 'Replace':
+      grid$WhenFormLoading(f, g, v);
+      break;
+    case 'Other':
+      f.setItemValues('loai_ct, ma_gd, loai_sl', [2, '5', 2]);
+      f._$resetTransaction = 0;
+      break;
+    case 'Period':
+      f.setItemValues('loai_ct, ma_gd, reference, loai_sl', [2, '9', '9', 2]);
+      f._$resetTransaction = 0;
+      break;
+    case 'OtherReplacement':
+      f.setItemValues('loai_ct, ma_gd, loai_sl', [3, 7, 1]);
+      f._$resetTransaction = 0;
+      break;
+    default:
+      break;
+  }
+  g._commandAction = null;
+  g._commandResult = null;
+}
+function grid$WhenFormLoading(f, g, action) {
+  var c1 = (action == 'Replace' ? 'loai_ct, ma_gd' : 'loai_ct, ma_gd, loai_sl'), c2 = (
+    action == 'Replace' ? ['3', '6'] : (
+      action == 'Increase' ? ['2', '2', 1] : (
+        action == 'Decrease' ? ['2', '3', 2] : ['2', '4', 1]
+      )
+    )
+  );
+  f.setItemValues('stt_rec_hd_goc, ngay_hd_goc, so_hd_goc, mau_hd_goc, ky_hieu_hd_goc, key_hd_goc', g._commandResult);
+  f.setItemValues(c1, c2);
+  f._$resetTransaction = 0;
+}
+function show$Form(g, c) {
+  (g._authorize == 1) ? g.showForm(c) : $message.show(g._denyMessage ? g._denyMessage : $df.getResources(g._language, "Message.NotAccess"));
+}
+function show$Grid$Switch$Button(g, name, id, h) {
+  var toolbarIndex = -1, toolbarHidden = (h == '0');
+  for (var i = 0; i < g._toolbar.length; i++) {
+    if (g._toolbar[i][0] == name) {
+      toolbarIndex = i;
+      break;
+    }
+  }
+
+  if (toolbarIndex >= 0 && toolbarHidden) {
+    var targets, toolbarForm = g._toolbar[toolbarIndex][2];
+    for (var i = toolbarForm.length -1; i >= 0; i--) {
+      if (toolbarForm[i].Target) {
+        targets = toolbarForm[i].Target;
+        if (targets.length > 1 && id.indexOf(targets) != -1) toolbarForm.splice(i, 1);
+      }
+    }
+  }
+}
+/* </flatten> */]]>
+      &DowloadScript;
+      &ScriptPrintVoucher;
+      &UserDefinedScript;
+      &NoticeScript;
+    </text>
+  </script>
+
+  <response>
+    <action id="Adjustment">
+      <text>
+        &BeginExecuteReader;
+        <![CDATA[
+if @type in ('10', '20', '30')
+  if exists(select rtrim(a.ma_mau_ct) as ma_mau_ct from dmmauct a join dmloaihd b on a.loai_hd = b.loai_hd where a.client_code = @@unit and a.ma_mau_ct = @mau_so_ct and b.dc_yn = 0)
+    select 1 as ma_mau_ct_yn
+  else
+    select 0 as ma_mau_ct_yn
+]]>
+        &EndExecuteReader;
+        &Declare;&BeginSelect;<![CDATA[not in (''2'', ''3'')]]>&EndSelect;<![CDATA[
+if @type in ('10', '20', '30')
+  set @q = @q + char(13) + 'if @r = '''' and exists(select 1 from ]]>&Table;<![CDATA[ where ma_mau_ct_yn = 1) set @r = ''2'''
+]]>
+        &Statement;
+      </text>
+    </action>
+
+    <action id="Replace">
+      <text>
+        &Declare;&BeginSelect;<![CDATA[<> ''2'']]>&EndSelect;&Statement;
+      </text>
+    </action>
+
+    &CommandPrintVoucher;
+
+    <action id="Download">
+      <text>
+        &CreateTicket;<![CDATA[
+select @ticket as value
+return
+]]>
+      </text>
+    </action>
+
+    &NoticeResponse;
+  </response>
+
+  <queries>
+    <query event="Loading">
+      <text>
+        <![CDATA[exec FastBusiness$App$Voucher$Loading
+@@id, @@master, @@prime, @@partition, @@expression, @@extension, @@pageCount, 'stt_rec', @@textList, @@textExternal,
+]]>&Join;<![CDATA[,
+@@textOrderBy, @@admin, @@userID, @@viewAccessMode, 0, @@queryString, 'client_code = '@@unit'', default, default, default, 1]]>
+      </text>
+    </query>
+
+    <query event="Declare">
+      <text>&DeclareCommandFilter;</text>
+    </query>
+
+    <query event="Finding">
+      <text>
+        <![CDATA[
+declare @n1 varchar(32), @n2 varchar(32)
+select @n1 = isnull(replace(rtrim(ltrim(dbo.FastBusiness$Function$System$GetInvoiceFilter('', '', ltrim(@so_ct1)))), '''', ''), ''),
+  @n2 = isnull(replace(rtrim(ltrim(dbo.FastBusiness$Function$System$GetInvoiceFilter('', '', ltrim(@so_ct2)))), '''', ''), '')
+
+declare @k nvarchar(4000)
+set @k = replace(@@keyMaster, '%#15$*', '')
+if @k = '%' set @k = ''
+
+exec FastBusiness$App$Voucher$Finding
+@@id, @@master, @@prime, @@inquiry, @@partition, @@expression, @@increase, @@extension, @@refresh, @@pageIndex, @@pageCount, @@lastPage, @@lastCount, @@firstItem, @@lastItem,
+@k, @@keyDetail, 'stt_rec', @@textList, @@textExternal,
+]]>&Join;<![CDATA[,
+@@textOrderBy, @@admin, @@userID, @@viewAccessMode,
+@ngay_ct1, @ngay_ct2, @n1, @n2, @status, @user_id0, @ma_dvcs, default, default, 'a.client_code = '@@unit'']]>
+      </text>
+    </query>
+  </queries>
+
+  <css>
+    <text>
+      <![CDATA[
+div.GroupCommand{background-image:url(../images/Execute.png);background-repeat:no-repeat;background-position:0 0;}
+div.ImportData{background-image:url(../images/Upload.png);background-repeat:no-repeat;background-position:0 0;}
+div.Download{background-image:url(../images/Download.png);background-repeat:no-repeat;background-position:0 0;}
+div.TextGroupCommand{background-image:url(../images/TextCalculate.png),url(../images/Line.png);background-repeat:no-repeat,repeat-x;background-position:0 0;}
+div.TextGroupCommandOverGreen, div.GroupCommandOverGreen, div.ImportDataOverGreen, div.DownloadOverGreen{background-position-y:-22px;}
+]]>
+    </text>
+  </css>
+
+  <toolbar>
+    <button command="New">
+      <title v="Toolbar.New" e="Toolbar.New"></title>
+    </button>
+    <button command="Edit">
+      <title v="Toolbar.Edit" e="Toolbar.Edit"></title>
+    </button>
+    <button command="Delete">
+      <title v="Toolbar.Delete" e="Toolbar.Delete"></title>
+    </button>
+
+    <button command="Clone">
+      <title v="Toolbar.Copy" e="Toolbar.Copy"></title>
+    </button>
+
+    <button command="Command">
+      <title v="Xử lý$$150" e="Adjustment$$150"></title>
+      <menuItems>
+        <menuItem commandArgument="10" urlImage="../Images/Increase.png">
+          <header  v="Điều chỉnh tăng" e="Increasing"/>
+        </menuItem>
+        <menuItem commandArgument="20">
+          <header  v="Điều chỉnh giảm" e="Decreasing"/>
+        </menuItem>
+        <menuItem commandArgument="30">
+          <header  v="Điều chỉnh thông tin" e="Information"/>
+        </menuItem>
+        <menuItem commandArgument="40" urlImage="../Images/Adjust.png">
+          <header  v="Điều chỉnh khác" e="Other Adjustment..."/>
+        </menuItem>
+        <menuItem commandArgument="45">
+          <header  v="Điều chỉnh chiết khấu kỳ" e="Periodic Discount Adjustment..."/>
+        </menuItem>
+        <menuItem commandArgument="46">
+          <header v="-"  e="-"/>
+        </menuItem>
+        <menuItem commandArgument="50">
+          <header v="Thay thế hóa đơn" e="Replacement"/>
+        </menuItem>
+        <menuItem commandArgument="51">
+          <header  v="Thay thế khác" e="Other Replacement..."/>
+        </menuItem>
+      </menuItems>
+    </button>
+
+    <button command="Search">
+      <title v="Toolbar.Search" e="Toolbar.Search"></title>
+    </button>
+    <button command="View">
+      <title v="Toolbar.View" e="Toolbar.View"></title>
+    </button>
+    <button command="Print">
+      <title v="Toolbar.Print" e="Toolbar.Print"></title>
+    </button>
+
+    <button command="Separate">
+      <title v="-" e="-"/>
+    </button>
+
+
+    <button command="ImportData">
+      <title v="Lấy dữ liệu từ tệp..." e="Import Data from File..."></title>
+    </button>
+    <button command="Download">
+      <title v="Tải tệp mẫu..." e="Download Template File..."/>
+    </button>
+
+    <button command="Separate">
+      <title v="-" e="-"/>
+    </button>
+    <button command="Freeze">
+      <title v="Toolbar.Freeze" e="Toolbar.Freeze"></title>
+    </button>
+  </toolbar>
+</grid>

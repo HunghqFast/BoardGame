@@ -1,0 +1,252 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{4ED5BA1D-73F6-4024-AB78-D72F5ED127C7}</ProjectGuid>
+    <ProjectTypeGuids>{EFBA0AD7-5A72-4C68-AF49-83D382785DCF};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <TemplateGuid>{9ef11e43-1701-4396-8835-8392d57abb70}</TemplateGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>FastMobile.FXamarin.Core.FAndroid</RootNamespace>
+    <AssemblyName>FastMobile.FXamarin.Core.FAndroid</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <AndroidResgenFile>Resources\Resource.designer.cs</AndroidResgenFile>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+    <TargetFrameworkVersion>v11.0</TargetFrameworkVersion>
+    <AndroidUseAapt2>true</AndroidUseAapt2>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>portable</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>full</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+  <PropertyGroup>
+    <LangVersion>9.0</LangVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Mono.Android" />
+    <Reference Include="mscorlib" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Effects\FPressedEffect.cs" />
+    <Compile Include="Firebase\FNotifyMessagingServices.cs" />
+    <Compile Include="FMainActivity.cs" />
+    <Compile Include="FSplashActivity.cs" />
+    <Compile Include="Helpers\FUtility.cs" />
+    <Compile Include="Helpers\FNotificationCenter.cs" />
+    <Compile Include="Interface\FAndroid.cs" />
+    <Compile Include="Interface\FDisplayAlert.cs" />
+    <Compile Include="Interface\FDownload.cs" />
+    <Compile Include="Interface\FDownloader.cs" />
+    <Compile Include="Interface\FEnvironment.cs" />
+    <Compile Include="Interface\FFingerprint.cs" />
+    <Compile Include="Interface\FFirebase.cs" />
+    <Compile Include="Enums\FilterMode.cs" />
+    <Compile Include="Interface\FLocalNotifications.cs" />
+    <Compile Include="Interface\FLocation.cs" />
+    <Compile Include="Interface\FVersion.cs" />
+    <Compile Include="Interface\FNotificationServiceImpl.cs" />
+    <Compile Include="Objects\FFingerprintManagerCompatHandler.cs" />
+    <Compile Include="Objects\FBiometricPromptHandler.cs" />
+    <Compile Include="Objects\FCryptoObjectHelper.cs" />
+    <Compile Include="Objects\FNotificationChannelGroupRequest.cs" />
+    <Compile Include="Objects\FNotificationChannelRequest.cs" />
+    <Compile Include="Objects\FScheduledNotificationWorker.cs" />
+    <Compile Include="Renderer\FBadgeView.cs" />
+    <Compile Include="Renderer\FBadgeViewExtensions.cs" />
+    <Compile Include="Renderer\FInputLocationRenderer.cs" />
+    <Compile Include="Renderer\FPageRenderer.cs" />
+    <Compile Include="Renderer\FEntryBaseRenderer.cs" />
+    <Compile Include="Renderer\FPageReportRenderer.cs" />
+    <Compile Include="Renderer\FMapRenderer.cs" />
+    <Compile Include="Renderer\FSearchBarRenderer.cs" />
+    <Compile Include="Renderer\FSfComboboxRenderer.cs" />
+    <Compile Include="Renderer\FSfNumericTextBoxRenderer.cs" />
+    <Compile Include="Objects\FTypefaceSpan.cs" />
+    <Compile Include="Renderer\FSwitchRenderer.cs" />
+    <Compile Include="Renderer\FXFButtonRenderer.cs" />
+    <Compile Include="Renderer\FLegacyBadgedTabbedRenderer.cs" />
+    <Compile Include="Renderer\FNavigationPageRenderer.cs" />
+    <Compile Include="Renderer\FPageSearchRenderer.cs" />
+    <Compile Include="Renderer\FTabbedRenderer.cs" />
+    <Compile Include="Renderer\FZoomViewRenderer.cs" />
+    <Compile Include="Resources\Resource.designer.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\FServiceBase.cs" />
+    <Compile Include="Services\FTimestampBinder.cs" />
+    <Compile Include="Services\FTimestampService.cs" />
+    <Compile Include="Services\FTimestampServiceConnection.cs" />
+    <Compile Include="Services\IFGetTimestamp.cs" />
+    <Compile Include="Services\FUtcTimestamper.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidAsset Include="Assets\Icons455.ttf" />
+    <AndroidAsset Include="Assets\Roboto-Regular.ttf" />
+    <AndroidAsset Include="Assets\Roboto-Italic.ttf" />
+    <AndroidAsset Include="Assets\Roboto-Medium.ttf" />
+    <AndroidAsset Include="Assets\Roboto-Bold.ttf" />
+    <None Include="Resources\AboutResources.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="CoreCLR-NCalc">
+      <Version>2.2.92</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.CSharp">
+      <Version>4.7.0</Version>
+    </PackageReference>
+    <PackageReference Include="Newtonsoft.Json">
+      <Version>13.0.1</Version>
+    </PackageReference>
+    <PackageReference Include="Plugin.MediaManager">
+      <Version>1.0.9</Version>
+    </PackageReference>
+    <PackageReference Include="sqlite-net-pcl">
+      <Version>1.7.335</Version>
+    </PackageReference>
+    <PackageReference Include="Syncfusion.Xamarin.Buttons">
+      <Version>19.2.0.44</Version>
+    </PackageReference>
+    <PackageReference Include="Syncfusion.Xamarin.Core">
+      <Version>19.2.0.44</Version>
+    </PackageReference>
+    <PackageReference Include="Syncfusion.Xamarin.Expander">
+      <Version>19.2.0.44</Version>
+    </PackageReference>
+    <PackageReference Include="Syncfusion.Xamarin.SfAutoComplete">
+      <Version>19.2.0.44</Version>
+    </PackageReference>
+    <PackageReference Include="Syncfusion.Xamarin.SfBackdrop">
+      <Version>19.2.0.44</Version>
+    </PackageReference>
+    <PackageReference Include="Syncfusion.Xamarin.SfBadgeView">
+      <Version>19.2.0.44</Version>
+    </PackageReference>
+    <PackageReference Include="Syncfusion.Xamarin.SfBusyIndicator">
+      <Version>19.2.0.44</Version>
+    </PackageReference>
+    <PackageReference Include="Syncfusion.Xamarin.SfChart">
+      <Version>19.2.0.44</Version>
+    </PackageReference>
+    <PackageReference Include="Syncfusion.Xamarin.SfComboBox">
+      <Version>19.2.0.44</Version>
+    </PackageReference>
+    <PackageReference Include="Syncfusion.Xamarin.SfDataGrid">
+      <Version>19.2.0.44</Version>
+    </PackageReference>
+    <PackageReference Include="Syncfusion.Xamarin.SfImageEditor">
+      <Version>19.2.0.44</Version>
+    </PackageReference>
+    <PackageReference Include="Syncfusion.Xamarin.SfListView">
+      <Version>19.2.0.44</Version>
+    </PackageReference>
+    <PackageReference Include="Syncfusion.Xamarin.SfMaskedEdit">
+      <Version>19.2.0.44</Version>
+    </PackageReference>
+    <PackageReference Include="Syncfusion.Xamarin.SfNumericTextBox">
+      <Version>19.2.0.44</Version>
+    </PackageReference>
+    <PackageReference Include="Syncfusion.Xamarin.SfPdfViewer">
+      <Version>19.2.0.44</Version>
+    </PackageReference>
+    <PackageReference Include="Syncfusion.Xamarin.SfPicker">
+      <Version>19.2.0.44</Version>
+    </PackageReference>
+    <PackageReference Include="Syncfusion.Xamarin.SfPopupLayout">
+      <Version>19.2.0.44</Version>
+    </PackageReference>
+    <PackageReference Include="Syncfusion.Xamarin.SfPullToRefresh">
+      <Version>19.2.0.44</Version>
+    </PackageReference>
+    <PackageReference Include="Syncfusion.Xamarin.SfTabView">
+      <Version>19.2.0.44</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.AndroidX.AppCompat">
+      <Version>1.3.0</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.AndroidX.Biometric">
+      <Version>1.1.0.3</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.Forms.Maps">
+      <Version>5.0.0.2012</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.Google.Android.DataTransport.TransportRuntime">
+      <Version>3.0.0</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.Google.Android.Material">
+      <Version>1.3.0.1</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.AndroidX.MediaRouter">
+      <Version>1.2.4</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.AndroidX.Palette">
+      <Version>1.0.0.7</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.AndroidX.Work.Runtime">
+      <Version>2.5.0.2</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.Essentials">
+      <Version>1.6.1</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.Firebase.Analytics">
+      <Version>119.0.0</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.Firebase.Iid">
+      <Version>121.1.0</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.Firebase.Messaging">
+      <Version>122.0.0</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.Forms">
+      <Version>5.0.0.2012</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.Google.Dagger">
+      <Version>2.37.0</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.GooglePlayServices.Maps">
+      <Version>117.0.1</Version>
+    </PackageReference>
+    <PackageReference Include="ZXing.Net.Mobile">
+      <Version>2.4.1</Version>
+    </PackageReference>
+    <PackageReference Include="ZXing.Net.Mobile.Forms">
+      <Version>2.4.1</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.AndroidX.Migration" Version="1.0.8" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\FastMobile.FXamarin.Core\FastMobile.FXamarin.Core.csproj">
+      <Project>{d0d3df03-8513-4afe-b6a1-7aafe950b39f}</Project>
+      <Name>FastMobile.FXamarin.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

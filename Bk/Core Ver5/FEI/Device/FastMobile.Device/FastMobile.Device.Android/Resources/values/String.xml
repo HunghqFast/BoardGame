@@ -1,0 +1,5 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<resources>
+    <!--<string name="gcm_defaultSenderId">548753462567</string>-->
+    <string name="fcm_SenderId">548753462567</string>
+</resources>

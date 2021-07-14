@@ -1,0 +1,54 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <LangVersion>9.0</LangVersion>
+  </PropertyGroup>
+  
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType></DebugType>
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="CoreCLR-NCalc" Version="2.2.92" />
+    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="Plugin.MediaManager" Version="1.0.9" />
+    <PackageReference Include="sqlite-net-pcl" Version="1.7.335" />
+    <PackageReference Include="Syncfusion.Xamarin.Buttons" Version="19.2.0.44" />
+    <PackageReference Include="Syncfusion.Xamarin.Core" Version="19.2.0.44" />
+    <PackageReference Include="Syncfusion.Xamarin.Expander" Version="19.2.0.44" />
+    <PackageReference Include="Syncfusion.Xamarin.SfAutoComplete" Version="19.2.0.44" />
+    <PackageReference Include="Syncfusion.Xamarin.SfBackdrop" Version="19.2.0.44" />
+    <PackageReference Include="Syncfusion.Xamarin.SfBadgeView" Version="19.2.0.44" />
+    <PackageReference Include="Syncfusion.Xamarin.SfBusyIndicator" Version="19.2.0.44" />
+    <PackageReference Include="Syncfusion.Xamarin.SfChart" Version="19.2.0.44" />
+    <PackageReference Include="Syncfusion.Xamarin.SfComboBox" Version="19.2.0.44" />
+    <PackageReference Include="Syncfusion.Xamarin.SfDataGrid" Version="19.2.0.44" />
+    <PackageReference Include="Syncfusion.Xamarin.SfImageEditor" Version="19.2.0.44" />
+    <PackageReference Include="Syncfusion.Xamarin.SfListView" Version="19.2.0.44" />
+    <PackageReference Include="Syncfusion.Xamarin.SfMaskedEdit" Version="19.2.0.44" />
+    <PackageReference Include="Syncfusion.Xamarin.SfNumericTextBox" Version="19.2.0.44" />
+    <PackageReference Include="Syncfusion.Xamarin.SfPdfViewer" Version="19.2.0.44" />
+    <PackageReference Include="Syncfusion.Xamarin.SfPicker" Version="19.2.0.44" />
+    <PackageReference Include="Syncfusion.Xamarin.SfPopupLayout" Version="19.2.0.44" />
+    <PackageReference Include="Syncfusion.Xamarin.SfPullToRefresh" Version="19.2.0.44" />
+    <PackageReference Include="Syncfusion.Xamarin.SfTabView" Version="19.2.0.44" />
+    <PackageReference Include="Xamarin.Essentials" Version="1.6.1" />
+    <PackageReference Include="Xamarin.Forms" Version="5.0.0.2012" />
+    <PackageReference Include="Xamarin.Forms.Maps" Version="5.0.0.2012" />
+    <PackageReference Include="ZXing.Net.Mobile" Version="2.4.1" />
+    <PackageReference Include="ZXing.Net.Mobile.Forms" Version="2.4.1" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <ProjectReference Include="..\..\FastMobile.Xamarin.Core\FastMobile.FXamarin.Core\FastMobile.FXamarin.Core.csproj" />
+  </ItemGroup>
+
+</Project>

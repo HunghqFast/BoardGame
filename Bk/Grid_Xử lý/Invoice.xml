@@ -1,0 +1,313 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE grid [
+  <!ENTITY BaseTable "01">
+  <!ENTITY Controller "Invoice">
+  <!ENTITY Table "#Table">
+  <!ENTITY Customer "ma_kh">
+  <!ENTITY BeginExecuteReader "/*&lt;execute database='@system'&gt;">
+  <!ENTITY EndExecuteReader "&lt;/execute&gt;*/">
+  <!ENTITY CarryOff "&lt;carry mode='@off'/&gt;">
+  <!ENTITY Join "'a left join dmtthddt e2 on a.tinh_trang_hddt = e2.status left join dmttct u0 on a.ma_ct = u0.ma_ct and a.status = u0.status left join vsysuser u1 on a.user_id0 = u1.u_id left join vsysuser u2 on a.user_id2 = u2.u_id left join vsysuser u3 on a.nguoi_ph = u3.u_id left join dmmagd m1 on m1.ma_ct = ''E01'' and a.loai_ct = m1.loai_ct and a.ma_gd = m1.ma_gd'">
+  <!ENTITY UserViewAccessMode SYSTEM "..\Include\Command\ViewAccessMode.txt">
+  <!ENTITY BeginTitle "ma_kh">
+
+  <!ENTITY Key "stt_rec = @stt_rec and client_code = @@unit">
+  <!ENTITY Declare "declare @error_code char(1), @q nvarchar(4000), @p char(6), @ngay_ct smalldatetime, @so_ct varchar(32), @ky_hieu varchar(32), @key_hd_goc varchar(512)
+select @p = convert(char(6), ngay_ct, 112) from c01$000000 where &Key;
+">
+  <!ENTITY BeginSelect "select @error_code = '', @q = 'if exists(select * from m01$' + @p + ' where stt_rec = @stt_rec and client_code = @u and tinh_trang_hddt ">
+  <!ENTITY EndSelect ") set @r = ''1'''">
+  <!ENTITY Statement "
+exec sp_executesql @q, N'@u varchar(32), @stt_rec varchar(32), @r char(1) out', @@unit, @stt_rec, @error_code out
+
+if @error_code = '' begin
+  set @q = 'select @a = ngay_ct, @b = so_ct, @c = mau_so, @d = ky_hieu, @e = keys from m01$' + @p + ' where stt_rec = @stt_rec and client_code = @u'
+  exec sp_executesql @q, N'@u varchar(32), @stt_rec varchar(32), @a smalldatetime out, @b varchar(32) out, @c varchar(32) out, @d varchar(32) out, @e varchar(512) out', @@unit, @stt_rec, @ngay_ct out, @so_ct out, @mau_so out, @ky_hieu out, @key_hd_goc out
+  select @stt_rec as stt_rec, @ngay_ct as ngay_ct, @so_ct as so_ct, @mau_so as mau_so, @ky_hieu as ky_hieu, @key_hd_goc as key_hd_goc, '954' as message
+end else
+  select @message as message
+return">
+]>
+<grid table="m01$000000" data="1" detail="0" id="E01" code="stt_rec" order="ngay_ct, so_ct" orderBy="ngay_ct, so_ct, stt_rec" cache="Device" pageItems="10" xmlns="urn:schemas-fast-com:mobile-grid">
+  <title v="Hóa đơn bán hàng" e="Sales Invoice"></title>
+  <subTitle v="Cập nhật hóa đơn: thêm, sửa, xóa..." e="Add, Edit, Delete Invoice..."></subTitle>
+  <partition table="c01$000000" prime="m01$" inquiry="i01$" field="ngay_ct" expression="convert(char(6), {0}, 112)" increase="dateadd(month, 1, {0})" default="000000" condition="stt_rec = '@stt_rec'"/>
+
+  <fields>
+    <field name="ma_dvcs" hidden="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="ngay_ct" type="DateTime" width="100" dataFormatString="@datetimeFormat" align="center">
+      <header v="Ngày ct" e="Invoice Date"></header>
+    </field>
+    <field name="so_ct" width="100" align="right">
+      <header v="Số ct" e="Invoice Number"></header>
+      <footer v="Hóa đơn: " e="Invoice :"></footer>
+    </field>
+    <field name="ky_hieu" width="100" align="right">
+      <header v="Ký hiệu" e="Serial Number"></header>
+    </field>
+    <field name="ma_kh" width="0" hidden="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="ten_kh" width="300">
+      <header v="Tên khách" e="Customer Name"></header>
+    </field>
+    <field name="nguoi_mua" width="300">
+      <header v="Người mua" e="Buyer"></header>
+    </field>
+
+    <field name="t_thanh_toan_nt" type="Decimal" dataFormatString="@m_ip_tien_nt" aliasName="a.t_thanh_toan_nt" width="150" align="right">
+      <header v="Thanh toán" e="Payment"></header>
+    </field>
+    <field name="ma_nt" width="100" aliasName="ma_nt">
+      <header v="Mã nt" e="Currency"></header>
+      <footer v=" " e=" "></footer>
+    </field>
+    <field name="u0" external="true" width="150" aliasName="u0.statusname%l">
+      <header v="Trạng thái" e="Voucher Status"/>
+    </field>
+    <field name="tinh_trang_hddt" hidden="true" aliasName="a.tinh_trang_hddt" sqlType="char(1)" sqlValue="replace(@tinh_trang_hddt, '*', '')">
+      <header v="" e=""/>
+    </field>
+    <field name="e2" external="true" width="200" aliasName="e2.statusname%l">
+      <header v="Tình trạng" e="Authentication Status"/>
+    </field>
+    <field name="nguoi_ph" type="Decimal" hidden="true" width="0" aliasName="a.nguoi_ph">
+      <header v="" e=""/>
+    </field>
+    <field name="u3" external="true" width="300" aliasName="u3.u_name">
+      <header v="Người phát hành" e="Released By"/>
+    </field>
+    <field name="loai_ct" hidden="true" aliasName="a.loai_ct">
+      <header v="" e=""/>
+    </field>
+    <field name="ma_gd" hidden="true" aliasName="a.ma_gd">
+      <header v="" e=""/>
+    </field>
+    <field name="m1" external="true" width="200" aliasName="m1.ten_gd%l">
+      <header v="Loại hóa đơn" e="Invoice Type"/>
+    </field>
+
+    <field name="stt_rec" isPrimaryKey="true" hidden="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="status" hidden="true" width="0" aliasName="a.status">
+      <header v="" e=""/>
+    </field>
+    <field name="ma_ct" hidden="true" aliasName="a.ma_ct">
+      <header v="" e=""></header>
+    </field>
+    <field name="mau_so" width="120" hidden="true">
+      <header v="Mẫu hóa đơn" e="Form"/>
+    </field>
+
+    <field name="color" external="true" hidden="true" aliasName="u0.color">
+      <header v="" e=""/>
+    </field>
+
+    <field name="datetime0" type="DateTime" dataFormatString="dd/MM/yyyy HH:mm" width="150" aliasName="a.datetime0" hidden="true">
+      <header v="Ngày tạo" e="Created Date"></header>
+    </field>
+    <field name="datetime2" type="DateTime" dataFormatString="dd/MM/yyyy HH:mm" width="150" aliasName="a.datetime2" hidden="true">
+      <header v="Ngày sửa" e="Modified Date"></header>
+    </field>
+
+    <field name="user_id0" type="Decimal" aliasName="a.user_id0" hidden="true">
+      <header v="" e=""/>
+    </field>
+    <field name="u1" external="true" width="300" aliasName="u1.u_name" hidden="true">
+      <header v="Người tạo" e="Created By"/>
+    </field>
+
+    <field name="user_id2" type="Decimal" aliasName="a.user_id2" hidden="true">
+      <header v="" e=""/>
+    </field>
+    <field name="u2" external="true" width="300" aliasName="u2.u_name" hidden="true">
+      <header v="Người sửa" e="Modified By"/>
+    </field>
+
+    <field name="text" width="0" hidden="true" external="true" aliasName="case when ky_hieu = '''' then '''' else ky_hieu + '', '' + mau_so end">
+      <header v="" e=""></header>
+    </field>
+    <field name="fm_sl" width="0" hidden="true" internal="true" dataFormatString="@m_ip_sl">
+      <header v="" e=""></header>
+    </field>
+    <field name="fm_tl" width="0" hidden="true" internal="true" dataFormatString="@m_ip_tl">
+      <header v="" e=""></header>
+    </field>
+    <field name="fm_gia" width="0" hidden="true" internal="true" dataFormatString="@m_ip_gia">
+      <header v="" e=""></header>
+    </field>
+    <field name="fm_gia_nt" width="0" hidden="true" internal="true" dataFormatString="@m_ip_gia_nt">
+      <header v="" e=""></header>
+    </field>
+  </fields>
+
+  <views>
+    <view id="Item">
+      <row width="*,*,_" align="left,left,right" style="b,b,*" fontSize="*,*,*" color="*,*,*" value="[so_ct].Footer,[so_ct],[text]"/>
+      <row width="30,_,*,*" align="left,right,right,right" style="i,*,*,*" fontSize="-1,*,*,*" color="*,*,*,*" value="[ngay_ct],[t_thanh_toan_nt],[ma_nt].Footer,[ma_nt]"/>
+      <row width="70,30" align="left,right" style="*,*" fontSize="*,*" color="*,[color]" value="[ten_kh],[u0]" line="2"/>
+    </view>
+    <view id="Detail" type="Dir"></view>
+  </views>
+
+  <commands>
+    <command event="Loading" database="Ext">
+      <text>
+        <![CDATA[
+declare @numRow int, @viewAccessMode int, @switch char(1), @switch$Period char(1), @switch$Date smalldatetime
+]]>&UserViewAccessMode;<![CDATA[
+]]>&BeginExecuteReader;&CarryOff;
+        <![CDATA[
+if exists(select 1 from dmdntt where client_code = @@unit and status = '1') begin
+  declare @s$Period char(1)
+  if exists(select 1 from dmdntt where client_code = @@unit and tieu_chuan = '2' and status = '1') select @s$Period = '1'
+  select status as switch, isnull(ngay_hl, '') as switch_date, isnull(@s$Period, '0') as switch_period from dmdntt where client_code = @@unit
+end else select '1' as switch, null as switch_date, '0' as switch_period
+]]>&EndExecuteReader;<![CDATA[
+select @numRow = 10, @viewAccessMode = value from #Table
+select @switch = switch, @switch$Period = switch_period, @switch$Date = switch_date from #Table1
+select @numRow as value, 'setReference(''$swicth'', ''' + @switch + ''');setReference(''$switch$Period'', ''' + @switch$Period +''');setReference(''$switch$Date'', ''' + case when @switch$Date is not null then convert(varchar(8), @switch$Date, 112) else '' end + ''')' as script
+exec FastBusiness$App$Voucher$Loading @@id, '@@master', '@@prime', '@@partition', '@@expression', '@@extension', @numRow, 'stt_rec', @@textList, @@textExternal,
+]]>&Join;<![CDATA[,
+@@textOrderBy, @@admin, @@userID, @viewAccessMode, 0, '', 'client_code = '@@unit'', default, default, default, 1
+]]>
+      </text>
+    </command>
+
+    <command event="Printing" database="Ext">
+      <text>
+        <![CDATA[
+declare @q nvarchar(4000), @p char(6), @ngay_ct smalldatetime, @ma_dvcs varchar(32), @ma_kh varchar(32), @keys varchar(512), @status varchar(32), @loai_ct varchar(32), @ma_gd varchar(32), @k varchar(128), @fields varchar(1024), @link nvarchar(2000)
+select @p = convert(char(6), ngay_ct, 112) from c]]>&BaseTable;<![CDATA[$000000 where stt_rec = @stt_rec and client_code = @@unit
+exec FastBusiness$Generate$Key @@userID, @k output
+
+]]>&BeginExecuteReader;<![CDATA[
+declare @um varchar(128), @ud varchar(128)
+select @um = '', @ud = ''
+select @um = @um + case when @um = '' then '' else ',' end + b.field from freecolumns a join sysfreecolumns b on a.controller = b.controller and a.id = b.id where a.controller = ']]>&Controller;<![CDATA[' and a.client_code = @@unit and a.status = '1'
+select @ud = @ud + case when @ud = '' then '' else ',' end + b.field from freecolumns a join sysfreecolumns b on a.controller = b.controller and a.id = b.id where a.controller = ']]>&Controller;<![CDATA[Detail' and a.client_code = @@unit and a.status = '1'
+select @um as m_fields, @ud as d_fields
+]]>&EndExecuteReader;<![CDATA[
+
+select @fields = (m_fields + '#' + d_fields) from ]]>&Table;<![CDATA[
+set @q = 'select @a = ngay_ct, @b = ma_dvcs, @c = ]]>&Customer;<![CDATA[, @d = keys, @e = status, @f = loai_ct, @g = ma_gd from m]]>&BaseTable;<![CDATA[$' + @p + ' where stt_rec = @stt_rec and client_code = @u'
+exec sp_executesql @q, N'@u varchar(32), @stt_rec varchar(32), @a smalldatetime out, @b varchar(32) out, @c varchar(32) out, @d varchar(512) out, @e varchar(32) out, @f varchar(32) out, @g varchar(32) out', @@unit, @stt_rec, @ngay_ct out, @ma_dvcs out, @ma_kh out, @keys out, @status out, @loai_ct out, @ma_gd out
+if @status is null begin
+	select case when @@language = 'v' then N'Phát sinh lỗi trong quá trình thực hiện.' else N'The process was failed.' end as message
+	return
+end
+if @status = 0 or @status = 1 begin
+	select '$Error' as message
+	select @stt_rec as stt_rec, @ngay_ct as ngay_ct, @ma_dvcs as ma_dvcs, @ma_kh as ma_kh, @keys as keys, @status as status, @loai_ct as loai_ct, @ma_gd as ma_gd, dbo.FastBusiness$Function$Hash(@k + @stt_rec) as [hash], @fields as fields
+	return
+end
+
+]]>&BeginExecuteReader;<![CDATA[
+select val as lookupLink from dvoptions where name = 'link_lookup_invoices'
+]]>&EndExecuteReader;<![CDATA[
+
+]]>&BeginExecuteReader;<![CDATA[
+select replace(host_name, 'DataService.asmx', 'Execute.asmx') as servicePath, 'Execute' as serviceName, 'Transfer' as methodName, network_key as [key]
+   from cpdmvung where status = '1' and vung = (select service_id from dmdn where client_code = @@unit)
+]]>&EndExecuteReader;<![CDATA[
+
+select @stt_rec as stt_rec, @@unit as clientCode, @@language as language, '$partition$current' as partition, rtrim(lookupLink) as lookupLink from #Table1
+select * from #Table2
+return
+]]>
+      </text>
+    </command>
+
+    <command event="Command" database="Ext">
+      <text>
+        <![CDATA[
+if @@commandArgument in ('40' ,'45', '51') begin
+  declare @context varchar(32)
+  select @context = case when @@commandArgument = '40' then 'Other' when @@commandArgument = '45' then 'Period' else 'OtherReplacement' end
+  select 'executeCommand(''New'', ''' + @context + ''')' as script
+  return
+end
+]]>
+      </text>
+    </command>
+
+    <command event="Adjustment" database="Ext">
+      <text>
+        &BeginExecuteReader;
+        <![CDATA[
+declare @mau_so_ct varchar(12)
+select @mau_so_ct = mau_so from @$Table2
+if @@commandArgument in ('10', '20', '30') begin
+  if exists(select rtrim(a.ma_mau_ct) as ma_mau_ct from dmmauct a join dmloaihd b on a.loai_hd = b.loai_hd where a.client_code = @@unit and a.ma_mau_ct = @mau_so_ct and b.dc_yn = 0)
+    select 1 as ma_mau_ct_yn
+  else
+    select 0 as ma_mau_ct_yn
+end
+]]>
+        &EndExecuteReader;
+        <![CDATA[
+declare @message nvarchar(4000), @script nvarchar(4000)
+select @message = case when @@language = 'v' then N'Trạng thái hóa đơn điện tử không hợp lệ.' else N'Status is invalid.' end
+]]>&Declare;&BeginSelect;<![CDATA[not in (''2'', ''3'')]]>&EndSelect;<![CDATA[
+if @@commandArgument in ('10', '20', '30') set @q = @q + char(13) + 'if @r = '''' and exists(select 1 from ]]>&Table;<![CDATA[ where ma_mau_ct_yn = 1) set @r = ''2'''
+]]>
+        &Statement;
+      </text>
+    </command>
+
+    <command event="Replace" database="Ext">
+      <text>
+        <![CDATA[
+declare @message nvarchar(4000), @script nvarchar(4000)
+select @message = case when @@language = 'v' then N'Hóa đơn điều chỉnh không hợp lệ.' else N'Adjustment invoice is invalid.' end
+]]>&Declare;&BeginSelect;<![CDATA[<> ''2'']]>&EndSelect;&Statement;
+      </text>
+    </command>
+  </commands>
+
+  <toolbar>
+    <button command="New">
+      <title v="Thêm mới" e="New"></title>
+    </button>
+    <button command="PrintVoucher" showForm="InvoiceFilterForm" formType="2">
+      <title v="In" e="Print"></title>
+    </button>
+    <button command="Command" fields="mau_so" commandSuccess="in('[commandArgument]', '40,45,51') ? '' : ('[commandArgument]' == '50' ? 'Replace' : 'Adjustment')">
+      <title v="Xử lý" e="Adjustment"></title>
+      <menuItems check="[commandArgument] != 45 || getReference('$switch$Period') == '1'">
+        <menuItem commandArgument="10">
+          <header  v="Điều chỉnh tăng" e="Increasing"/>
+        </menuItem>
+        <menuItem commandArgument="20">
+          <header  v="Điều chỉnh giảm" e="Decreasing"/>
+        </menuItem>
+        <menuItem commandArgument="30">
+          <header  v="Điều chỉnh thông tin" e="Information"/>
+        </menuItem>
+        <menuItem commandArgument="40">
+          <header  v="Điều chỉnh khác" e="Other Adjustment..."/>
+        </menuItem>
+        <menuItem commandArgument="45">
+          <header  v="Điều chỉnh chiết khấu kỳ" e="Periodic Discount Adjustment..."/>
+        </menuItem>
+        <menuItem commandArgument="50">
+          <header v="Thay thế hóa đơn" e="Replacement"/>
+        </menuItem>
+        <menuItem commandArgument="51">
+          <header  v="Thay thế khác" e="Other Replacement..."/>
+        </menuItem>
+      </menuItems>
+    </button>
+    <button command="Edit">
+      <title v="Sửa" e="Edit"></title>
+    </button>
+    <button command="Delete">
+      <title v="Xóa" e="Delete"></title>
+    </button>
+  </toolbar>
+
+</grid>

@@ -1,0 +1,390 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">iPhoneSimulator</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{49B79412-21C1-47D1-81D7-7C161D72EB24}</ProjectGuid>
+    <ProjectTypeGuids>{FEACFBD2-3405-455C-9665-78FE426C6842};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <TemplateGuid>{6143fdea-f3c2-4a09-aafa-6e230626515e}</TemplateGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>FastMobile.Device.iOS</RootNamespace>
+    <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
+    <AssemblyName>FastMobileDevice.iOS</AssemblyName>
+    <MtouchEnableSGenConc>true</MtouchEnableSGenConc>
+    <MtouchHttpClientHandler>NSUrlSessionHandler</MtouchHttpClientHandler>
+    <ProvisioningType>manual</ProvisioningType>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhoneSimulator' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\iPhoneSimulator\Debug</OutputPath>
+    <DefineConstants>DEBUG</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <MtouchArch>x86_64</MtouchArch>
+    <MtouchLink>None</MtouchLink>
+    <MtouchDebug>true</MtouchDebug>
+    <MtouchExtraArgs>
+    </MtouchExtraArgs>
+    <MtouchNoSymbolStrip>false</MtouchNoSymbolStrip>
+    <OptimizePNGs>true</OptimizePNGs>
+    <MtouchFastDev>true</MtouchFastDev>
+    <DeviceSpecificBuild>true</DeviceSpecificBuild>
+    <MtouchEnableSGenConc>false</MtouchEnableSGenConc>
+    <MtouchHttpClientHandler>NSUrlSessionHandler</MtouchHttpClientHandler>
+    <CodesignKey>Apple Development: Quang Hung Hong (495K7T23LX)</CodesignKey>
+    <CodesignProvision>VS: com.fast.feitest Development</CodesignProvision>
+    <CodesignResourceRules />
+    <CodesignEntitlements />
+    <MtouchFloat32>false</MtouchFloat32>
+    <MtouchProfiling>true</MtouchProfiling>
+    <MtouchVerbosity>
+    </MtouchVerbosity>
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
+    <DebugType>none</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\iPhoneSimulator\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <MtouchLink>Full</MtouchLink>
+    <MtouchArch>x86_64</MtouchArch>
+    <MtouchDebug>true</MtouchDebug>
+    <MtouchNoSymbolStrip>false</MtouchNoSymbolStrip>
+    <MtouchFastDev>false</MtouchFastDev>
+    <MtouchExtraArgs>
+    </MtouchExtraArgs>
+    <CodesignProvision>VS: com.fast.feitest Development</CodesignProvision>
+    <CodesignKey>Apple Development: Quang Hung Hong (495K7T23LX)</CodesignKey>
+    <MtouchProfiling>
+    </MtouchProfiling>
+    <MtouchFloat32>
+    </MtouchFloat32>
+    <MtouchEnableSGenConc>
+    </MtouchEnableSGenConc>
+    <MtouchI18n>
+    </MtouchI18n>
+    <OnDemandResourcesInitialInstallTags>
+    </OnDemandResourcesInitialInstallTags>
+    <OnDemandResourcesInitialInstallTags>
+    </OnDemandResourcesInitialInstallTags>
+    <CodesignExtraArgs>
+    </CodesignExtraArgs>
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhone' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\iPhone\Debug</OutputPath>
+    <DefineConstants>DEBUG</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <MtouchArch>ARM64</MtouchArch>
+    <CodesignKey>Apple Development: Quang Hung Hong (495K7T23LX)</CodesignKey>
+    <MtouchDebug>true</MtouchDebug>
+    <MtouchLink>None</MtouchLink>
+    <MtouchNoSymbolStrip>true</MtouchNoSymbolStrip>
+    <MtouchFastDev>true</MtouchFastDev>
+    <MtouchEnableSGenConc>true</MtouchEnableSGenConc>
+    <CodesignProvision>VS: com.fast.feitest Development</CodesignProvision>
+    <CodesignResourceRules />
+    <CodesignEntitlements />
+    <IpaMetadata>
+    </IpaMetadata>
+    <CrashReportingApiKey>
+    </CrashReportingApiKey>
+    <CrashReportingEnabled>false</CrashReportingEnabled>
+    <DeviceSpecificBuild>true</DeviceSpecificBuild>
+    <MtouchProfiling>false</MtouchProfiling>
+    <MtouchExtraArgs>--optimize=experimental-xforms-product-type</MtouchExtraArgs>
+    <MtouchFloat32>true</MtouchFloat32>
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
+    <DebugType>none</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\iPhone\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <MtouchArch>ARM64</MtouchArch>
+    <CodesignKey>Apple Development: Quang Hung Hong (495K7T23LX)</CodesignKey>
+    <MtouchFloat32>true</MtouchFloat32>
+    <MtouchEnableSGenConc>false</MtouchEnableSGenConc>
+    <OptimizePNGs>true</OptimizePNGs>
+    <CodesignProvision>VS: com.fast.feitest Development</CodesignProvision>
+    <BuildIpa>true</BuildIpa>
+    <IpaIncludeArtwork>true</IpaIncludeArtwork>
+    <CodesignExtraArgs />
+    <CodesignResourceRules />
+    <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
+    <MtouchUseLlvm>true</MtouchUseLlvm>
+    <MtouchFastDev>false</MtouchFastDev>
+    <LangVersion>latest</LangVersion>
+    <MtouchLink>SdkOnly</MtouchLink>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(RunConfiguration)' == 'Default' ">
+    <AppExtensionDebugBundleId />
+    <ExtraLaunchArgs>
+    </ExtraLaunchArgs>
+    <StartArguments>
+    </StartArguments>
+  </PropertyGroup>
+  <PropertyGroup>
+    <LangVersion>8.0</LangVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="AppDelegate.cs" />
+    <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="Main.cs" />
+    <None Include="Entitlements.plist" />
+    <BundleResource Include="GoogleService-Info.plist" />
+    <None Include="Info.plist" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <BundleResource Include="Resources\GoogleService-Info.plist" />
+    <InterfaceDefinition Include="Resources\SplashV3.storyboard" />
+  </ItemGroup>
+  <ItemGroup>
+    <ImageAsset Include="Assets.xcassets\AppIcons.appiconset\120.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcons.appiconset\1201.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcons.appiconset\1202.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcons.appiconset\152.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcons.appiconset\167.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcons.appiconset\180.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcons.appiconset\1801.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcons.appiconset\20.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcons.appiconset\29.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcons.appiconset\40.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcons.appiconset\401.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcons.appiconset\402.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcons.appiconset\58.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcons.appiconset\581.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcons.appiconset\60.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcons.appiconset\76.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcons.appiconset\80.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcons.appiconset\801.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcons.appiconset\87.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcons.appiconset\AppStoreIcon.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcons.appiconset\AppStoreIcon1.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcons.appiconset\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+    <Reference Include="Xamarin.iOS" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="CoreCLR-NCalc">
+      <Version>2.2.92</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.CSharp">
+      <Version>4.7.0</Version>
+    </PackageReference>
+    <PackageReference Include="Newtonsoft.Json">
+      <Version>13.0.1</Version>
+    </PackageReference>
+    <PackageReference Include="Plugin.MediaManager">
+      <Version>1.0.9</Version>
+    </PackageReference>
+    <PackageReference Include="sqlite-net-pcl">
+      <Version>1.7.335</Version>
+    </PackageReference>
+    <PackageReference Include="Syncfusion.Xamarin.Buttons">
+      <Version>19.2.0.44</Version>
+    </PackageReference>
+    <PackageReference Include="Syncfusion.Xamarin.Core">
+      <Version>19.2.0.44</Version>
+    </PackageReference>
+    <PackageReference Include="Syncfusion.Xamarin.Expander">
+      <Version>19.2.0.44</Version>
+    </PackageReference>
+    <PackageReference Include="Syncfusion.Xamarin.SfAutoComplete">
+      <Version>19.2.0.44</Version>
+    </PackageReference>
+    <PackageReference Include="Syncfusion.Xamarin.SfBadgeView">
+      <Version>19.2.0.44</Version>
+    </PackageReference>
+    <PackageReference Include="Syncfusion.Xamarin.SfBusyIndicator">
+      <Version>19.2.0.44</Version>
+    </PackageReference>
+    <PackageReference Include="Syncfusion.Xamarin.SfChart">
+      <Version>19.2.0.44</Version>
+    </PackageReference>
+    <PackageReference Include="Syncfusion.Xamarin.SfComboBox">
+      <Version>19.2.0.44</Version>
+    </PackageReference>
+    <PackageReference Include="Syncfusion.Xamarin.SfDataGrid">
+      <Version>19.2.0.44</Version>
+    </PackageReference>
+    <PackageReference Include="Syncfusion.Xamarin.SfListView">
+      <Version>19.2.0.44</Version>
+    </PackageReference>
+    <PackageReference Include="Syncfusion.Xamarin.SfMaskedEdit">
+      <Version>19.2.0.44</Version>
+    </PackageReference>
+    <PackageReference Include="Syncfusion.Xamarin.SfNumericTextBox">
+      <Version>19.2.0.44</Version>
+    </PackageReference>
+    <PackageReference Include="Syncfusion.Xamarin.SfPdfViewer">
+      <Version>19.2.0.44</Version>
+    </PackageReference>
+    <PackageReference Include="Syncfusion.Xamarin.SfPicker">
+      <Version>19.2.0.44</Version>
+    </PackageReference>
+    <PackageReference Include="Syncfusion.Xamarin.SfPopupLayout">
+      <Version>19.2.0.44</Version>
+    </PackageReference>
+    <PackageReference Include="Syncfusion.Xamarin.SfPullToRefresh">
+      <Version>19.2.0.44</Version>
+    </PackageReference>
+    <PackageReference Include="Syncfusion.Xamarin.SfTabView">
+      <Version>19.2.0.44</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.Essentials">
+      <Version>1.6.1</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.Build.Download">
+      <Version>0.10.0</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.Firebase.iOS.CloudMessaging">
+      <Version>4.7.1</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.Firebase.iOS.Core">
+      <Version>6.10.4</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.Firebase.iOS.InstanceID">
+      <Version>4.8.0</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.Forms">
+      <Version>5.0.0.2012</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.Forms.Maps">
+      <Version>5.0.0.2012</Version>
+    </PackageReference>
+    <PackageReference Include="ZXing.Net.Mobile">
+      <Version>2.4.1</Version>
+    </PackageReference>
+    <PackageReference Include="ZXing.Net.Mobile.Forms">
+      <Version>2.4.1</Version>
+    </PackageReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
+  <ItemGroup>
+    <ITunesArtwork Include="iTunesArtwork" />
+    <ITunesArtwork Include="iTunesArtwork%402x" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\appicon.png">
+      <SubType>Designer</SubType>
+    </BundleResource>
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\iconNoti.png">
+      <SubType>Designer</SubType>
+    </BundleResource>
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\ic_splash.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\about1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\about2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\about3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\about4.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\about5.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\about6.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\FastMobile.Core\FastMobile.Core\FastMobile.Core.csproj">
+      <Project>{7c51398f-55be-4583-802d-cc4f806c4b37}</Project>
+      <Name>FastMobile.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\FastMobile.Xamarin.Core\FastMobile.FXamarin.Core.FiOS\FastMobile.FXamarin.Core.FiOS.csproj">
+      <Project>{679dfd89-92b7-40d2-804b-01b1b4a9bee4}</Project>
+      <Name>FastMobile.FXamarin.Core.FiOS</Name>
+      <IsAppExtension>false</IsAppExtension>
+      <IsWatchApp>false</IsWatchApp>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\FastMobile.Xamarin.Core\FastMobile.FXamarin.Core\FastMobile.FXamarin.Core.csproj">
+      <Project>{a1db7143-84d3-4053-8f4d-0526ce4a93f9}</Project>
+      <Name>FastMobile.FXamarin.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FastMobile.Device\FastMobile.Device.csproj">
+      <Project>{6185e99e-ceb4-4ae6-826a-8e0e23c17fcb}</Project>
+      <Name>FastMobile.Device</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\logoLogin.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\logoIndex.png" />
+  </ItemGroup>
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties TriggeredFromHotReload="False" XamarinHotReloadWrongLinkerErrorInfoBarFastmobileEInvoiceDeviceiOSHideInfoBar="True" XamarinHotReloadWrongLinkerErrorInfoBarFastMobileDeviceiOSHideInfoBar="True" XamarinHotReloadMonoInterpreterErrorInfoBarFastMobileDeviceiOSHideInfoBar="True" XamarinHotReloadDebuggerTimeoutExceptionFastMobileDeviceiOSHideInfoBar="True" />
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>

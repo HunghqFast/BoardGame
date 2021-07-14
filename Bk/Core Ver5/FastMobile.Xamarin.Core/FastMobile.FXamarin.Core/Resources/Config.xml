@@ -1,0 +1,748 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE controllers [
+  <!ENTITY VDefault "Lỗi chưa xác định.">
+  <!ENTITY EDefault "Unknown error occurred.">
+]>
+
+<controllers xmlns:h="urn:schemas-fast-com:mobile-resource">
+  <controller name="Text">
+    <fields>
+      <field name="ApplicationTitle">
+        <header fbo="Fast Business Online" fe="Fast e-Invoice" />
+      </field>
+      <field name="Accept">
+        <header v="Nhận" e="Ok" />
+      </field>
+      <field name="Cancel">
+        <header v="Hủy" e="Cancel" />
+      </field>
+      <field name="Yes">
+        <header v="Có" e="Yes" />
+      </field>
+      <field name="No">
+        <header v="Không" e="No" />
+      </field>
+      <field name="Update">
+        <header v="Cập nhật" e="Update" />
+      </field>
+      <field name="Next">
+        <header v="Kế tiếp" e="Next" />
+      </field>
+      <field name="Back">
+        <header v="Trở lại" e="Back" />
+      </field>
+      <field name="Continue">
+        <header v="Tiếp tục" e="Continue" />
+      </field>
+
+      <field name="Downloading">
+        <header v="Đang tải..." e="Loading..." />
+      </field>
+
+      <field name="PickDay">
+        <header v="Chọn ngày" e="Select Date" />
+      </field>
+      <field name="PickHour">
+        <header v="Chọn giờ" e="Select Hour" />
+      </field>
+      <field name="Day">
+        <header v="Ngày" e="Day" />
+      </field>
+      <field name="Month">
+        <header v="Tháng" e="Month" />
+      </field>
+      <field name="Year">
+        <header v="Năm" e="Year" />
+      </field>
+      <field name="Hour">
+        <header v="Giờ" e="Hour" />
+      </field>
+      <field name="Minute">
+        <header v="Phút" e="Minute" />
+      </field>
+
+      <field name="SelectFile">
+        <header v="Chọn tệp" e="Select File" />
+      </field>
+      <field name="ClearAll">
+        <header v="Xóa hết" e="Clear all" />
+      </field>
+      <field name="NewRecord">
+        <header v="Thêm bản ghi" e="Insert" />
+      </field>
+      <field name="Edit">
+        <header v="Sửa" e="Edit" />
+      </field>
+      <field name="Download">
+        <header v="Tải xuống" e="Download" />
+      </field>
+      <field name="Done">
+        <header v="Xong" e="Done" />
+      </field>
+      <field name="Approve">
+        <header v="Duyệt" e="Approve" />
+      </field>
+      <field name="Close">
+        <header v="Đóng" e="Close" />
+      </field>
+      <field name="Flash">
+        <header v="Bật đèn" e="Flash" />
+      </field>
+      <field name="Save">
+        <header v="Lưu" e="Save" />
+      </field>
+      <field name="NewAction">
+        <header v="Thêm mới" e="New" />
+      </field>
+      <field name="Detail">
+        <header v="Chi tiết" e="Detail" />
+      </field>
+      <field name="Select">
+        <header v="Chọn" e="Select" />
+      </field>
+      <field name="SelectRecord">
+        <header v="Chọn bản ghi" e="Select Records" />
+      </field>
+
+      <field name="CaptureImage">
+        <header v="Chụp ảnh" e="Take Photo" />
+      </field>
+      <field name="CaptureVideo">
+        <header v="Quay phim" e="Take Video" />
+      </field>
+      <field name="SelectImage">
+        <header v="Chọn ảnh" e="Select Photo" />
+      </field>
+      <field name="SelectVideo">
+        <header v="Chọn phim" e="Select Video" />
+      </field>
+      <field name="UnCheck">
+        <header v="Bỏ chọn" e="Uncheck" />
+      </field>
+      <field name="EditImage">
+        <header v="Chỉnh sửa ảnh" e="Edit Photo" />
+      </field>
+
+      <field name="LocationAnnotation">
+        <header v="Chính xác đến {0}m" e="Accurate up to {0}m" />
+      </field>
+      <field name="LocationCurrent">
+        <header v="Vị trí hiện tại của bạn" e="Your current location" />
+      </field>
+      <field name="LocationUnknown">
+        <header v="Vị trí chưa xác định" e="Unknown location" />
+      </field>
+      <field name="LocationSelect">
+        <header v="Chọn địa điểm cụ thể:" e="Pick specific location:" />
+      </field>
+
+      <field name="ViewMore">
+        <header v="Xem thêm..." e="View more..." />
+      </field>
+      
+      <field name="DeviceUnSupport">
+        <header v="Thiết bị không hỗ trợ tính năng này." e="This device is unsupported." />
+      </field>
+      <field name="AuthenConfirmAppend">
+        <header v=" thất bại, vui lòng xác thực mật khẩu" e=" failed, please confirm password" />
+      </field>
+
+      <field name="SignIn">
+        <header v="Đăng nhập" e="Sign In" />
+      </field>
+      <field name="SignOut">
+        <header v="Đăng xuất" e="Sign Out" />
+      </field>
+      <field name="SignInBio">
+        <header v="Đăng nhập (Sinh trắc học)" e="Sign In (Biometric)" />
+      </field>
+      <field name="CheckPasswordBio">
+        <header v="Kiểm tra mật khẩu (Sinh trắc học)" e="Check password (Biometric)" />
+      </field>
+      <field name="BioFingerprint">
+        <header v="Xác thực bằng vân tay" e="Authenticate with fingerprint" />
+      </field>
+      <field name="BioFace">
+        <header v="Xác thực bằng gương mặt" e="Authenticate with Face Id" />
+      </field>
+      <field name="BioTypeFingerprint">
+        <header v="Xác thực vân tay" e="Authenticate Fingerprint" />
+      </field>
+      <field name="BioTypeFace">
+        <header v="Xác thực gương mặt" e="Authenticate Face Id" />
+      </field>
+
+
+      <field name="ReportTotal">
+        <header v="Tổng cộng " e="Total " />
+      </field>
+      <field name="ReportRecord">
+        <header v=" bản ghi." e=" item(s)." />
+      </field>
+
+      <field name="Delete">
+        <header v="Xóa" e="Delete" />
+      </field>
+      <field name="MarkUnread">
+        <header v="Đánh dấu chưa đọc" e="Mark as unread" />
+      </field>
+      <field name="MarkRead">
+        <header v="Đánh dấu đã đọc" e="Mark as read" />
+      </field>
+
+      <field name="NoData">
+        <header v="Không có dữ liệu!" e="No data!" />
+      </field>
+      <field name="NoDataNoAccess">
+        <header v="Bạn chưa có quyền truy cập hoặc truy cập bị từ chối hoặc không có dữ liệu!" e="You are not authorized or you do not have permission to execute this action or there is no data available!" />
+      </field>
+      <field name="Developing">
+        <header v="Tính năng đang phát triển, vui lòng quay lại sau." e="This feature is being developed, please come back later." />
+      </field>
+
+      <field name="Copyright">
+        <header v="© {0} Bản quyền thuộc công ty phần mềm QLDN Fast." e="Copyright © {0} Fast Software Company. All rights reserved." />
+      </field>
+      <field name="Version">
+        <header v="Phiên bản" e="Version" />
+      </field>
+
+
+      <field name="ChangePassword">
+        <header v="Đổi mật khẩu" e="Change password" />
+      </field>
+      <field name="ConfirmPassword">
+        <header v="Xác nhận mật khẩu" e="Confirm Password" />
+      </field>
+      <field name="PasswordHint">
+        <header v="Mật khẩu" e="Password" />
+      </field>
+      <field name="ReNewPasswordHint">
+        <header v="Nhắc lại mật khẩu" e="Retype Password" />
+      </field>
+
+      <field name="ProfileDeclare">
+        <header v="Khai báo kết nối" e="Data Profile Declaration" />
+      </field>
+      <field name="Language">
+        <header v="Tiếng Việt" e="English" />
+      </field>
+      <field name="UserNameHint">
+        <header v="Tên đăng nhập" e="Username" />
+      </field>
+      <field name="Login">
+        <header v="Đăng nhập" e="Login" />
+      </field>
+      <field name="Logout">
+        <header v="Đăng xuất" e="Logout" />
+      </field>
+      <field name="ForgotPassword">
+        <header v="Quên mật khẩu?" e="Forgot Password?" />
+      </field>
+
+
+      <field name="FilterCondition">
+        <header v="Lọc số liệu" e="Filter Condition" />
+      </field>
+      <field name="QuickFind">
+        <header v="Tìm nhanh" e="Quick Find" />
+      </field>
+      <field name="Link">
+        <header v="Đường dẫn" e="Link" />
+      </field>
+      <field name="Alias">
+        <header v="Tên gợi ý" e="Alias" />
+      </field>
+      <field name="CompanyCode">
+        <header v="Mã công ty" e="Company code" />
+      </field>
+
+      <field name="ResetPassword">
+        <header v="Khôi phục mật khẩu" e="Reset your password" />
+      </field>
+      <field name="Name">
+        <header v="Tên" e="User" />
+      </field>
+      <field name="Email">
+        <header v="Thư (Email)" e="Email" />
+      </field>
+      <field name="Code">
+        <header v="Mã xác thực" e="Code" />
+      </field>
+      <field name="ApplicationSettings">
+        <header v="Cài đặt ứng dụng" e="Settings" />
+      </field>
+
+      <field name="Dashboard">
+        <header v="Tổng quan" e="Overview" />
+      </field>
+      <field name="Report">
+        <header v="Báo cáo" e="Report" />
+      </field>
+      <field name="Entry">
+        <header v="Cập nhật" e="Entry" />
+      </field>
+      <field name="Notify">
+        <header v="Thông báo" e="Notification" />
+      </field>
+      <field name="Others">
+        <header v="Khác" e="Others" />
+      </field>
+
+      <field name="AboutProduct">
+        <header v="Thông tin sản phẩm" e="Product Information" />
+      </field>
+      <field name="Settings">
+        <header v="Cài đặt" e="Settings" />
+      </field>
+      <field name="ReportSetting">
+        <header v="Báo cáo" e="Report" />
+      </field>
+      <field name="ApplicationSetting">
+        <header v="Ứng dụng" e="Application" />
+      </field>
+
+      <field name="CheckUpdate">
+        <header v="Kiểm tra cập nhật" e="Check for update" />
+      </field>
+      <field name="CloseScreen">
+        <header v="Đóng màn hình khi chọn giá trị" e="Autocomplete will be closed when user picks value" />
+      </field>
+      <field name="CheckUpdate">
+        <header v="Kiểm tra cập nhật" e="Check for update" />
+      </field>
+
+      <field name="General">
+        <header v="Chung" e="General" />
+      </field>
+      <field name="Approval">
+        <header v="Duyệt" e="Approval" />
+      </field>
+      <field name="System">
+        <header v="Hệ thống" e="System" />
+      </field>
+      <field name="News">
+        <header v="Tin tức" e="News" />
+      </field>
+      <field name="Promotion">
+        <header v="Khuyến mãi" e="Promotion" />
+      </field>
+
+      <field name="ErrorDefault">
+        <header v="&VDefault;" e="&EDefault;" />
+      </field>
+      <field name="NoInternet">
+        <header v="Không có kết nối mạng" e="No network" />
+      </field>
+      <field name="TryConnectInternet">
+        <header v="Hãy thử kết nối lại mạng không dây hoặc dữ liệu di động" e="Try to reconnect to your wireless or mobile data network." />
+      </field>
+      <field name="ReloadThisPage">
+        <header v="Tải lại trang" e="Reload this page" />
+      </field>
+    </fields>
+  </controller>
+
+  <controller name="Message">
+    <fields>
+      <field name="Accept">
+        <header v="Nhận" e="Ok" />
+      </field>
+      <field name="Cancel">
+        <header v="Hủy" e="Cancel" />
+      </field>
+      <field name="Yes">
+        <header v="Có" e="Yes" />
+      </field>
+      <field name="No">
+        <header v="Không" e="No" />
+      </field>
+      <field name="Update">
+        <header v="Cập nhật" e="Update" />
+      </field>
+      <field name="0">
+        <header v="{0}" e="{0}" />
+      </field>
+      <field name="2">
+        <header v="Đã sao chép vào bộ nhớ tạm." e="Copied to Clipboard." />
+      </field>
+      <field name="3">
+        <header v="Ghi đè vào dữ liệu hiện tại?" e="Are you sure you want to insert into this form?" />
+      </field>
+      <field name="40">
+        <header v="Trường **{0}** không được phép có khoảng trắng ở đầu hoặc chứa các ký tự: &lt;/br&gt;**&apos;`~!@#$%^&amp;*(),;&quot;&lt;&gt;?/\,_**." e="Field **{0}** cannot contain blank at the beginning or any of the following characters: &lt;/br&gt;**&apos;`~!@#$%^&amp;*(),;&quot;&lt;&gt;?/\,_**."/>
+      </field>
+      <field name="000">
+        <header v="&VDefault;" e="&EDefault;" />
+      </field>
+      <field name="100">
+        <header v="&VDefault;" e="&EDefault;" />
+      </field>
+      <field name="101">
+        <header v="&VDefault;" e="&EDefault;" />
+      </field>
+      <field name="102">
+        <header v="&VDefault;" e="&EDefault;" />
+      </field>
+      <field name="103">
+        <header v="&VDefault;" e="&EDefault;" />
+      </field>
+      <field name="104">
+        <header v="&VDefault;" e="&EDefault;" />
+      </field>
+      <field name="105">
+        <header v="&VDefault;" e="&EDefault;" />
+      </field>
+      <field name="106">
+        <header v="&VDefault;" e="&EDefault;" />
+      </field>
+      <field name="107">
+        <header v="Tên hoặc mật khẩu không đúng, bạn còn ##{0}## lần đăng nhập." e="Invalid User Name or Password, you have ##{0}## remaining attempts." />
+      </field>
+      <field name="111">
+        <header v="Không thể kết nối tới máy chủ. Vui lòng thử lại sau." e="Can not connect to server, please try later." />
+      </field>
+      <field name="140">
+        <header v="&VDefault;" e="&EDefault;" />
+      </field>
+      <field name="145">
+        <header v="Chỉ chọn một hóa đơn khi hủy." e="Please select only one invoice at a time." />
+      </field>
+      <field name="146">
+        <header v="Chỉ chọn một hóa đơn khi điều chỉnh." e="Please select only one invoice at a time." />
+      </field>
+      <field name="147">
+        <header v="Chỉ chọn một hóa đơn khi thay thế." e="Please select only one invoice at a time." />
+      </field>
+      <field name="148">
+        <header v="Mỗi lần chỉ được phép phát hành tối đa **{0}** hóa đơn." e="Limit exceeded error, maximum number of invoices is **{0}**." />
+      </field>
+      <field name="149">
+        <header v="Phát sinh lỗi trong quá trình điều chỉnh hóa đơn số **{0}**, chương trình không thể tiếp tục thực hiện được." e="An error occurred while processing the invoice number **{0}**, The process could not continue running." />
+      </field>
+      <field name="150">
+        <header v="Đơn vị **{0}** chưa khai báo tài khoản kết nối, chương trình không thể tiếp tục thực hiện được." e="An error occurred while processing, the unit **{0}** has not been declared in account information." />
+      </field>
+      <field name="151">
+        <header v="Hóa đơn số **{0}** đã được sửa hoặc xóa bởi người sử dụng khác." e="The invoice number **{0}** has been modified or deleted by another user." />
+      </field>
+      <field name="152">
+        <header v="Đã có chứng từ thanh toán cho hóa đơn số **{0}**, không thể hủy được." e="Can not cancel voucher number **{0}**, It was received or paid." />
+      </field>
+      <field name="153">
+        <header v="Khách hàng **{0}** chưa khai trong danh sách khách hàng sử dụng hóa đơn điện tử, Chương trình không thể tiếp tục thực hiện được." e="An error occurred while processing, the customer **{0}** has not been registered." />
+      </field>
+      <field name="154">
+        <header v="Đã có chứng từ thanh toán cho hóa đơn số **{0}**, không thể hủy được." e="Can not cancel voucher number **{0}**, It was received or paid." />
+      </field>
+      <field name="155">
+        <header v="Hóa đơn thay thế số **{0}** đã xác thực hoặc không đúng, Chương trình không thể tiếp tục thực hiện được." e="An error occurred while processing, the replacement invoice **{0}** has been registered or invalid." />
+      </field>
+      <field name="156">
+        <header v="Hóa đơn bị thay thế số **{0}** chưa xác thực hoặc bị điều chỉnh hoặc bị hủy, Chương trình không thể tiếp tục thực hiện được." e="An error occurred while processing, the replacement invoice **{0}** has not been registered or adjusted or canceled." />
+      </field>
+      <field name="157">
+        <header v="Phát sinh lỗi trong quá trình thực hiện. &lt;br/&gt;##{0}##" e="The process was failed. &lt;br/&gt;##{0}##" />
+      </field>
+      <field name="158">
+        <header v="Chương trình đã thực hiện xong, {0}/{1} hóa đơn được cập nhật. ##{2}##" e="The process was completed successfully, {0}/{1} record(s) has been updated. ##{2}##" />
+      </field>
+      <field name="159">
+        <header v="Đơn vị ##{0}## chưa hỗ trợ hình thức ký số này." e="Unit ##{0}## does not support this digital authentication method." />
+      </field>
+      <field name="161">
+        <header v="&VDefault;" e="&EDefault;" />
+      </field>
+      <field name="162">
+        <header v="&VDefault;" e="&EDefault;" />
+      </field>
+      <field name="170">
+        <header v="&VDefault;" e="&EDefault;" />
+      </field>
+      <field name="171">
+        <header v="&VDefault;" e="&EDefault;" />
+      </field>
+      <field name="173">
+        <header v="&VDefault;" e="&EDefault;" />
+      </field>
+      <field name="200">
+        <header v="&VDefault;" e="&EDefault;" />
+      </field>
+      <field name="201">
+        <header v="&VDefault;" e="&EDefault;" />
+      </field>
+      <field name="202">
+        <header v="Bạn đã hết thời gian truy cập, vui lòng đăng nhập lại." e="You have time out access, please login again." />
+      </field>
+      <field name="203">
+        <header v="&VDefault;" e="&EDefault;" />
+      </field>
+      <field name="204">
+        <header v="Máy chủ chưa được cập nhật phiên bản mới. Liên hệ với người quản trị để nâng cấp hệ thống." e="Server has not been installed the latest update. Contact your system administrator to upgrade." />
+      </field>
+      <field name="205">
+        <header v="Ứng dụng của bạn đang sử dụng phiên bản cũ, vui lòng cập nhật để tiếp tục." e="You are using old version. Please upgrade your app to continue." />
+      </field>
+      <field name="206">
+        <header v="Bạn đang sử dụng phiên bản mới nhất." e="You are using lastest version." />
+      </field>
+      <field name="207">
+        <header v="Ứng dụng của bạn đang sử dụng phiên bản cũ." e="You are using old version." />
+      </field>
+      <field name="208">
+        <header v="Máy chủ chưa được cập nhật phiên bản mới. Liên hệ với người quản trị để nâng cấp hệ thống." e="Server has not been installed the latest update. Contact your system administrator to upgrade." />
+      </field>
+      <field name="210">
+        <header v="&VDefault;" e="&EDefault;" />
+      </field>
+      <field name="220">
+        <header v="&VDefault;" e="&EDefault;" />
+      </field>
+      <field name="221">
+        <header v="&VDefault;" e="&EDefault;" />
+      </field>
+      <field name="233">
+        <header v="Thông tin cập nhật không đúng." e="Invalid User Name or Email." />
+      </field>
+      <field name="234">
+        <header v="Thông tin cập nhật không đúng." e="Invalid User Name or Email." />
+      </field>
+      <field name="235">
+        <header v="Thông tin cập nhật không đúng." e="Invalid User Name or Email." />
+      </field>
+      <field name="236">
+        <header v="Trường {0} không hợp lệ." e="Invalid {0}." />
+      </field>
+      <field name="237">
+        <header v="&VDefault;" e="&EDefault;" />
+      </field>
+      <field name="238">
+        <header v="&VDefault;" e="&EDefault;" />
+      </field>
+      <field name="239">
+        <header v="Mã xác thực cập nhật không đúng." e="Invalid Code" />
+      </field>
+      <field name="251">
+        <header v="&VDefault;" e="&EDefault;" />
+      </field>
+      <field name="301">
+        <header v="&VDefault;" e="&EDefault;" />
+      </field>
+      <field name="302">
+        <header v="Thiết bị của bạn đã bị khóa, vui lòng quay lại sau." e="Your device has been blocked, please comeback later." />
+      </field>
+      <field name="303">
+        <header v="Bạn đã hết thời gian truy cập, vui lòng đăng nhập lại." e="You have time out access, please login again." />
+      </field>
+      <field name="304">
+        <header v="Thiết bị của bạn đã bị khóa, vui lòng đăng nhập lại sau ##{0}## phút." e="Your device has been locked, please try again after {0} minute(s)." />
+      </field>
+      <field name="320">
+        <header v="&VDefault;" e="&EDefault;" />
+      </field>
+      <field name="310">
+        <header v="&VDefault;" e="&EDefault;" />
+      </field>
+      <field name="315">
+        <header v="&VDefault;" e="&EDefault;" />
+      </field>
+      <field name="401">
+        <header v="&VDefault;" e="&EDefault;" />
+      </field>
+      <field name="403">
+        <header v="Vui lòng kiểm tra kết nối mạng" e="Please check your network." />
+      </field>
+      <field name="404">
+        <header v="Bạn đã hết thời gian truy cập, vui lòng đăng nhập lại." e="You have time out access, please login again." />
+      </field>
+      <field name="405">
+        <header v="&VDefault;" e="&EDefault;" />
+      </field>
+      <field name="407">
+        <header v="Không thể kết nối tới máy chủ. Vui lòng thử lại sau." e="Can not connect to server, please try later." />
+      </field>
+      <field name="408">
+        <header v="Phát sinh lỗi trong quá trình thực hiện." e="The process was failed." />
+      </field>
+      <field name="410">
+        <header v="&VDefault;" e="&EDefault;" />
+      </field>
+      <field name="461">
+        <header v="Chưa có ##quyền thực hiện chức năng này## hoặc ##truy cập bị từ chối##. Liên hệ với người quản trị hệ thống nếu bạn có thể được truy cập vào chức năng này." e="You are ##not authorized## or you ##do not have permission## to execute this action. Contact the System administrator if you believe you should be able to execute this action."></header>
+      </field>
+      <field name="501">
+        <header v="Ứng dụng của bạn đang sử dụng phiên bản cũ, vui lòng cập nhật để tiếp tục." e="You are using old version. Please upgrade your app to continue." />
+      </field>
+      <field name="606">
+        <header v="Trường **{0}** chưa nhập hoặc giá trị nhập không hợp lệ." e="Field **{0}** must not be blank or has invalid value." />
+      </field>
+      <field name="607">
+        <header v="Trường **{0}** phải nhỏ hơn hoặc bằng **{1}**." e="**{0}** must be less than or equal to **{1}**." />
+      </field>
+      <field name="608">
+        <header v="Trường **{0}** phải lớn hơn hoặc bằng **{1}**." e="**{0}** must be more than or equal to **{1}**." />
+      </field>
+      <field name="609">
+        <header v="Trường **{0}** phải nhỏ hơn **{1}**." e="**{0}** must be less than **{1}**." />
+      </field>
+      <field name="610">
+        <header v="Trường **{0}** phải lớn hơn **{1}**." e="**{0}** must be more than **{1}**." />
+      </field>
+      <field name="611">
+        <header v="Trường **{0}** phải bằng **{1}**." e="**{0}** must be equal to **{1}**." />
+      </field>
+      <field name="612">
+        <header v="Trường **{0}** phải khác **{1}**." e="**{0}** must be different from **{1}**." />
+      </field>
+      <field name="613">
+        <header v="##{0}## không được để trống." e="##{0}## have not to be blank." />
+      </field>
+      <field name="614">
+        <header v="{0} **{1}** đã có hoặc lồng nhau." e="{0} **{1}** is invalid or already exists." />
+      </field>
+      <field name="700">
+        <header v="Máy chủ chưa được cập nhật phiên bản mới. Liên hệ với người quản trị để nâng cấp hệ thống." e="Server has not been installed the latest update. Contact your system administrator to upgrade." />
+      </field>
+      <field name="801">
+        <header v="Bạn có muốn đăng xuất không?" e="Do you want to sign out?" />
+      </field>
+      <field name="804">
+        <header v="Chưa có bản ghi nào được chọn, phải đánh dấu trước khi thực hiện chức năng này." e="No record selected, please select at least one record to process." />
+      </field>
+      <field name="805">
+        <header v="Hệ thống sẽ ##xóa bản ghi đang được chọn##, bạn có chắc chắn xóa không?" e="Are you sure you want to ##delete this record?##" />
+      </field>
+      <field name="806">
+        <header v="Hệ thống sẽ ##đánh dấu đã đọc tất cả thông báo##, bạn có chắc chắn thực hiện không?" e="Are you sure you want to ##mark as read all notifications?##" />
+      </field>
+      <field name="807">
+        <header v="Hệ thống sẽ ##không lưu dữ liệu##, bạn có chắc chắn thoát không?" e="Are you sure you want to ##close this form##?" />
+      </field>
+      <field name="808">
+        <header v="Hệ thống sẽ ##xác thực các hóa đơn đang được chọn##, bạn có chắc chắn thực hiện không?" e="Are you sure you want to ##release selected invoices##?" />
+      </field>
+      <field name="809">
+        <header v="Hệ thống sẽ ##điều chỉnh các hóa đơn đang được chọn##, bạn có chắc chắn thực hiện không?" e="Are you sure you want to ##adjust selected invoices##?" />
+      </field>
+      <field name="810">
+        <header v="Hệ thống sẽ ##thay thế các hóa đơn đang được chọn##, bạn có chắc chắn thực hiện không?" e="Are you sure you want to ##replace selected invoices##?" />
+      </field>
+      <field name="811">
+        <header v="Hoá đơn hủy tại chức năng này sẽ không được lập hoá đơn thay thế." e="Invoices canceled at this function will not be replaced by another one." />
+      </field>
+      <field name="812">
+        <header v="Hệ thống sẽ xác thực các hóa đơn đang được chọn theo mẫu số **{0}**, ký hiệu **{1}**, bạn có chắc chắn thực hiện không?" e="The system will authenticate the selected invoices by the number **{0}**, series **{1}**, are you sure you want to release?" />
+      </field>
+      <field name="900">
+        <header v="Chưa có ##quyền thực hiện chức năng này## hoặc ##truy cập bị từ chối##. Liên hệ với người quản trị hệ thống nếu bạn có thể được truy cập vào chức năng này." e="You are ##not authorized## or you ##do not have permission## to execute this action. Contact the System administrator if you believe you should be able to execute this action."></header>
+      </field>
+      <field name="901">
+        <header v="Chương trình đã thực hiện xong." e="The process was completed successfully." />
+      </field>
+      <field name="902">
+        <header v="Đề nghị này đã được duyệt, hủy hoặc thay đổi thông tin." e="This request has been approved, canceled or changed by another user." />
+      </field>
+      <field name="904">
+        <header v="Hệ thống sẽ bỏ duyệt bản ghi đang được chọn, bạn có chắc chắn thực hiện không?" e="Are you sure you want to undo the selected records?" />
+      </field>
+      <field name="905">
+        <header v="Hệ thống sẽ duyệt bản ghi đang được chọn, bạn có chắc chắn thực hiện không?" e="Are you sure you want to approve the selected records?" />
+      </field>
+      <field name="906">
+        <header v="Hệ thống sẽ hủy bản ghi đang được chọn, bạn có chắc chắn thực hiện không?" e="Are you sure you want to cancel the selected records?" />
+      </field>
+      <field name="907">
+        <header v="Bản ghi đã được sửa hoặc xóa bởi người sử dụng khác." e="The record has been changed or deleted by another user." />
+      </field>
+       <field name="908">
+        <header v="Bạn cần cấp quyền cần thiết cho ##{0}## để tiếp tục sử dụng tính năng này." e="You need to grant ##{0}## the necessary permissions to continue using this feature." />
+      </field>
+      <field name="950">
+        <header v="Bạn có muốn đăng xuất không?" e="Do you want to sign out?" />
+      </field>
+      <field name="951">
+        <header v="Bạn có muốn thoát ứng dụng không?" e="Are you sure you want to exit?" />
+      </field>
+      <field name="952">
+        <header v="Mã xác thực cập nhật không đúng." e="Invalid Code."/>
+      </field>
+      <field name="953">
+        <header v="Kiểm tra thư ##(Email)## của bạn, hệ thống vừa gửi đường dẫn ##(Link)## để khôi phục mật khẩu. Đừng quên kiểm tra cả trong thư mục ##Rác## trong trường hợp không nhận được." e="Please check your email, we have sent you an email with a link for you to reset your password. Don't forget to also check your ##Junk/Bulk## folder in case you don't get our email on time." />
+      </field>
+      <field name="954">
+        <header v="Tính năng đang được phát triển, vui lòng quay lại sau." e="This feature is developing please comeback later." />
+      </field>
+      <field name="955">
+        <header v="Thông tin tra cứu không đúng. Vui lòng nhập lại." e="Cannot find any invoice. Please check your information." />
+      </field>
+      <field name="999">
+        <header v="Lỗi: {0}" e="Error {0}" />
+      </field>
+      <field name="1000">
+        <header v="Mật khẩu không được phép trùng mật khẩu cũ." e="Old password must not be resued." />
+      </field>
+      <field name="1001">
+        <header v="Mật khẩu xác nhận không đúng." e="Confirmation password is invalid." />
+      </field>
+      <field name="1002">
+        <header v="Mật khẩu tối thiểu phải từ 8 ký tự." e="Password must consist of at least 8 characters." />
+      </field>
+      <field name="1003">
+        <header v="Mật khẩu tối thiểu phải từ 8 ký tự và phải có số và chữ." e="Password must consist of at least 8 characters in both numbers and letters." />
+      </field>
+      <field name="1004">
+        <header v="Mật khẩu tối thiểu phải từ 8 ký tự và phải có số, chữ, chữ hoa." e="Password must consist of at least 8 characters in both numbers and letters with upper-case letter." />
+      </field>
+      <field name="1005">
+        <header v="Mật khẩu tối thiểu phải từ 8 ký tự và phải có số, chữ, chữ hoa, kí tự khác ngoài chữ và số." e="Password must consist of at least 8 characters in both numbers and letters with upper-case letter and other characters except numbers and letters." />
+      </field>
+      <field name="1006">
+        <header v="Mật khẩu vừa nhập không hợp lệ." e="Your password is too simple. Please retype." />
+      </field>
+      <field name="1007">
+        <header v="Kiểm tra lại mật khẩu nhập không đúng." e="Your password is invalid. Please retype." />
+      </field>
+      <field name="1009">
+        <header v="Thay đổi mật khẩu thành công." e="Change password successfully." />
+      </field>
+      <field name="1101">
+        <header v="Tệp hiện tại đã có không cập nhật được, chọn tệp khác hoặc đổi tên và thử lại." e="The file already exists, please choose another file or change the file name and then upload again." />
+      </field>
+      <field name="1102">
+        <header v="Dung lượng của tệp quá lớn, không cập nhật được." e="The file size is too large to upload. Please choose another file." />
+      </field>
+      <field name="1103">
+        <header v="##{0}##. Phát sinh lỗi trong quá trình thực hiện." e="##{0}##. The process was failed." />
+      </field>
+      <field name="1200">
+        <header v="Bạn chưa có quyền truy cập hoặc truy cập bị từ chối." e="You are not authorized or you do not have permission to execute this action." />
+      </field>
+      <field name="1250">
+        <header v="Thiết bị của bạn không hỗ trợ tính năng này." e="Your device is unsupported this feature." />
+      </field>
+      <field name="1251">
+        <header v="**{0}** của thiết bị không khả dụng hoặc chưa được thiết lập." e="**{0}** is not available or is not configured." />
+      </field>
+      <field name="1252">
+        <header v="Không nhận dạng được sinh trắc học." e="Biometric is not recognized." />
+      </field>
+      <field name="1253">
+        <header v="Bạn đã hết thời gian truy cập, vui lòng đăng nhập lại." e="You have time out access, please login again." />
+      </field>
+      <field name="1254">
+        <header v="Đăng nhập sai quá nhiều lần, vui lòng quay lại sau." e="Too many attempts. Try again later." />
+      </field>
+      <field name="1300">
+        <header v="##GPS## hiện đang tắt, thông tin địa điểm có thể không chính xác. Bật ##GPS##?" e="##GPS## is off, location might not be accurate. Turn ##GPS## on?" />
+      </field>
+    </fields>
+  </controller>
+
+  <controller name="Setting">
+    <fields>
+      <field name="NAME">
+        <header value="" />
+      </field>
+    </fields>
+  </controller>
+</controllers>

@@ -1,0 +1,96 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <Configurations>Release;Debug</Configurations>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <OutputPath>bin\Release\netstandard2.1</OutputPath>
+    <DebugType>full</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+	<LangVersion>latest</LangVersion>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <OutputPath>bin\Debug\netstandard2.1</OutputPath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Resources\Config.xml" />
+    <None Remove="Resources\Icons455.ttf" />
+    <None Remove="Resources\Roboto-Bold.ttf" />
+    <None Remove="Resources\Roboto-Italic.ttf" />
+    <None Remove="Resources\Roboto-Medium.ttf" />
+    <None Remove="Resources\Roboto-Regular.ttf" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Config.xml" />
+    <EmbeddedResource Include="Resources\Icons455.ttf" />
+    <EmbeddedResource Include="Resources\Roboto-Bold.ttf" />
+    <EmbeddedResource Include="Resources\Roboto-Italic.ttf" />
+    <EmbeddedResource Include="Resources\Roboto-Medium.ttf" />
+    <EmbeddedResource Include="Resources\Roboto-Regular.ttf" />
+  </ItemGroup>
+  
+  <PropertyGroup>
+    <LangVersion>9.0</LangVersion>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <PackageReference Include="CoreCLR-NCalc" Version="2.2.92" />
+    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="Plugin.MediaManager" Version="1.0.9" />
+    <PackageReference Include="sqlite-net-pcl" Version="1.7.335" />
+    <PackageReference Include="Syncfusion.Xamarin.Buttons" Version="19.2.0.44" />
+    <PackageReference Include="Syncfusion.Xamarin.Core" Version="19.2.0.44" />
+    <PackageReference Include="Syncfusion.Xamarin.Expander" Version="19.2.0.44" />
+    <PackageReference Include="Syncfusion.Xamarin.SfAutoComplete" Version="19.2.0.44" />
+    <PackageReference Include="Syncfusion.Xamarin.SfBackdrop" Version="19.2.0.44" />
+    <PackageReference Include="Syncfusion.Xamarin.SfBadgeView" Version="19.2.0.44" />
+    <PackageReference Include="Syncfusion.Xamarin.SfBusyIndicator" Version="19.2.0.44" />
+    <PackageReference Include="Syncfusion.Xamarin.SfChart" Version="19.2.0.44" />
+    <PackageReference Include="Syncfusion.Xamarin.SfComboBox" Version="19.2.0.44" />
+    <PackageReference Include="Syncfusion.Xamarin.SfDataGrid" Version="19.2.0.44" />
+    <PackageReference Include="Syncfusion.Xamarin.SfImageEditor" Version="19.2.0.44" />
+    <PackageReference Include="Syncfusion.Xamarin.SfListView" Version="19.2.0.44" />
+    <PackageReference Include="Syncfusion.Xamarin.SfMaskedEdit" Version="19.2.0.44" />
+    <PackageReference Include="Syncfusion.Xamarin.SfNumericTextBox" Version="19.2.0.44" />
+    <PackageReference Include="Syncfusion.Xamarin.SfPdfViewer" Version="19.2.0.44" />
+    <PackageReference Include="Syncfusion.Xamarin.SfPicker" Version="19.2.0.44" />
+    <PackageReference Include="Syncfusion.Xamarin.SfPopupLayout" Version="19.2.0.44" />
+    <PackageReference Include="Syncfusion.Xamarin.SfPullToRefresh" Version="19.2.0.44" />
+    <PackageReference Include="Syncfusion.Xamarin.SfTabView" Version="19.2.0.44" />
+    <PackageReference Include="Xamarin.Essentials" Version="1.6.1" />
+    <PackageReference Include="Xamarin.Forms" Version="5.0.0.2012" />
+    <PackageReference Include="Xamarin.Forms.Maps" Version="5.0.0.2012" />
+    <PackageReference Include="ZXing.Net.Mobile" Version="2.4.1" />
+    <PackageReference Include="ZXing.Net.Mobile.Forms" Version="2.4.1" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Compile Update="Resources\FImageEditorE.en-US.Designer.cs">
+      <DependentUpon>FImageEditorE.en-US.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Update="Resources\FImageEditorV.en-US.Designer.cs">
+      <DependentUpon>FImageEditorV.en-US.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+  </ItemGroup>
+  
+  <ItemGroup>
+    <EmbeddedResource Update="Resources\FImageEditorE.en-US.resx">
+      <LastGenOutput>FImageEditorE.en-US.Designer.cs</LastGenOutput>
+      <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\FImageEditorV.en-US.resx">
+      <LastGenOutput>FImageEditorV.en-US.Designer.cs</LastGenOutput>
+      <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+</Project>

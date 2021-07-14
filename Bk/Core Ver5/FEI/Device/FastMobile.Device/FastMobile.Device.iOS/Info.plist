@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>UIDeviceFamily</key>
+	<array>
+		<integer>1</integer>
+		<integer>2</integer>
+	</array>
+	<key>UISupportedInterfaceOrientations</key>
+	<array>
+		<string>UIInterfaceOrientationPortrait</string>
+	</array>
+	<key>UISupportedInterfaceOrientations~ipad</key>
+	<array>
+		<string>UIInterfaceOrientationPortrait</string>
+		<string>UIInterfaceOrientationPortraitUpsideDown</string>
+		<string>UIInterfaceOrientationLandscapeLeft</string>
+		<string>UIInterfaceOrientationLandscapeRight</string>
+	</array>
+	<key>MinimumOSVersion</key>
+	<string>10.0</string>
+	<key>CFBundleDisplayName</key>
+	<string>FEI TEST</string>
+	<key>LSSupportsOpeningDocumentsInPlace</key>
+	<true/>
+	<key>UIFileSharingEnabled</key>
+	<true/>
+	<key>CFBundleIdentifier</key>
+	<string>com.fast.feitest</string>
+	<key>UIApplicationSceneManifest</key>
+	<dict/>
+	<key>UILaunchStoryboardName</key>
+	<string>SplashV3</string>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoadsInMedia</key>
+		<true/>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+		<key>NSExceptionDomains</key>
+		<dict>
+			<key>facebook.com</key>
+			<dict>
+				<key>NSIncludesSubdomains</key>
+				<true/>
+				<key>NSExceptionAllowsInsecureHTTPLoads</key>
+				<true/>
+			</dict>
+		</dict>
+	</dict>
+	<key>UIStatusBarHidden</key>
+	<true/>
+	<key>XSAppIconAssets</key>
+	<string>Assets.xcassets/AppIcons.appiconset</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Needs access to the camera to take photos.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Needs access to microphone for taking videos.</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>Needs access to the photo gallery for picking photos and videos.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Needs access to photos gallery for picking photos and videos.</string>
+	<key>NSFaceIDUsageDescription</key>
+	<string>Needs access to get your Face Id to unlock secrets!</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Needs access to get your location is being used</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Needs access to get your location at all times</string>
+	<key>NSAppleMusicUsageDescription</key>
+	<string>Needs access to the media to take media</string>
+	<key>UIRequiresFullScreen</key>
+	<true/>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>audio</string>
+		<string>fetch</string>
+		<string>remote-notification</string>
+		<string>processing</string>
+	</array>
+	<key>FirebaseAppDelegateProxyEnable</key>
+	<false/>
+	<key> Permitted background task scheduler identifier</key>
+	<array>
+		<string>com.Fast.eInvoice</string>
+	</array>
+	<key>BGTaskSchedulerPermittedIdentifiers</key>
+	<array>
+		<string>com.Fast.eInvoice</string>
+	</array>
+	<key>UIStatusBarStyle</key>
+	<string>UIStatusBarStyleLightContent</string>
+	<key>CFBundleName</key>
+	<string>Fast e-Invoice</string>
+	<key>UIAppFonts</key>
+	<array>
+		<string>materialdesignicons-webfont.ttf</string>
+		<string>Roboto-Bold.ttf</string>
+		<string>Roboto-Italic.ttf</string>
+		<string>Roboto-Regular.ttf</string>
+	</array>
+	<key>ITSAppUsesNonExemptEncryption</key>
+	<false/>
+	<key>CFBundleShortVersionString</key>
+	<string>1.4.4</string>
+	<key>CFBundleVersion</key>
+	<string>1.4.4.4</string>
+	<key>UIUserInterfaceStyle</key>
+	<string>Light</string>
+	<key>UIMainStoryboardFile</key>
+	<string>SplashV3</string>
+</dict>
+</plist>
