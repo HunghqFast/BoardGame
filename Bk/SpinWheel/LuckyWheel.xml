@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<spinwheel xmlns="urn:schemas-fast-com:mobile-spinwheel">
+  <title v="Chương trình quay số trúng thưởng" e="Chương trình quay số trúng thưởng ???"/>
+
+  <fields>
+    <field name="_ID_">
+      <header v="" e=""></header>
+    </field>
+    <field name="_NAME_">
+      <header v="" e=""></header>
+    </field>
+    <field name="_COLOR_">
+      <header v="" e=""></header>
+    </field>
+    <field name="_STATUS_">
+      <header v="" e=""></header>
+    </field>
+  </fields>
+
+  <details>
+    <field name="_BACKGROUND_COLOR_0_" clientDefault="#ffffff" />
+    <field name="_BACKGROUND_COLOR_1_" clientDefault="#efefef" />
+
+    <field name="_SPINWHEEL_BACKGROUND_COLOR_" clientDefault="#ffffff" />
+    <field name="_SPINWHEEL_CENTER_COLOR_" clientDefault="#1d848c" />
+    <field name="_SPINWHEEL_CENTER_TEXT_COLOR_" clientDefault="#ffffff" />
+    <field name="_SPINWHEEL_CENTER_RATIO_" clientDefault="0.18" />
+    <field name="_SPINWHEEL_RATIO_" clientDefault="0.9" />
+    <field name="_SPINWHEEL_STROKE_WITDH_" clientDefault="4" />
+    <field name="_SPINWHEEL_STROKE_COLOR_" clientDefault="#ffffff" />
+    <field name="_BUTTON_CORNER_RADIUS_" clientDefault="5" />
+    <field name="_BUTTON_BACKGROUND_COLOR_" clientDefault="#ffffff" />
+
+    <field name="_SPINWHEEL_CENTER_TEXT_" >
+      <header v="Quay" e="Spin"></header>
+    </field>
+    <field name="_MESSAGE_SUCCESS_" >
+      <header v="Chúc mừng bạn đã trúng ##{0}##." e="Chúc mừng bạn đã trúng ##{0}##."></header>
+    </field>
+    <field name="_MESSAGE_FAIL_" >
+      <header v="Chúc bạn máy mắn lần sau." e="Better luck next time."></header>
+    </field>
+  </details>
+
+  <commands>
+    <command event="Loading">
+      <text>
+        <![CDATA[
+exec ds_GetDataLuckyWheel @@deviceID, @@admin, @@userID, @@unit, @@language
+]]>
+      </text>
+    </command>
+  </commands>
+
+  <response>
+    <action id="Roll">
+      <text>
+        <![CDATA[
+declare @id varchar(32)
+select @id = programID from @$Table2
+exec ds_GetAwardLuckyWheel @id, @@deviceID, @@admin, @@userID, @@unit, @@language
+]]>
+      </text>
+    </action>
+  </response>
+
+  <toolbar>
+    <button command="ViewHistoty" icon="ShieldSearch" color="#1d9ba3">
+      <title v="Tìm lượt quay" e="Tìm lượt quay ??"></title>
+    </button>
+
+    <button command="ViewHistoty" icon="NotebookMultiple" color="#1d9ba3">
+      <title v="Xem lịch sử" e="Xem lịch sử ??"></title>
+    </button>
+  </toolbar>
+
+</spinwheel>
