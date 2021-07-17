@@ -5,6 +5,7 @@
 => https://aws.amazon.com/console/faq-console/#:~:text=Q%3A%20When%20does%20my%20session,continue%20and%20log%20in%20again.
 
 3. What are popular use cases of Redis ?
+Đóa n đại nha.
 
 4. What statement best describes the Sprint Review ?
 https://www.solutionsbased.in/scrum-csm-questions-part1/
@@ -13,5 +14,6 @@ https://www.solutionsbased.in/scrum-csm-questions-part1/
 https://vceguide.com/which-two-activities-will-a-product-owner-engage-in-during-a-sprint/
 
 6. Which is a part of continuous integration ?
+Câu này Hưng search link này coi đúng không nha: https://brainly.in/question/6111073
 
 7. Which statement below is the most correct one about python function?
