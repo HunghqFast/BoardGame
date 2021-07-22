@@ -1,6 +1,0 @@
-VSWIZARD 7.0
-Wizard=Microsoft.SqlServer.Management.UI.WizardManager10
-Param="EngineAssemblyName=Microsoft.AnalysisServices.Wizards"
-Param="Engine=Microsoft.AnalysisServices.Wizards.RoleWizardPages.RoleWizardEngine"
-Param="InitializerAssemblyName=Microsoft.AnalysisServices.Wizards"
-Param="Initializer=Microsoft.AnalysisServices.Wizards.RoleWizardPages.RoleWizardInitializer"
