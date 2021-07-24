@@ -7,10 +7,10 @@ https://quizlet.com/512603253/aws_chapter-six-flash-cards/
 3. Which command is used to store the uncommitted local changes ?
 https://www.git-tower.com/learn/git/faq/save-changes-with-git-stash/#:~:text=The%20%22git%20stash%22%20command%20can,with%20a%20clean%20working%20copy.
 
-4. "There's mo end to what can be subjected to a metric and tracked through measurement." Is this true ?
+4. "There's no end to what can be subjected to a metric and tracked through measurement." Is this true ?
 
 5. What are examples of test levels ?
 
-6. If we want to automatically deploy every release that passes automated unit, intergration, user acceptance and non-functional test. Which following pratice are we applying ?
+6. If we want to automatically deploy every release that passes automated unit, integration, user acceptance and non-functional test. Which following practice are we applying ?
 
 7. Which statement below is correct about generators in python ?
