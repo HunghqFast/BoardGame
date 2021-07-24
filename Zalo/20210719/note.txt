@@ -10,7 +10,11 @@ https://www.git-tower.com/learn/git/faq/save-changes-with-git-stash/#:~:text=The
 4. "There's no end to what can be subjected to a metric and tracked through measurement." Is this true ?
 
 5. What are examples of test levels ?
+https://reqtest.com/testing-blog/different-levels-of-testing/
+Câu này xem thử ok không.
 
 6. If we want to automatically deploy every release that passes automated unit, integration, user acceptance and non-functional test. Which following practice are we applying ?
 
 7. Which statement below is correct about generators in python ?
+https://realpython.com/introduction-to-python-generators/
+Từ khóa "infinite sequence"
