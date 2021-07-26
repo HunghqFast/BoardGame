@@ -8,12 +8,16 @@ https://quizlet.com/512603253/aws_chapter-six-flash-cards/
 https://www.git-tower.com/learn/git/faq/save-changes-with-git-stash/#:~:text=The%20%22git%20stash%22%20command%20can,with%20a%20clean%20working%20copy.
 
 4. "There's no end to what can be subjected to a metric and tracked through measurement." Is this true ?
+Hưng ko hiểu câu này lắm.
 
 5. What are examples of test levels ?
 https://reqtest.com/testing-blog/different-levels-of-testing/
 Câu này xem thử ok không.
 
 6. If we want to automatically deploy every release that passes automated unit, integration, user acceptance and non-functional test. Which following practice are we applying ?
+https://aws.amazon.com/devops/continuous-delivery/
+https://www.atlassian.com/continuous-delivery/principles/continuous-integration-vs-delivery-vs-deployment
+Chưa chắc lắm
 
 7. Which statement below is correct about generators in python ?
 https://realpython.com/introduction-to-python-generators/

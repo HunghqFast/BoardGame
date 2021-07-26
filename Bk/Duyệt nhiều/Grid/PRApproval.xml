@@ -1,0 +1,131 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE grid [
+  <!ENTITY % Biometric SYSTEM "..\Include\Biometric.ent">
+  %Biometric;
+  %Biometric.PRApproval;
+  %Biometric.Ignore;
+
+  <!ENTITY ApproveID "PRApproval">
+  <!ENTITY ApproveMailID "PurchaseRequisition">
+  <!ENTITY AddApprovalButton SYSTEM "..\Include\Command\AddApprovalButtonContent.txt">
+  <!ENTITY % ApprovalInclude SYSTEM "..\Include\Approval.ent">
+  %ApprovalInclude;
+
+  <!ENTITY TransferID "PRTran">
+  <!ENTITY TransferKey "@code">
+  <!ENTITY % Attachment SYSTEM "..\Include\Attachment.ent">
+  %Attachment;
+]>
+
+<grid type="Approval" code="stt_rec" order="ngay_ct, so_ct, stt_rec" cache="Device" xmlns="urn:schemas-fast-com:mobile-grid">
+  <title v="Phiếu nhu cầu" e="Purchase Requisition"></title>
+  <subTitle v="Duyệt phiếu nhu cầu: duyệt, hủy, bỏ duyệt..." e="Approve, Cancel, Undo..."></subTitle>
+
+  <fields>
+    <field name="isCheck" type="Bool" width="0" external="true" hidden="true" aliasName="0 as isCheck">
+      <header v="" e=""></header>
+    </field>
+    <field name="line_nbr" type="Decimal" hidden="true" external="true" aliasName="0 as isCheck">
+      <header v="" e=""></header>
+    </field>
+    
+    <field name="stt_rec" isPrimaryKey="true" width="0">
+      <header v="" e=""></header>
+    </field>
+    <field name="ma_ct" width="80">
+      <header v="" e=""></header>
+    </field>
+    <field name="ngay_ct" type="DateTime" dataFormatString="@datetimeFormat" width="100">
+      <header v="Ngày" e="Date"></header>
+    </field>
+    <field name="so_ct" width="100" align="right">
+      <header v="Số" e="Number"></header>
+    </field>
+    <field name="dept_id" width="100" aliasName="a.dept_id">
+      <header v="Bộ phận" e="Department"></header>
+    </field>
+    <field name="ten_bp" width="300" external="true" aliasName="b.ten_bp">
+      <header v="Tên bộ phận" e="Description"></header>
+    </field>
+    <field name="ma_md" width="60" aliasName="a.ma_md">
+      <header v="Mức độ" e="Priority"></header>
+    </field>
+    <field name="t_tien_nt" type="Decimal" dataFormatString="@m_ip_tien" width="120" clientDefault="0" align="right">
+      <header v="Tiền" e="Amount"></header>
+    </field>
+    <field name="ma_nt" width="100">
+      <header v="Mã nt" e="Currency Code"></header>
+    </field>
+    <field name="status" aliasName="a.status">
+      <header v="" e=""></header>
+    </field>
+
+    <field name="approval_status" external="true" clientDefault="0" aliasName="case when [status] = ''1'' then ''0'' else ''1'' end">
+      <header v=" " e=" "></header>
+    </field>
+  </fields>
+
+  <views>
+    <view id="Item">
+      <row width="55,15,30" align="left,left,right" style="b,b,b" fontSize="*,*,*" color="*,*,*" value="[dept_id],[so_ct].Title,[so_ct]"></row>
+      <row width="55,15,30" align="left,left,right" style="*,*,*" fontSize="*,*,*" color="*,*,*" value="[ten_bp],[ngay_ct].Title,[ngay_ct]"></row>
+      <row width="_,*,*" align="right,left,left" style="*,*,*" fontSize="*,*,*" color="*,*,*" value="[t_tien_nt],[approval_status].Title,[ma_nt]"></row>
+    </view>
+    <view id="Detail" type="Inquiry" reference="QueryApprovalDetail" bioPassword="&BiometricChecking;"></view>
+  </views>
+
+  <commands>
+    <command event="Loading">
+      <text>
+        &ApprovalDefaultRow;
+        <![CDATA[
+exec rs_LoadPRApproval 'PR2', 'c91$000000', 'm91$', 'ngay_ct', 'convert(char(6), {0}, 112)', '000000', @defaultRow, 'stt_rec', 'rtrim(stt_rec) as stt_rec, rtrim(ma_ct) as ma_ct, cast(0 as bit) as tag, ngay_ct, rtrim(so_ct) as so_ct, rtrim(dept_id) as dept_id, rtrim(ma_md) as ma_md, t_tien_nt, rtrim(ma_nt) as ma_nt, rtrim(xtag) as xtag, rtrim(xtag2) as xtag2, rtrim(status) as status', 'rtrim(stt_rec) as stt_rec, rtrim(ma_ct) as ma_ct, cast (0 as int) as duyet_het, cast(0 as bit) as tag, rtrim(t_duyet)+ ''/'' + rtrim(t_dong) as duyet, (rtrim(t_huy) + ''/'' + rtrim(t_dong)) as huy, ngay_ct, rtrim(so_ct) as so_ct, rtrim(a.dept_id) as dept_id, b.ten_bp%l as ten_bp, rtrim(a.ma_md) as ma_md, a.t_tien_nt, rtrim(ma_nt) as ma_nt, rtrim(a.xtag) as xtag, rtrim(a.xtag2) as xtag2, rtrim(a.status) as status', 'a left join dmbp b on a.dept_id = b.ma_bp', 'ngay_ct, so_ct', @@admin, @@userID, 1, 0, '', 'status in (''1'', ''9'')', 1, @@language
+return]]>
+      </text>
+    </command>
+
+    <command event="Showing">
+      <text>
+        <![CDATA[
+create table #tb (code varchar(32), group_code varchar(32), title nvarchar(128), subtitle nvarchar(128), content ntext, popup_title ntext, popup_content ntext, ref_code varchar(32), s1 varchar(32), datetime0	datetime, datetime2 datetime, color varchar(32), controller varchar(128), sender_id int, sender_name nvarchar(128))
+declare @code varchar(32), @status varchar(1)
+select @code = stt_rec, @status = approval_status from @$Table2
+--insert into #tb exec @@sysDatabaseName..FastBusiness$Notify$Load @@userID, @@language, 'a.group_code, a.title%l as title, a.subtitle%l as subtitle, a.content%l as content, a.popup_title%l as popup_title, a.popup_content%l as popup_content, a.ref_code, a.s1, a.datetime0, a.datetime2, b.color, b.controller', '', '02', '', @code
+delete #tb where s1 is null
+]]>
+        &AddApprovalButton;
+        <![CDATA[
+if not exists(select 1 from #tb) begin
+  declare @u varchar(6), @m varchar(32), @d varchar(32)
+  select @u = convert(varchar(6), ngay_ct, 112) from c91$000000 where stt_rec = @code
+  select @m = 'm91$' + @u, @d = 'd91$' + @u
+  create table #notifyContent(title nvarchar(128), title2 nvarchar(128), content ntext, content2 ntext, popup_title ntext, popup_title2 ntext, popup_content ntext, popup_content2 ntext, ref_code varchar(32), s1 varchar(32), e$ nvarchar(4000), type tinyint)
+  exec rs_CreateNotifyPRTran @code, @m, @d, '#notifyContent'
+  select @script as script, ']]>&ApproveID;<![CDATA[' as approveID, ']]>&ApproveMailID;<![CDATA[' as approveMailID, '' as code, title%l as title, content%l as content, ref_code, s1 from #notifyContent where isnull(type, 0) = 0
+  drop table #notifyContent
+end else begin
+  select max(code) as code, group_code, ref_code into #x from #tb group by group_code, ref_code
+  delete #tb from #tb a join #x b on a.ref_code = b.ref_code and a.code <> b.code
+  select @script as script, ']]>&ApproveID;<![CDATA[' as approveID, ']]>&ApproveMailID;<![CDATA[' as approveMailID, * from #tb
+  drop table #x
+end
+drop table #tb
+]]>
+        &FileAttachment;
+      </text>
+    </command>
+  </commands>
+
+  <toolbar>
+    <button command="Select">
+      <title v="Chọn" e="Select"></title>
+    </button>
+    <button command="AcceptApproval">
+      <title v="Duyệt" e="Approve"/>
+    </button>
+    <button command="CancelApproval">
+      <title v="Hủy" e="Cancel"/>
+    </button>
+  </toolbar>
+</grid>

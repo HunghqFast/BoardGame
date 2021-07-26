@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE filter [
+  <!ENTITY % Pagination SYSTEM "..\Include\Pagination.ent">
+  %Pagination;
+]>
+
+<filter type="Report" data="1" detail="0" cache="None" xmlns="urn:schemas-fast-com:mobile-filter">
+  <title v="Điều kiện lọc" e="Filter Condition"></title>
+
+  <fields>
+    <field name="ngay_ct1" type="DateTime" dataFormatString="@datetimeFormat" allowNulls="false" cacheName="fromDate">
+      <header v="Từ ngày" e="Date from"></header>
+    </field>
+    <field name="ngay_ct2" type="DateTime" dataFormatString="@datetimeFormat" allowNulls="false" cacheName="toDate">
+      <header v="Đến ngày" e="Date to"></header>
+    </field>
+    <field name="so_ct1" dataFormatString="@upperCaseFormat">
+      <header v="Từ số" e="Number from"></header>
+    </field>
+    <field name="so_ct2" dataFormatString="@upperCaseFormat">
+      <header v="Đến số" e="Number to"></header>
+    </field>
+
+    <field name="ma_bp" filterSource="master" operation="10">
+      <header v="Mã bộ phận" e="Department"></header>
+      <items style="AutoComplete" table ="dmbp" code="ma_bp, ten_bp%l" orderBy="ma_bp" reference="ten_bp%l" key="status = '1'" check="1 = 1"/>
+    </field>
+    <field name="ma_dvcs">
+      <header v="Đơn vị" e="Unit"></header>
+      <items style="AutoComplete" table ="dmdvcs" code="ma_dvcs, ten_dvcs%l" orderBy="ma_dvcs" reference="ten_dvcs%l" key="status = '1'" check="1 = 1"/>
+    </field>
+
+    <field name="user_id0"  clientDefault="false">
+      <header v="Lọc theo người sử dụng" e="Filter by User"></header>
+      <items style="Toggle"/>
+    </field>
+    <field name="status" clientDefault="false">
+      <header v="Lọc các phiếu đã duyệt" e="Appvoved only"></header>
+      <items style="Toggle"/>
+    </field>
+  </fields>
+
+  <commands>
+    <command event="Processing">
+      <text>
+        &Pagination;
+        <![CDATA[
+declare @primeJoin nvarchar(4000), @primeFilter nvarchar(4000), @ngay_ct1 datetime, @ngay_ct2 datetime, @so_ct1 varchar(24), @so_ct2 varchar(24), @ma_bp varchar(33), @ma_dvcs varchar(33), @status varchar(1), @user_id0 bit, @textExternal nvarchar(4000)
+select @ngay_ct1 = ngay_ct1, @ngay_ct2 = ngay_ct2, @so_ct1 = so_ct1, @so_ct2 = so_ct2, @ma_bp = ma_bp, @ma_dvcs = ma_dvcs, @status = status, @user_id0 = user_id0 from @$Table2
+select @status = cast(@status as int) + 1, @primeJoin = 'left join m91$%Partition b on a.stt_rec = b.stt_rec'
+
+declare @max1 int, @soct1 varchar(24), @soct2 varchar(24)
+select @max1 = character_maximum_length from information_schema.columns where table_name = 'm91$000000' and column_name = 'so_ct'
+select @soct1 = space(@max1 - len(rtrim(ltrim(@so_ct1)))) + rtrim(ltrim(@so_ct1)), @soct2 = space(@max1 - len(rtrim(ltrim(@so_ct2)))) + rtrim(ltrim(@so_ct2))
+select @textExternal = replace(@@textExternal, '[status]', '''' + @status + '''')
+
+create table #a(stt_rec varchar(32), datetime4 datetime)
+exec FastBusiness$App$GetApprovalKey 3, 'PR2', @status, '#a', @@admin, @@userID, @primeFilter output
+exec FastBusiness$App$Voucher$Finding
+  'PR2', 'c91$000000', 'm91$', 'i91$', 'ngay_ct', 'convert(char(6), {0}, 112)', 'dateadd(month, 1, {0})', '000000', @refresh, @pageIndex, @pageCount, @lastPage, @lastCount, @firstItem, @lastItem,
+  @@keyMaster, @@keyDetail, 'stt_rec', @@textList, @textExternal,
+  'a left join dmbp b on a.dept_id = b.ma_bp', @@textOrderBy, @@admin, @@userID, 1,
+  @ngay_ct1, @ngay_ct2, @soct1, @soct2, '*', @user_id0, @ma_dvcs, default, default, default, default, default, default, 'a.', @primeJoin, @primeFilter
+if object_id('tempdb..#a') is not null drop table #a
+]]>
+      </text>
+    </command>
+  </commands>
+</filter>
