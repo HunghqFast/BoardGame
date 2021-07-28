@@ -1,0 +1,13 @@
+1. Which of the following networking component can be used to host EC2 resources in the AWS Cloud ?
+
+2. Which attack technique can execute scripts in the user's browser and is capable of hijacking user sessions, defacing websites or redirecting the user to malicious sites ?
+
+3. Which statement of the following is right about CASE in SQL ?
+
+4. Which statement is false for "Definition of Done" (DoD) ?
+
+5. What is not a black-box technique ?
+
+6. Which command is used to stage all the changed files excluding new files for a commit ?
+
+7. In Python, which statement below is correct about immutable objects ?
