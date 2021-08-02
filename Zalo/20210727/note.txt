@@ -1,13 +1,23 @@
 1. Which of the following networking component can be used to host EC2 resources in the AWS Cloud ?
+https://quizlet.com/413448675/aws-training-module-4-flash-cards/
 
 2. Which attack technique can execute scripts in the user's browser and is capable of hijacking user sessions, defacing websites or redirecting the user to malicious sites ?
+https://brainly.in/question/9595470
 
 3. Which statement of the following is right about CASE in SQL ?
+https://www.examveda.com/a-case-sql-statement-is-which-of-the-following-24459/
+Cau d co le dung.
 
 4. Which statement is false for "Definition of Done" (DoD) ?
+Cau nay Hoa lam nha.
 
 5. What is not a black-box technique ?
+https://reqtest.com/testing-blog/black-box-testing/
 
 6. Which command is used to stage all the changed files excluding new files for a commit ?
+https://stackoverflow.com/questions/7124726/git-add-only-modified-changes-and-ignore-untracked-files
+Hoa xem thu cai nay Hung doan thoi.
 
 7. In Python, which statement below is correct about immutable objects ?
+https://medium.com/@meghamohan/mutable-and-immutable-side-of-python-c2145cf72747
+"Immutable objects doesn’t allow modification after creation"
