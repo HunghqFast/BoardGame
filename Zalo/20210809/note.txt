@@ -1,0 +1,19 @@
+1. Which statement is accurate about AWS Budget and Cost Explorer?
+Hình Cau1.png.
+
+2. Which of the Linux command-line commands listed below is used for folder creation?
+https://linuxize.com/post/how-to-create-directories-in-linux-with-the-mkdir-command/
+
+3. What are composite indexes?
+https://www.sanfoundry.com/database-mcqs-index-definition/
+
+4. When can a Sprint be canceled?
+Câu này Hưng chọn theo ý Hưng.
+
+5. In Scrum, when is a Sprint Over?
+Câu này Hưng chọn theo ý Hưng.
+
+6. What is the difference between var and let in JavaScript?
+
+7. Which statement below is the most correct one about python annotation?
+Hưng thiên câu d hơn.

@@ -1,0 +1,20 @@
+1. Which of the following programing languages are AWS software development kits available for ?
+https://aws.amazon.com/vi/getting-started/tools-sdks/
+
+2. What is the Linux command used for displaying the content of the file?
+https://www.cyberciti.biz/faq/unix-linux-command-to-view-file/
+
+3. Which following command is the Data Definition Command in SQL?
+Create, Delete, Alter 
+
+4. Meeting for the team to get feedback ... this meeting.
+Cau4.png
+
+5. What do you know about a story point in Scrum?
+https://quizlet.com/407784415/scrum-interview-flash-cards/
+
+6. What is the difference between == and === in Javascript?
+https://www.guru99.com/difference-equality-strict-operator-javascript.html
+
+7. In python, which one below is correct when comparing normal methods and class methods?
+Hưng đoán.

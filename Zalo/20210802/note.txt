@@ -1,0 +1,25 @@
+1. Which output format does the AWS CLI support ?
+https://docs.aws.amazon.com/cli/latest/userguide/cli-usage-output-format.html
+https://quizlet.com/482689700/chapter-6-working-with-your-aws-resources-flash-cards/
+
+2. Which of the follwing commands in Linux is used to display infomation about files and directories contained within the current working directory ?
+https://quizlet.com/152113091/902-practice-test-linux-command-flash-cards/
+
+3. The following SQL is which type of join; SELECT res_partner.id ... ?
+https://www.sqlshack.com/sql-cross-join-with-examples/
+CARTESIAN JOIN là CROSS JOIN
+
+4. What the risk ?
+Hoa lam nha :)
+
+5. Who is responsible for measuring the Project's performance ?
+Hưng đoán nha.
+
+6. git reset --mixed command used to ?
+https://stackoverflow.com/questions/3528245/whats-the-difference-between-git-reset-mixed-soft-and-hard
+
+7. In Python, which statement below does NOT result an iterator ?
+a. array
+b. list
+c. map
+d. generator
