@@ -6,10 +6,8 @@ using System.Threading.Tasks;
 
 namespace CaroMaster
 {
-    public sealed class Chess
-    {
-        public Chess()
-		{
-		}
-    }
+	public interface IChess
+	{
+		bool CheckValid();
+	}
 }
