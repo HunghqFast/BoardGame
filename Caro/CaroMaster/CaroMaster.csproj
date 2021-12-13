@@ -53,6 +53,9 @@
       <DependentUpon>Board.cs</DependentUpon>
     </Compile>
     <Compile Include="Control\Chess.cs" />
+    <Compile Include="Interface\IChess.cs" />
+    <Compile Include="Interface\IPlayer.cs" />
+    <Compile Include="Interface\IRule.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">

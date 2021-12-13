@@ -10,8 +10,8 @@ namespace CaroMaster
         /// Required designer variable.
         /// </summary>
         private IContainer components = null;
-        private int width = 800;
-        private int height = 600;
+        private const int width = 800;
+        private const int height = 600;
 
         /// <summary>
         /// Clean up any resources being used.
@@ -42,11 +42,6 @@ namespace CaroMaster
             this.FormBorderStyle = FormBorderStyle.FixedDialog;
             this.StartPosition = FormStartPosition.CenterScreen;
             this.Text = "Cờ Caro";
-        }
-
-        private void InitField()
-        {
-
         }
 
         #endregion

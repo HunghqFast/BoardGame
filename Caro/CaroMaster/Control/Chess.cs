@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace CaroMaster
+﻿namespace CaroMaster
 {
-    public sealed class Chess
+	public sealed class Chess
     {
+		IPlayer playerX, playerO;
+
         public Chess()
 		{
 		}
