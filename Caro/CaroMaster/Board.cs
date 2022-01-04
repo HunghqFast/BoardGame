@@ -16,5 +16,9 @@ namespace CaroMaster
         {
             InitializeComponent();
         }
-    }
+
+		private void Chess_Paint(object sender, PaintEventArgs e)
+		{
+		}
+	}
 }

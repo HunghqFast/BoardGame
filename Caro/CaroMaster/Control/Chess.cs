@@ -2,9 +2,7 @@
 {
 	public sealed class Chess
     {
-		IPlayer playerX, playerO;
-
-        public Chess()
+		public Chess()
 		{
 		}
     }
