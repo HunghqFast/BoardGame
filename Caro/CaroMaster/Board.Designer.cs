@@ -31,7 +31,7 @@ namespace CaroMaster
         /// </summary>
         private void InitializeComponent()
         {
-			this.Chess = new System.Windows.Forms.Panel();
+			this.Chess = new Chess();
 			this.SuspendLayout();
 			// 
 			// panel1
@@ -40,7 +40,7 @@ namespace CaroMaster
 			this.Chess.Name = "Chess";
 			this.Chess.Size = new System.Drawing.Size(500, 500);
 			this.Chess.TabIndex = 0;
-			this.Chess.Paint += new System.Windows.Forms.PaintEventHandler(this.Chess_Paint);
+			this.Chess.Paint += new System.Windows.Forms.PaintEventHandler(this.ChessPaint);
 			// 
 			// Board
 			// 
