@@ -1,0 +1,13 @@
+select top 1 xml_invoice as data into #hung from x05$202201
+
+EXEC rs_AutoCreateInputInvoiceSchedule '#hung', 'data'
+
+DECLARE @xml XML
+DECLARE @TEN_KH NVARCHAR(512)
+
+SELECT @xml = CONVERT(xml,(CONVERT(VARBINARY(max), data))) FROM #hung
+
+SELECT @XML.value('(/HDon/DLHDon/TTChung/PBan)[1]', 'NVARCHAR(512)') as phien_ban
+
+DROP TABLE #hung
+
