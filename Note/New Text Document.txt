@@ -1,0 +1,104 @@
+declare @$Table1 table([type] nvarchar(max), [target] nvarchar(max), [platform] nvarchar(max))
+insert into @$Table1 select N'command', N'Filter', N'iOS'
+
+declare @$Table2 table([refresh] int, [pageIndex] int, [pageCount] int, [lastPage] int, [lastCount] int, [firstItem] nvarchar(max), [lastItem] nvarchar(max), [ngay_ct1] nvarchar(max), [ngay_ct2] nvarchar(max), [so_ct1] nvarchar(max), [so_ct2] nvarchar(max), [ma_nt] nvarchar(max), [ma_kh] nvarchar(max), [ten_kh] nvarchar(max), [ma_dvcs] nvarchar(max), [user_id0] bit, [status] bit)
+insert into @$Table2 select 1, 0, 10, 0, 0, N'', N'', N'20220124', N'20220224', N'', N'', N'', N'', N'', N'', 0, 1
+
+
+
+
+declare @ngay_ct1 smalldatetime, @ngay_ct2 smalldatetime, @so_ct1 varchar(8), @so_ct2 varchar(8), @pageIndex varchar(32), @pageCount varchar(32), @lastPage varchar(32), @lastCount varchar(32), @firstItem varchar(512), @lastItem varchar(512), @refresh int, @flag int, @status varchar(32), @ten_kh nvarchar(512), @user_id0 bit, @ma_dvcs varchar(32), @d_status varchar(1)
+select @ngay_ct1 = ngay_ct1, @ngay_ct2 = ngay_ct2, @so_ct1 = so_ct1, @so_ct2 = so_ct2, @pageIndex = pageIndex, @pageCount = pageCount, @lastPage = lastPage, @lastCount = lastCount, @firstItem = firstItem, @lastItem = lastItem, @refresh = refresh, @flag = 0, @status = status, @ten_kh = ten_kh, @user_id0 = user_id0, @ma_dvcs = ma_dvcs from @$Table2
+
+select u_status as u0_u_status, u_status_name, s_status, xtype, status into #hddtdmttcttg from hddtdmttcttg where loai_duyet = '00901' and ((client_code = '' and xtype = 'S') or client_code = '908767')
+select @d_status = cast(@status as int) + 1
+
+declare @$primeAlias varchar(32), @$primeJoin varchar(4000), @$primeFilter nvarchar(4000), @$detailPartition varchar(4000), @$detailAlias varchar(4000), @$detailFilter nvarchar(4000), @$AggregationAlias varchar(32)
+create table #_f(i int identity(1, 1), datasource varchar(32), type tinyint, filterkey nvarchar(4000), alias varchar(32), xtype tinyint, refKey varchar(128), exRefKey varchar(128), refdatasource varchar(32), refalias varchar(32), fieldKey varchar(128), joinClause varchar(512))
+select @$primeAlias = '', @$primeJoin = '', @$primeFilter = '', @$detailPartition = '', @$detailAlias = '', @$detailFilter = '', @$AggregationAlias = ''
+
+declare @textExternal nvarchar(4000), @textList nvarchar(4000), @advance bit
+select @textExternal = replace('0 as isCheck, 0 as line_nbr, rtrim(1) as ma_md, rtrim(a.stt_rec) as stt_rec, rtrim(ma_ct) as ma_ct, ngay_ct, rtrim(so_ct) as so_ct, rtrim(a.ma_kh) as ma_kh, rtrim(nguoi_mua) as nguoi_mua, rtrim(a.ten_kh) as ten_kh, rtrim(case when isnull(a.ten_kh, '''') = '''' then nguoi_mua else a.ten_kh end) as ten, t_thanh_toan_nt, rtrim(ma_nt) as ma_nt, rtrim(u_status) as u_status, rtrim(u_status_name) as u_status_name, rtrim([color]) as color, rtrim(case when u_status = ''2'' then ''1'' else ''0'' end) as approval_status, rtrim(a.client_code) as client_code', '[status]', '''' + @status + ''''), @advance = 0
+select @textExternal = replace(@textExternal, '[color]', 'case u_status when ''0'' then ''#808080'' when ''1'' then ''#f0ad4e'' when ''2'' then ''#22bb33'' else ''#f0ad4e'' end')
+select @textList = 'rtrim(stt_rec) as stt_rec, rtrim(ma_ct) as ma_ct, ngay_ct, rtrim(so_ct) as so_ct, rtrim(ma_kh) as ma_kh, rtrim(nguoi_mua) as nguoi_mua, rtrim(ten_kh) as ten_kh, t_thanh_toan_nt, rtrim(ma_nt) as ma_nt, rtrim(client_code) as client_code'
+if exists(select 1 from userinfo2 where client_code = '908767' and id = 695 and advance = 1) select @advance = 1
+
+if @ten_kh <> '' insert into #_f(datasource, type, filterkey) select 'm01$%Partition', 1, '(' + '%[a].ten_kh like N''%' + replace(@ten_kh, '''', '''''') + '%''' + ')'
+create table #a(stt_rec varchar(32), datetime4 datetime)
+declare @primeFilter nvarchar(4000)
+exec FastBusiness$EInvoice$APV$GetApprovalKey '908767', 1, 'E01', @d_status, '#a', @advance, 695, @primeFilter output
+if @primeFilter <> '' insert into #_f(datasource, type, filterkey) select 'hddt03$%Partition', 1, '(' + @primeFilter + ')'
+
+declare @$prime varchar(32)
+select @$prime = case 'E01' when 'E01' then 'm01$' when 'E02' then 'm02$' else '' end
+
+if exists(select 1 from #_f) exec FastBusiness$System$GetDynamicFilter 695, @advance, @$primeAlias output, @$primeJoin output, @$primeFilter output, @$detailPartition output, @$detailAlias output, @$detailFilter output, @$prime, @$aggregationAlias output
+
+
+declare @n1 varchar(32), @n2 varchar(32)
+select @n1 = isnull(replace(rtrim(ltrim(dbo.FastBusiness$Function$System$GetInvoiceFilter('', '', ltrim(@so_ct1)))), '''', ''), ''),
+  @n2 = isnull(replace(rtrim(ltrim(dbo.FastBusiness$Function$System$GetInvoiceFilter('', '', ltrim(@so_ct2)))), '''', ''), '')
+
+declare @k nvarchar(4000)
+set @k = replace('', '%#15$*', '')
+if @k = '%' set @k = ''
+
+select '' as message
+declare @$internalJoin nvarchar(4000)
+select @$internalJoin = ' join hddt03$ e1 on a.client_code = e1.client_code and a.stt_rec = e1.stt_rec left join #hddtdmttcttg u0 on e1.u_status = u0.u0_u_status'
+select @$primeJoin = 'join hddt03$%Partition b with(nolock) on a.stt_rec = b.stt_rec and a.client_code = b.client_code and b.u_status <> ''0'''
+
+exec FastBusiness$App$Voucher$Finding
+'E01', 'c01$000000', 'm01$', 'i01$', 'ngay_ct', 'convert(char(6), {0}, 112)', 'dateadd(month, 1, {0})', '000000', @refresh, @pageIndex, @pageCount, @lastPage, @lastCount, @firstItem, @lastItem,
+@k, '', 'stt_rec', @textList, @textExternal,
+'a left join dmkh b on a.client_code = b.client_code and a.ma_kh = b.ma_kh',
+'ngay_ct, so_ct, stt_rec', 0, 695, 1, @ngay_ct1, @ngay_ct2, @n1, @n2, '*', @user_id0, @ma_dvcs, default, default, 'a.client_code = ''908767'''
+, 'u_status, client_code, stt_rec', 'hddt03$', @$internalJoin
+, @$primeAlias, @$primeJoin, @$primeFilter, @$detailPartition, @$detailAlias, @$detailFilter, @$AggregationAlias, default, default, default, default, default
+
+drop table #_f, #a, #hddtdmttcttg
+
+
+-----
+declare @invalid nvarchar(1024), @xtype int, @receiveCode varchar(32), @cancelCode varchar(32)
+select @invalid = case when 'V' = 'V' then N'Hóa đơn này đã được duyệt, hủy hoặc thay đổi thông tin.' else N'This invoice has been approved, canceled or changed by another user.' end
+declare @voucherType varchar(32), @idMail varchar(32), @stt_rec_dmxn varchar(128)
+select @voucherType = '00901', @idMail = 'EIApproval', @stt_rec_dmxn = '908767' + @idMail + 'HD00000077584'
+
+
+if '0' in ('1', '2') and '' <> '' begin
+  select * into #t from dbo.FastBusiness$Function$System$Split('', '#')
+  select @xtype = data from #t where id = 1
+  select @receiveCode = data from #t where id = 2
+  select @cancelCode = data from #t where id = 3
+  
+  if '0' = '1' and @xtype = '9' and not exists(select 1 from dmxn where stt_rec = @stt_rec_dmxn and user_id = 695 and ma_nhan = @receiveCode) begin
+    select @invalid as message
+    select '' as stt_rec, 0 as userid, 0 as xtype
+    return
+  end
+
+  if '0' = '2' and @xtype = '9' and not exists(select 1 from dmxn where stt_rec = @stt_rec_dmxn and user_id = 695 and ma_huy = @cancelCode) begin
+    select @invalid as message
+    select '' as stt_rec, 0 as userid, 0 as xtype
+    return
+  end
+end
+
+
+if 0 = 0 begin
+  exec FastBusiness$EInvoice$APV$UnPostAuthorize '908767', @idMail, @voucherType, 695, 'HD00000077584', 'HDDT_Xamarin_006_Portal', 'V', 0, 1, N''
+  return
+end
+
+if 0 = 1 begin
+  exec FastBusiness$EInvoice$APV$PostAuthorize '908767', @idMail, @voucherType, '1', 695, 'HD00000077584', 'HDDT_Xamarin_006_Portal', 'V', default, default, default, 0, 1, 0, N''
+  return
+end
+
+if 0 = 2 begin
+  exec FastBusiness$EInvoice$APV$PostAuthorize '908767', @idMail, @voucherType, '2', 695, 'HD00000077584', 'HDDT_Xamarin_006_Portal', 'V', default, default, default, 0, 1, 0, N''
+  return
+end
+
+
