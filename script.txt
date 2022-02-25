@@ -1,0 +1,14 @@
+declare @name varchar(128), @userid int
+select @name = 'ADVANCE'
+select @userid = id from userinfo2 where name = @name
+
+select * into #userinfo from userinfo where name = @name
+select * into #userinfo2 from userinfo2 where name = @name
+
+update userinfo set r_access = b.r_access, r_new = b.r_new, r_del = b.r_del, r_edit = b.r_edit, r_post = b.r_post, r_read = b.r_read, r_print = b.r_print,
+	r_del_all = b.r_del_all, r_edit_all = b.r_edit_all
+		from #userinfo b where userinfo.id in (select id from userinfo2 where advance = 1 and id <> @userid)
+
+update userinfo2 set r_access = b.r_access, r_new = b.r_new, r_del = b.r_del, r_edit = b.r_edit, r_post = b.r_post, r_read = b.r_read, r_print = b.r_print,
+	r_del_all = b.r_del_all, r_edit_all = b.r_edit_all
+	from #userinfo2 b where userinfo2.advance = 1 and userinfo2.id <> @userid
